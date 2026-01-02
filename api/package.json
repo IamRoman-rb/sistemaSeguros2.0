@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "drop": "prisma migrate reset --force",
-    "db": "prisma generate && prisma db push --force-reset --skip-generate --accept-data-loss",
+    "db": "prisma generate && prisma db push --force-reset --accept-data-loss",
     "seed": "prisma db seed",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"

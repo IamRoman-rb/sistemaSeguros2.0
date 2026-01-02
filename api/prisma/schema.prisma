@@ -14,76 +14,78 @@ datasource db {
 }
 
 model marca {
-  id        Int @id @default(autoincrement())
-  marca     String @unique
-  vehiculos vehiculo[]     
+  id        Int        @id @default(autoincrement())
+  marca     String     @unique
+  vehiculos vehiculo[]
 }
+
 model foto {
-  id        Int @id @default(autoincrement())
-  archivo   String @unique 
+  id               Int      @id @default(autoincrement())
+  archivo          String   @unique
   patente_vehiculo String
-  vehiculo  vehiculo @relation(fields: [patente_vehiculo], references: [patente])
+  vehiculo         vehiculo @relation(fields: [patente_vehiculo], references: [patente])
 }
 
 model vehiculo {
-  patente   String @id
-  modelo    String
-  anio      Int
-  suma      Float
-  chasis    String @unique
-  motor     String @unique
-  id_marca  Int
-  marca     marca @relation(fields: [id_marca], references: [id])
-  fotos     foto[]   
-  polizas   poliza[]  
+  patente  String   @id @unique
+  modelo   String
+  anio     Int
+  suma     Float
+  chasis   String   @unique
+  motor    String   @unique
+  id_marca Int
+  marca    marca    @relation(fields: [id_marca], references: [id])
+  fotos    foto[]
+  poliza_vehiculos poliza_vehiculo[]
 }
 
 model provincia {
-  id        Int @id @default(autoincrement())
-  provincia String @unique
-  localidades localidad[]     
+  id          Int         @id @default(autoincrement())
+  provincia   String      @unique
+  localidades localidad[]
 }
+
 model localidad {
-  id          Int @id @default(autoincrement())
-  localidad   String @unique
+  id           Int       @id @default(autoincrement())
+  localidad    String    @unique
   id_provincia Int
-  provincia   provincia @relation(fields: [id_provincia], references: [id])
-  clientes    cliente[]     
+  provincia    provincia @relation(fields: [id_provincia], references: [id])
+  clientes     cliente[]
 }
+
 model cliente {
-  dni           Int @id
-  nombre        String
-  nacimiento    DateTime
-  direccion     String
-  telefono      String? @unique
-  id_localidad  Int
-  localidad     localidad @relation(fields: [id_localidad], references: [id])
-  polizas       poliza[]
+  dni          Int       @id @unique
+  nombre       String
+  nacimiento   DateTime
+  direccion    String
+  telefono     String?   @unique
+  id_localidad Int
+  localidad    localidad @relation(fields: [id_localidad], references: [id])
+  polizas      poliza[]
 }
 
 model sucursal {
-  id        Int @id @default(autoincrement())
-  sucursal  String @unique
-  empleados empleado[]     
+  id        Int        @id @default(autoincrement())
+  sucursal  String     @unique
+  empleados empleado[]
   polizas   poliza[]
 }
 
 model rol {
-  id    Int @id @default(autoincrement())
-  rol   String @unique
-  empleados empleado[]     
+  id        Int        @id @default(autoincrement())
+  rol       String     @unique
+  empleados empleado[]
 }
 
-
 model empleado {
-  id          Int @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   nombre      String
-  dni         Int @unique
+  dni         Int          @unique
   clave       String
   id_sucursal Int
   id_rol      Int
-  rol         rol @relation(fields: [id_rol], references: [id])
-  sucursal    sucursal @relation(fields: [id_sucursal], references: [id])
+  rol         rol          @relation(fields: [id_rol], references: [id])
+  sucursal    sucursal     @relation(fields: [id_sucursal], references: [id])
   movimientos movimiento[]
   actividades actividad[]
   pagos       pago[]
@@ -91,98 +93,134 @@ model empleado {
 }
 
 model movimiento {
-  id          Int @id @default(autoincrement())
-  es_ingreso  Boolean @default(true)
+  id          Int      @id @default(autoincrement())
+  es_ingreso  Boolean  @default(true)
   motivo      String
   descripcion String?
   importe     Float
   fecha       DateTime @default(now())
-  valido      Boolean @default(true)
+  valido      Boolean  @default(true)
   id_empleado Int
   empleado    empleado @relation(fields: [id_empleado], references: [id])
 }
 
 model tipo_actividad {
-  id            Int @id @default(autoincrement())
-  tipo String @unique
-  actividades    actividad[]     
+  id          Int         @id @default(autoincrement())
+  tipo        String      @unique
+  actividades actividad[]
 }
 
 model actividad {
-  id                Int @id @default(autoincrement())
-  fecha             DateTime @default(now())
+  id                Int            @id @default(autoincrement())
+  fecha             DateTime       @default(now())
   descripcion       String
-  id_empleado      Int
+  id_empleado       Int
   id_tipo_actividad Int
-  empleado         empleado @relation(fields: [id_empleado], references: [id])
+  empleado          empleado       @relation(fields: [id_empleado], references: [id])
   tipo_actividad    tipo_actividad @relation(fields: [id_tipo_actividad], references: [id])
 }
 
-model metodo{
-  id      Int @id @default(autoincrement())
-  metodo  String @unique
-  pagos   pago[]
+model metodo {
+  id     Int    @id @default(autoincrement())
+  metodo String @unique
+  pagos  pago[]
 }
 
-model pago{
-  id          Int @id @default(autoincrement())
+model pago {
+  id          Int      @id @default(autoincrement())
   fecha       DateTime @default(now())
   importe     Float
   observacion String?
-  valido      Boolean @default(true)
+  valido      Boolean  @default(true)
   id_empleado Int
   id_poliza   String
   id_metodo   Int
-  metodo      metodo @relation(fields: [id_metodo], references: [id])
+  metodo      metodo   @relation(fields: [id_metodo], references: [id])
   empleado    empleado @relation(fields: [id_empleado], references: [id])
-  poliza      poliza @relation(fields: [id_poliza], references: [numero])
+  poliza      poliza   @relation(fields: [id_poliza], references: [numero])
 }
 
 model empresa {
-  id        Int @id @default(autoincrement())
-  empresa   String @unique
-  coberturas cobertura[]     
+  id         Int         @id @default(autoincrement())
+  empresa    String      @unique
+  cobertura_empresas cobertura_empresa[]
 }
 
 model cobertura {
-  id        Int @id @default(autoincrement())
-  cobertura String @unique
-  descripcion String?   
-  empresas empresa[]
-  riesgos  riesgo[]  
-  polizas  poliza[]
+  id          Int       @id @default(autoincrement())
+  cobertura   String    @unique
+  descripcion String?
+  cobertura_empresas cobertura_empresa[]
+  cobertura_riesgos cobertura_riesgo[]
+  poliza_coberturas poliza_cobertura[]
 }
 
 model riesgo {
-  id        Int @id @default(autoincrement())
-  riesgo    String @unique
-  coberturas cobertura[]     
+  id         Int         @id @default(autoincrement())
+  riesgo     String      @unique
+  cobertura_riesgos cobertura_riesgo[]
 }
 
 model tipo_poliza {
-  id        Int @id @default(autoincrement())
-  tipo      String @unique
-  polizas   poliza[]     
+  id      Int      @id @default(autoincrement())
+  tipo    String   @unique
+  polizas poliza[]
+}
+
+model cobertura_empresa {
+  id Int @id @default(autoincrement())
+  id_cobertura Int
+  id_empresa Int
+  cobertura cobertura @relation(fields: [id_cobertura], references: [id])
+  empresa empresa @relation(fields: [id_empresa], references: [id])
+  @@unique([id_cobertura, id_empresa])
+}
+
+model cobertura_riesgo {
+  id Int @id @default(autoincrement())
+  id_cobertura Int
+  id_riesgo Int
+  cobertura cobertura @relation(fields: [id_cobertura], references: [id])
+  riesgo riesgo @relation(fields: [id_riesgo], references: [id])
+  @@unique([id_cobertura, id_riesgo])
+}
+
+model poliza_cobertura {
+  id Int @id @default(autoincrement())
+  numero_poliza String
+  id_cobertura Int
+  poliza poliza @relation(fields: [numero_poliza], references: [numero])
+  cobertura cobertura @relation(fields: [id_cobertura], references: [id])
+  @@unique([numero_poliza, id_cobertura])
+}
+
+model poliza_vehiculo {
+  id Int @id @default(autoincrement())
+  numero_poliza String
+  patente_vehiculo String
+  poliza poliza @relation(fields: [numero_poliza], references: [numero])
+  vehiculo vehiculo @relation(fields: [patente_vehiculo], references: [patente])
+  @@unique([numero_poliza, patente_vehiculo])
 }
 
 model poliza {
-  numero         String @id @unique
-  emision        DateTime @default(now())
-  inicio         DateTime @default(now())
-  fin            DateTime @default(now())
+  numero         String      @id @unique
+  emision        DateTime    @default(now())
+  inicio         DateTime    @default(now())
+  fin            DateTime    @default(now())
   periodo        Int
   cuotas         Int
   premio         Float
-  valido         Boolean @default(true)
+  valido         Boolean     @default(true)
   id_tipo_poliza Int
   id_cliente     Int
   id_sucursal    Int
   id_empleado    Int
-  tipo_poliza   tipo_poliza @relation(fields: [id_tipo_poliza], references: [id])
-  cliente       cliente @relation(fields: [id_cliente], references: [dni])
-  sucursal      sucursal @relation(fields: [id_sucursal], references: [id])
-  empleado      empleado @relation(fields: [id_empleado], references: [id])
-  coberturas    cobertura[]
-  vehiculos     vehiculo[]
-  pagos         pago[]   
+  tipo_poliza    tipo_poliza @relation(fields: [id_tipo_poliza], references: [id])
+  cliente        cliente     @relation(fields: [id_cliente], references: [dni])
+  sucursal       sucursal    @relation(fields: [id_sucursal], references: [id])
+  empleado       empleado    @relation(fields: [id_empleado], references: [id])
+  poliza_coberturas poliza_cobertura[]
+  poliza_vehiculos poliza_vehiculo[]
+  pagos          pago[]
 }
