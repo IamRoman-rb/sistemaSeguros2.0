@@ -1,5 +1,11 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -7,18 +13,176 @@ datasource db {
   provider = "mysql"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model marca {
+  id        Int @id @default(autoincrement())
+  marca     String @unique
+  vehiculos vehiculo[]     
+}
+model foto {
+  id        Int @id @default(autoincrement())
+  archivo   String @unique 
+  patente_vehiculo String
+  vehiculo  vehiculo @relation(fields: [patente_vehiculo], references: [patente])
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String? @db.Text
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model vehiculo {
+  patente   String @id
+  modelo    String
+  anio      Int
+  suma      Float
+  chasis    String @unique
+  motor     String @unique
+  id_marca  Int
+  marca     marca @relation(fields: [id_marca], references: [id])
+  fotos     foto[]   
+  polizas   poliza[]  
+}
+
+model provincia {
+  id        Int @id @default(autoincrement())
+  provincia String @unique
+  localidades localidad[]     
+}
+model localidad {
+  id          Int @id @default(autoincrement())
+  localidad   String @unique
+  id_provincia Int
+  provincia   provincia @relation(fields: [id_provincia], references: [id])
+  clientes    cliente[]     
+}
+model cliente {
+  dni           Int @id
+  nombre        String
+  nacimiento    DateTime
+  direccion     String
+  telefono      String? @unique
+  id_localidad  Int
+  localidad     localidad @relation(fields: [id_localidad], references: [id])
+  polizas       poliza[]
+}
+
+model sucursal {
+  id        Int @id @default(autoincrement())
+  sucursal  String @unique
+  empleados empleado[]     
+  polizas   poliza[]
+}
+
+model rol {
+  id    Int @id @default(autoincrement())
+  rol   String @unique
+  empleados empleado[]     
+}
+
+
+model empleado {
+  id          Int @id @default(autoincrement())
+  nombre      String
+  dni         Int @unique
+  clave       String
+  id_sucursal Int
+  id_rol      Int
+  rol         rol @relation(fields: [id_rol], references: [id])
+  sucursal    sucursal @relation(fields: [id_sucursal], references: [id])
+  movimientos movimiento[]
+  actividades actividad[]
+  pagos       pago[]
+  polizas     poliza[]
+}
+
+model movimiento {
+  id          Int @id @default(autoincrement())
+  es_ingreso  Boolean @default(true)
+  motivo      String
+  descripcion String?
+  importe     Float
+  fecha       DateTime @default(now())
+  valido      Boolean @default(true)
+  id_empleado Int
+  empleado    empleado @relation(fields: [id_empleado], references: [id])
+}
+
+model tipo_actividad {
+  id            Int @id @default(autoincrement())
+  tipo String @unique
+  actividades    actividad[]     
+}
+
+model actividad {
+  id                Int @id @default(autoincrement())
+  fecha             DateTime @default(now())
+  descripcion       String
+  id_empleado      Int
+  id_tipo_actividad Int
+  empleado         empleado @relation(fields: [id_empleado], references: [id])
+  tipo_actividad    tipo_actividad @relation(fields: [id_tipo_actividad], references: [id])
+}
+
+model metodo{
+  id      Int @id @default(autoincrement())
+  metodo  String @unique
+  pagos   pago[]
+}
+
+model pago{
+  id          Int @id @default(autoincrement())
+  fecha       DateTime @default(now())
+  importe     Float
+  observacion String?
+  valido      Boolean @default(true)
+  id_empleado Int
+  id_poliza   String
+  id_metodo   Int
+  metodo      metodo @relation(fields: [id_metodo], references: [id])
+  empleado    empleado @relation(fields: [id_empleado], references: [id])
+  poliza      poliza @relation(fields: [id_poliza], references: [numero])
+}
+
+model empresa {
+  id        Int @id @default(autoincrement())
+  empresa   String @unique
+  coberturas cobertura[]     
+}
+
+model cobertura {
+  id        Int @id @default(autoincrement())
+  cobertura String @unique
+  descripcion String?   
+  empresas empresa[]
+  riesgos  riesgo[]  
+  polizas  poliza[]
+}
+
+model riesgo {
+  id        Int @id @default(autoincrement())
+  riesgo    String @unique
+  coberturas cobertura[]     
+}
+
+model tipo_poliza {
+  id        Int @id @default(autoincrement())
+  tipo      String @unique
+  polizas   poliza[]     
+}
+
+model poliza {
+  numero         String @id @unique
+  emision        DateTime @default(now())
+  inicio         DateTime @default(now())
+  fin            DateTime @default(now())
+  periodo        Int
+  cuotas         Int
+  premio         Float
+  valido         Boolean @default(true)
+  id_tipo_poliza Int
+  id_cliente     Int
+  id_sucursal    Int
+  id_empleado    Int
+  tipo_poliza   tipo_poliza @relation(fields: [id_tipo_poliza], references: [id])
+  cliente       cliente @relation(fields: [id_cliente], references: [dni])
+  sucursal      sucursal @relation(fields: [id_sucursal], references: [id])
+  empleado      empleado @relation(fields: [id_empleado], references: [id])
+  coberturas    cobertura[]
+  vehiculos     vehiculo[]
+  pagos         pago[]   
 }
