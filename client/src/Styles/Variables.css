@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+    /* Blancos */
+    --pure-white: #ffffffff;
+    --bright-snow: #f8f9faff;
+    --platinum: #e9ecefff;
+    --alabaster-grey: #dee2e6ff;
+    --pale-slate: #ced4daff;
+    --pale-slate-2: #adb5bdff;
+    --slate-grey: #6c757dff;
+    --iron-grey: #495057ff;
+    --gunmetal: #343a40ff;
+    --carbon-black: #212529ff;
+
+    /* Azules */
+    --deep-twilight: #03045eff;
+    --french-blue: #023e8aff;
+    --bright-teal-blue: #0077b6ff;
+    --blue-green: #0096c7ff;
+    --turquoise-surf: #00b4d8ff;
+    --sky-aqua: #48cae4ff;
+    --frosted-blue: #90e0efff;
+    --frosted-blue-2: #ade8f4ff;
+    --light-cyan: #caf0f8ff;
+
+    /* Verdes */
+    --dark-spruce: #004b23ff;
+    --green: #006400ff;
+    --green-2: #007200ff;
+    --green-3: #008000ff;
+    --bright-fern: #38b000ff;
+    --radioactive-grass: #70e000ff;
+    --slime-lime: #9ef01aff;
+    --chartreuse: #ccff33ff;
+
+    /* Rojos */
+    --night-bordeaux: #590d22ff;
+    --dark-amaranth: #800f2fff;
+    --cherry-rose: #a4133cff;
+    --rosewood: #c9184aff;
+    --bubblegum-pink: #ff4d6dff;
+    --bubblegum-pink-2: #ff758fff;
+    --cotton-candy: #ff8fa3ff;
+    --cherry-blossom: #ffb3c1ff;
+    --pastel-pink: #ffccd5ff;
+    --lavender-blush: #fff0f3ff;
+
+    /* Tipografia */
+    --font-primary: 'Karla', sans-serif;
+}

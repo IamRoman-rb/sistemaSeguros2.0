@@ -1,9 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
-
+import Default from "./Layouts/Default";
+import Login from "./Pages/Website/Login";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <h1>Home Page</h1>,
+    element: <Default />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      }
+    ]
   }
 ]);
 

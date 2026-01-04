@@ -1,0 +1,111 @@
+@import url('../Variables.css');
+.loginMain{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../Assets/loginbackground.jpg');
+    background-position: center;
+}
+.loginForm {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 3rem;
+    padding: 3rem;
+    background-color: var(--pure-white);
+    border-radius: 2rem;
+    position: relative;
+    box-shadow: 0 .1rem .2rem rgba(0, 0, 0, 0.2);
+}
+@media screen and (min-width: 768px) {
+    .loginForm {
+        width: 40%;
+    }
+}
+.icon{
+    width: 5rem;
+    height: 5rem;
+    padding: .5rem;
+    color: var(--bright-snow);
+    position: absolute;
+    top: -2.5rem;
+    background-color: var(--blue-green);
+    border-radius: 50%;
+}
+.h1{
+    width: 100%;
+    text-align: center;
+    font-size: 3rem;
+}
+.fieldsetInput{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    padding: .3rem 0;
+    border: none;
+    border-bottom: .1rem solid var(--carbon-black);
+}
+@media screen and (min-width: 768px){
+    .fieldsetInput{
+        width: 60%;
+    }
+}
+.label{
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.input{
+    width: 85%;
+    border: none;
+    font-size: 1rem;
+    padding: .2rem .4rem;
+    font-family: var(--font-primary);
+    background-color: transparent;
+}
+.input:focus{
+    outline: none;
+}
+.userIcon{
+    color: var(--blue-green);
+    font-size: 1.5rem;
+}
+.fieldsetButton{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    padding: .5rem 0;
+    border: none;
+}
+.buttonClave{
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--blue-green);
+}
+.button{
+    width: 100%;
+    padding: .7rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--pure-white);
+    background-color: var(--blue-green);
+    border: none;
+    cursor: pointer;
+    border-radius: .3rem;
+    transition: background-color .2s ease-in-out;
+}
+.button:hover{
+    background-color: var(--bright-teal-blue);
+}
+.error{
+    color: red;
+    bottom: -20px;
+}
