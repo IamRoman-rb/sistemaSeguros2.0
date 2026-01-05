@@ -224,3 +224,4 @@ model poliza {
   poliza_vehiculos poliza_vehiculo[]
   pagos          pago[]
 }
+
