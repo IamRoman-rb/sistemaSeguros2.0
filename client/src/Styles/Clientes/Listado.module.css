@@ -1,0 +1,150 @@
+@import url('../Variables.css');
+
+.listadoContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 2rem;
+}
+
+.headerListadoClientes {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--deep-twilight);
+    margin-bottom: 1rem;
+}
+
+.h2ListadoCLientes {
+    color: var(--pure-white);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* --- ESTILOS DEL CARRUSEL --- */
+
+.carouselWrapper {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+/* La "Ventana" que recorta lo que no se ve */
+.carouselWindow {
+    width: 100%;
+    overflow: hidden; /* Esto oculta las tarjetas que salen del área */
+    padding: 10px 0; /* Espacio para sombra */
+}
+
+/* El "Riel" largo que contiene todas las tarjetas */
+.carouselTrack {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Animación suave */
+    padding: 0;
+    margin: 0;
+    width: 100%; 
+    list-style: none;
+}
+
+/* La Tarjeta Individual */
+.clienteCard {
+    /* flex: 0 0 X% -> X define cuántas entran. 
+       33.33% = 3 por vista. 
+       50% = 2 por vista. 
+       100% = 1 por vista. */
+    flex: 0 0 33.33%; 
+    box-sizing: border-box;
+    padding: 0 10px; /* Espacio entre tarjetas */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Diseño interno de la tarjeta (para que parezca tarjeta y no fila) */
+.cardContent {
+    background-color: var(--pure-white);
+    border: 1px solid var(--pale-slate-2);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.cardContent h3 {
+    color: var(--deep-twilight);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.cardContent p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.btnDetalle {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    background-color: var(--deep-twilight);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btnDetalle:hover {
+    opacity: 0.9;
+}
+
+/* Botones de Flechas */
+.arrowBtn {
+    background-color: var(--deep-twilight);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.arrowBtn:hover {
+    background-color: var(--pale-slate-2);
+}
+
+.dotsContainer {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.activeDot {
+    background-color: var(--deep-twilight);
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .clienteCard {
+        flex: 0 0 100%;
+    }
+}
