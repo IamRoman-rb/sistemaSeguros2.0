@@ -4,7 +4,7 @@ import Login from "./Pages/Website/Login";
 import Logout from "./Pages/Website/Logout";
 import Perfil from "./Pages/Website/Perfil";
 import Autenticados from "./Layouts/Autenticados";
-import ListadoClientes from "./Pages/Website/Clientes/ListadoClientes";
+import ListadoClientes from "./Pages/Clientes/Listado";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            element: <Navigate to={"clientes/listado"} />,
+          },
+          {
+            path: "clientes/listado",
             element: <ListadoClientes />,
           },
           {

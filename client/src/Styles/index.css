@@ -5,6 +5,12 @@
     box-sizing: border-box;
 }
 body{
+    width: 100vw;
     background-color: var(--bright-snow);
     font-family: var(--font-primary);
+}
+#root{
+    display: grid;
+    grid-template-columns: 13% 1fr;
+    grid-template-rows: 1fr;
 }

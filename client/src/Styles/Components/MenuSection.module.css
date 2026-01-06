@@ -1,0 +1,51 @@
+@import url('../Variables.css');
+.menuSection{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: .3rem;
+    background-color: var(--french-blue);
+    border-radius: .2rem;
+    color: var(--alabaster-grey);
+    box-shadow: 0 .1rem .2rem rgba(0, 0, 0, 0.2);
+}
+.menuSectionTitle{
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.menuSectionLinks{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    list-style: none;
+    transition: background-color .3s ease;
+}
+.menuSectionLink{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .4rem .6rem;
+    border-radius: .2rem;
+    background-color: var(--bright-teal-blue);
+}
+.menuSectionLink:hover{
+    background-color: var(--blue-green);
+}
+.link{
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: var(--pure-white);
+}
