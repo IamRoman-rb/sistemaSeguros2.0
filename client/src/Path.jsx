@@ -100,12 +100,12 @@ path.admin = [
     {
         "clientes": [
             {
-                "path": "/",
+                "path": "/admin/clientes/listado",
                 "alias": "listado",
                 "method": "get"
             },
             {
-                "path": "/nuevo",
+                "path": "/admin/clientes/nuevo",
                 "alias": "nuevo",
                 "method": "get"
             },
@@ -145,7 +145,7 @@ path.admin = [
 
         "polizas": [
             {
-                "path": "/",
+                "path": "/admin/polizas/listado",
                 "alias": "listado",
                 "method": "get"
             },
