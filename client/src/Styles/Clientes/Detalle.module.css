@@ -1,0 +1,115 @@
+@import url('../Variables.css');
+
+.detalleContainer{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 3rem;
+}
+.headerDetalle{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding: .5rem;
+}
+.nav{
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnVolver{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+    background-color: var(--bright-teal-blue);
+    color: var(--pure-white);
+    font-family: var(--font-primary);
+    font-weight: 500;
+    border-radius: .5rem;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.titulo{
+    width: 95%;
+    text-align: center;
+    color: var(--gunmetal);
+}
+.cardInfo{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: var(--bright-snow);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+@media screen and (min-width: 768px) {
+    .cardInfo{
+        width: 60%;
+    }
+}
+.subTitle{
+    width: 100%;
+    text-align: center;
+    color: var(--gunmetal);
+}
+.datosCliente{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.label{
+    font-weight: 600;
+    color: var(--iron-grey);
+}
+.tagActivo{
+    padding: .2rem .5rem;
+    background-color: var(--slime-lime);
+    color: var(--carbon-black);
+    border-radius: .5rem;
+    font-weight: 600;
+}
+.seccionTabla{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.tablaPolizas{
+    width: 90%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: .2rem;
+}
+.tablaPolizas thead{
+    background-color: var(--bright-teal-blue);
+    color: var(--pure-white);
+}
+.tablaPolizas th, .tablaPolizas td{
+    padding: .5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--pale-slate);
+}
+.tablaPolizas tbody tr:nth-child(even){
+    background-color: var(--platinum);
+}
+.tablaPolizas tbody tr:hover{
+    transition: all 0.1s ease-in-out;
+    background-color: var(--light-cyan);
+    cursor: pointer;
+}

@@ -15,6 +15,13 @@ export const clientes = [
     { id: 8, nombreCompleto: "Construcciones del Norte S.A.", cuit: "33-60987654-9", telefono: "381 432-1098" }
 ];
 
+export const user = {
+    id: 1,
+    nombre: "Admin User",
+    email: "admin@gmail.com",
+    role: "admin"
+}
+
 const Listado = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
@@ -86,7 +93,7 @@ const Listado = () => {
                                             <span>{cliente.telefono}</span>
                                         </div>
                                     </div>
-                                    <Link to={`/detalle/${cliente.id}`} className={Style.btnDetalle}>
+                                    <Link to={`/${user.role}/clientes/detalle/${cliente.id}`} className={Style.btnDetalle}>
                                         Ver Detalle
                                     </Link>
                                 </div>

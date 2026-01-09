@@ -6,6 +6,7 @@ import Perfil from "./Pages/Website/Perfil";
 import Autenticados from "./Layouts/Autenticados";
 import ListadoClientes from "./Pages/Clientes/Listado";
 import NuevoClietne from "./Pages/Clientes/Nuevo"
+import DetalleCliente from "./Pages/Clientes/Detalle";
 import ListadoPolizas from "./Pages/Polizas/Listado";
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           {
             path: "clientes/nuevo",
             element: <NuevoClietne />,
+          },
+          {
+            path: "clientes/detalle/:id",
+            element: <DetalleCliente />,
           },
           {
             path: "polizas/listado",
