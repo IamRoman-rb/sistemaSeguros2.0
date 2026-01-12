@@ -14,6 +14,7 @@ import Nueva from "./Pages/Polizas/Nueva";
 
 import Listado from "./Pages/Usuarios/Listado";
 import Nuevo from "./Pages/Usuarios/Nuevo";
+import Detalle from "./Pages/Usuarios/Detalle";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
           {
             path: "usuarios/nuevo",
             element: <Nuevo />,
+          },
+          {
+            path: "usuarios/detalle/:id",
+            element: <Detalle />
           },
           {
             path: "logout",

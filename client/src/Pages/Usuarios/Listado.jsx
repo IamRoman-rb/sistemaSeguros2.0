@@ -32,13 +32,12 @@ const Listado = () => {
                                 <td style={{fontWeight: '600'}}>{usuario.nombre}</td>
                                 <td>{usuario.cuit}</td>
                                 <td style={{textAlign: 'center'}}>
-                                    {/* Lógica para colorear el estado */}
                                     <span className={usuario.estado === 'Activo' ? Style.tagActivo : Style.tagInactivo}>
                                         {usuario.estado}
                                     </span>
                                 </td>
                                 <td style={{textAlign: 'right'}}>
-                                    <Link to={`/admin/usuarios/${index}`} className={Style.btnDetalle}>
+                                    <Link to={`/admin/usuarios/detalle/${index}`} className={Style.btnDetalle}>
                                         <IconEye size={18} /> Detalle
                                     </Link>
                                 </td>
