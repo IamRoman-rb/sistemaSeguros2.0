@@ -16,3 +16,6 @@ app.use(express.static(dir));
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
+import actividadRoutes from "./routes/actividad.routes.js";
+app.use("/actividades", actividadRoutes);
