@@ -4,36 +4,36 @@ path.admin = [
     {
         "usuarios": [
             {
-                "path": "/",
+                "path": "/admin/usuarios/listado",
                 "alias": "listado",
             },
             {
-                "path": "/nuevo",
+                "path": "/admin/usuarios/nuevo",
                 "alias": "nuevo",
                 "method": "get"
             },
             {
-                "path": "/detalle/:id",
+                "path": "/admin/usuarios/detalle/:id",
                 "alias": "detalle",
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/usuarios/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },
             {
-                "path": "/guardar",
+                "path": "/admin/usuarios/confirmar/:id",
                 "alias": "guardar",
                 "method": "post"
             },
             {
-                "path": "/actualizar",
+                "path": "/admin/usuarios/actualizar/:id",
                 "alias": "actualizar",
                 "method": "post"
             },
             {
-                "path": "/eliminar",
+                "path": "/admin/usuarios/eliminar/:id",
                 "alias": "eliminar",
                 "method": "post"
             }

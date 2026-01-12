@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Select from "react-select"; // 1. Importamos la librería
+import Select from "react-select";
 import Style from "../../Styles/Polizas/Nueva.module.css";
 import FormularioAutomotor from "./FormularioAutomotor";
 import FormularioOtrosRiesgos from "./FormularioOtrosRiesgos";
@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { IconChevronLeft, IconUser, IconFiles } from '@tabler/icons-react';
 
 const Nueva = () => {
-    // Listas de datos simulados
     const clientes = [
         { id: 1, nombre: "Juan Mateo Pérez", cuit: "20-34567890-3" },
         { id: 2, nombre: "María Elena Rodríguez", cuit: "27-28901234-6" },
@@ -17,19 +16,15 @@ const Nueva = () => {
         { id: 6, nombre: "Lucas Gabriel Fernández", cuit: "23-56789012-4" }
     ];
 
-    // 2. Preparamos las opciones para React-Select
-    // La librería necesita objetos con formato { value: algo, label: "lo que se ve" }
     const opcionesClientes = clientes.map(c => ({
         value: c.id,
-        label: `${c.nombre} - ${c.cuit}`, // Mostramos Nombre y CUIT para buscar mejor
-        datosCompletos: c // Guardamos el objeto original por si lo necesitamos
+        label: `${c.nombre} - ${c.cuit}`,
+        datosCompletos: c
     }));
 
-    // ESTADOS
     const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
     const [tipoPoliza, setTipoPoliza] = useState("");
 
-    // 3. Estilos personalizados para que React-Select use TUS variables CSS
     const customStyles = {
         control: (base, state) => ({
             ...base,
@@ -76,9 +71,7 @@ const Nueva = () => {
         })
     };
 
-    // HANDLERS
     const handleClienteChange = (opcion) => {
-        // React-select devuelve el objeto completo de la opción, o null si se borra
         setClienteSeleccionado(opcion ? opcion.datosCompletos : null);
     };
 
@@ -100,7 +93,6 @@ const Nueva = () => {
                 </div>
             </header>
 
-            {/* PASO 1: SELECCIONAR CLIENTE (CON BUSCADOR INTELIGENTE) */}
             <div className={Style.selectorCard}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem'}}>
                     <IconUser size={20} color="var(--deep-twilight)"/>
@@ -109,19 +101,17 @@ const Nueva = () => {
                     </label>
                 </div>
                 
-                {/* REEMPLAZO DEL SELECT NATIVO POR REACT-SELECT */}
                 <Select
                     id="selectorCliente"
                     options={opcionesClientes}
                     onChange={handleClienteChange}
-                    styles={customStyles} // Aplicamos tus estilos
+                    styles={customStyles}
                     placeholder="Escriba nombre o CUIT para buscar..."
                     noOptionsMessage={() => "No se encontraron clientes"}
-                    isClearable={true} // Permite borrar la selección con una X
+                    isClearable={true} 
                 />
             </div>
 
-            {/* PASO 2: SELECCIONAR TIPO DE PÓLIZA */}
             {clienteSeleccionado && (
                 <div className={Style.selectorCard} style={{animation: 'fadeIn 0.3s ease-in-out'}}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem'}}>
@@ -145,7 +135,6 @@ const Nueva = () => {
                 </div>
             )}
 
-            {/* PASO 3: FORMULARIO DE CARGA */}
             <div style={{marginTop: '2rem'}}>
                 {clienteSeleccionado && tipoPoliza === "automotor" && (
                     <FormularioAutomotor clientePreseleccionado={clienteSeleccionado} />
@@ -155,7 +144,6 @@ const Nueva = () => {
                     <FormularioOtrosRiesgos clientePreseleccionado={clienteSeleccionado} />
                 )}
                 
-                {/* Mensajes de ayuda */}
                 {!clienteSeleccionado && (
                     <div style={{textAlign: 'center', color: 'var(--slate-grey)', fontStyle: 'italic', marginTop: '2rem'}}>
                         <p>Utilice el buscador superior para encontrar al cliente por nombre o CUIT.</p>

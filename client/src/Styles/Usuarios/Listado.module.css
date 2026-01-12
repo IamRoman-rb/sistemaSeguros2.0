@@ -1,0 +1,107 @@
+@import url('../Variables.css');
+
+.listadoContainer {
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    font-family: var(--font-primary);
+}
+
+/* --- HEADER --- */
+.header {
+    border-bottom: 2px solid var(--bright-snow);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.header h2 {
+    color: var(--deep-twilight);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- TABLA --- */
+.tableResponsive {
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal en móviles */
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.tabla thead tr {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    text-align: left;
+}
+
+.tabla th {
+    padding: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+    vertical-align: middle;
+}
+
+/* Efecto Hover en las filas */
+.tabla tbody tr:hover {
+    background-color: var(--bright-snow);
+    transition: background-color 0.2s ease;
+}
+
+/* --- TAGS DE ESTADO --- */
+.tagActivo, .tagInactivo {
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.tagActivo {
+    background-color: var(--slime-lime);
+    color: var(--dark-spruce);
+}
+
+.tagInactivo {
+    background-color: var(--platinum);
+    color: var(--slate-grey);
+}
+
+/* --- BOTÓN ACCIONES --- */
+.btnDetalle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    background-color: var(--pure-white);
+    border: 1px solid var(--pale-slate-2);
+    color: var(--deep-twilight);
+    text-decoration: none;
+    border-radius: 0.3rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btnDetalle:hover {
+    background-color: var(--deep-twilight);
+    border-color: var(--deep-twilight);
+    color: var(--pure-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
