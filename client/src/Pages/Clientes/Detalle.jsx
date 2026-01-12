@@ -141,6 +141,7 @@ const Detalle = () => {
                                     <th>Vigencia Hasta</th>
                                     <th>Cobertura</th>
                                     <th>Estado</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,6 +155,7 @@ const Detalle = () => {
                                         <td>
                                             <span className={Style.tagVigente}>Vigente</span>
                                         </td>
+                                        <td><Link to={`/admin/polizas/detalle/${poliza.id}`} className={Style.detalle}>Detalle</Link></td>
                                     </tr>
                                 ))}
                             </tbody>

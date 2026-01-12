@@ -155,7 +155,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/nuevo/:id",
+                "path": "/admin/polizas/nueva",
                 "alias": "nuevo",
                 "method": "get"
             },

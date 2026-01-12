@@ -113,3 +113,8 @@
     background-color: var(--light-cyan);
     cursor: pointer;
 }
+.detalle{
+    color: var(--bright-teal-blue);
+    font-weight: 600;
+    text-decoration: none;
+}

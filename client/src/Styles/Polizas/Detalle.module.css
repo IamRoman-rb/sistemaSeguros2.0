@@ -1,0 +1,197 @@
+@import url('../Variables.css');
+
+.detalleContainer {
+    width: 95%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.headerDetalle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--bright-snow);
+    padding-bottom: 1rem;
+}
+
+.tituloPagina {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.subtitulo {
+    color: var(--slate-grey);
+    font-size: 1rem;
+}
+
+.btnVolver {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--slate-grey);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    width: fit-content;
+    margin-bottom: 0.5rem;
+}
+
+.btnVolver:hover {
+    color: var(--deep-twilight);
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--pure-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    overflow: hidden;
+    height: 100%;
+}
+
+.cardHeader {
+    padding: 1rem 1.5rem;
+    background-color: var(--bright-snow);
+    border-bottom: 1px solid var(--alabaster-grey);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.cardHeader h3 {
+    color: var(--deep-twilight);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.cardBody {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.datoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bright-snow);
+    padding-bottom: 0.5rem;
+}
+
+.datoRow:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: var(--slate-grey);
+    font-weight: 600;
+}
+
+.valor {
+    font-size: 1rem;
+    color: var(--carbon-black);
+    font-weight: 500;
+    text-align: right;
+}
+
+.linkCliente {
+    color: var(--french-blue);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.linkCliente:hover {
+    color: var(--deep-twilight);
+    text-decoration: underline;
+}
+
+.seccionPagos {
+    background-color: var(--pure-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    overflow: hidden;
+}
+
+.seccionPagos h3 {
+    padding: 1.5rem;
+    margin: 0;
+    color: var(--deep-twilight);
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+}
+
+.tableResponsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.tabla thead tr {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    text-align: left;
+}
+
+.tabla th {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.tabla td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+}
+
+.tabla tbody tr:hover {
+    background-color: var(--bright-snow);
+}
+
+.tagPago {
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.pagado {
+    background-color: var(--slime-lime);
+    color: var(--dark-spruce);
+}
+
+.pendiente {
+    background-color: var(--platinum);
+    color: var(--slate-grey);
+    border: 1px solid var(--pale-slate);
+}
+
+/* Error */
+.errorContainer {
+    padding: 3rem;
+    text-align: center;
+    color: var(--night-bordeaux);
+}
