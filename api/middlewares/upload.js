@@ -1,5 +1,6 @@
 import multer from "multer";
 import { join, extname } from "node:path";
+import { mkdir } from "node:fs/promises";
 
 // Función para limpiar el nombre del archivo
 const sanitizeFileName = (file) => {
@@ -12,7 +13,8 @@ const sanitizeFileName = (file) => {
 
 // Configuración de almacenamiento de Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: async function (req, file, cb) {
+    await mkdir(join(process.cwd(), "uploads/"), { recursive: true });
     cb(null, join(process.cwd(), "uploads/")); // Directorio donde se guardarán los archivos
   },
   filename: function (req, file, cb) {
