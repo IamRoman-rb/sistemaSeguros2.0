@@ -1,0 +1,196 @@
+@import url('../Variables.css');
+
+.container {
+    width: 95%;
+    max-width: 1200px; /* Un poco más ancho para que entren las 2 columnas cómodamente */
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+    padding-bottom: 3rem;
+}
+
+/* --- HEADER --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--bright-snow);
+}
+
+.title {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.headerButtons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btnVolver {
+    background-color: var(--pure-white);
+    color: var(--slate-grey);
+    border: 1px solid var(--pale-slate);
+    padding: 0.6rem 1rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btnVolver:hover {
+    border-color: var(--deep-twilight);
+    color: var(--deep-twilight);
+}
+
+/* --- SELECTOR DE TIPO (La caja principal inicial) --- */
+.selectorCard {
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(--alabaster-grey);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selectorLabel {
+    font-weight: 700;
+    color: var(--deep-twilight);
+    font-size: 1.1rem;
+}
+
+/* --- FORMULARIO CONTAINER --- */
+.formCard {
+    background-color: var(--pure-white);
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid var(--alabaster-grey);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.subTitle {
+    color: var(--deep-twilight);
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--bright-snow);
+    padding-bottom: 0.5rem;
+}
+
+/* --- GRID SYSTEM (Para imitar las 2 columnas de la foto) --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* 2 columnas responsivas */
+    column-gap: 2rem;
+    row-gap: 1.5rem;
+}
+
+/* Grupos de campos */
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.fullWidth {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+.label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--iron-grey);
+}
+
+.input, .select {
+    padding: 0.8rem;
+    border: 1px solid var(--pale-slate-2);
+    border-radius: 0.3rem;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    background-color: #fcfcfc;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.input:focus, .select:focus {
+    outline: none;
+    border-color: var(--french-blue);
+    background-color: var(--pure-white);
+    box-shadow: 0 0 0 3px var(--light-cyan);
+}
+
+/* Campos dobles (ej: Empresa + Cobertura en la misma línea) */
+.doubleField {
+    display: flex;
+    gap: 1rem;
+}
+
+.doubleField > div {
+    flex: 1;
+}
+
+/* --- ACCIONES --- */
+.formActions {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bright-snow);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btnCancel {
+    background-color: var(--platinum);
+    color: var(--gunmetal);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btnCancel:hover {
+    background-color: var(--pale-slate);
+}
+
+.btnSubmit {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 0.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btnSubmit:hover {
+    background-color: var(--french-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.errorText {
+    color: var(--night-bordeaux);
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}

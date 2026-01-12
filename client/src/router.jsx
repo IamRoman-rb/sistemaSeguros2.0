@@ -7,7 +7,14 @@ import Autenticados from "./Layouts/Autenticados";
 import ListadoClientes from "./Pages/Clientes/Listado";
 import NuevoClietne from "./Pages/Clientes/Nuevo"
 import DetalleCliente from "./Pages/Clientes/Detalle";
+
 import ListadoPolizas from "./Pages/Polizas/Listado";
+import DetallePoliza from "./Pages/Polizas/Detalle";
+import Nueva from "./Pages/Polizas/Nueva";
+
+import Listado from "./Pages/Usuarios/Listado";
+import Nuevo from "./Pages/Usuarios/Nuevo";
+import Detalle from "./Pages/Usuarios/Detalle";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,6 +51,26 @@ const router = createBrowserRouter([
           {
             path: "polizas/listado",
             element: <ListadoPolizas />,
+          },
+          {
+            path: "polizas/detalle/:id",
+            element: <DetallePoliza />,
+          },
+          {
+            path: "polizas/nueva",
+            element: <Nueva />,
+          },
+          {
+            path: "usuarios/listado",
+            element: <Listado />,
+          },
+          {
+            path: "usuarios/nuevo",
+            element: <Nuevo />,
+          },
+          {
+            path: "usuarios/detalle/:id",
+            element: <Detalle />
           },
           {
             path: "logout",

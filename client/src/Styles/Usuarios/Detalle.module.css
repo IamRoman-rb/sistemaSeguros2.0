@@ -1,0 +1,148 @@
+@import url('../Variables.css');
+
+.container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+}
+
+/* --- HEADER --- */
+.header {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--bright-snow);
+    padding-bottom: 1rem;
+}
+
+.btnVolver {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--slate-grey);
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: fit-content;
+    transition: color 0.2s;
+}
+
+.btnVolver:hover {
+    color: var(--deep-twilight);
+}
+
+.titulo {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* --- GRID DASHBOARD --- */
+.gridDashboard {
+    display: grid;
+    /* Grid de 2 columnas: Izquierda (datos) Derecha (Gráfico 1) */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- CARDS ESTILO COMÚN --- */
+.cardInfo, .cardChart {
+    background-color: var(--pure-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    overflow: hidden;
+}
+
+.fullWidth {
+    grid-column: 1 / -1; /* Ocupa todo el ancho abajo */
+}
+
+.cardHeader {
+    padding: 1rem 1.5rem;
+    background-color: var(--bright-snow);
+    border-bottom: 1px solid var(--alabaster-grey);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.cardHeader h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--deep-twilight);
+    font-weight: 700;
+}
+
+/* --- DATOS DEL USUARIO --- */
+.cardBody {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.datoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bright-snow);
+    padding-bottom: 0.5rem;
+}
+
+.datoRow:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: var(--slate-grey);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.valor {
+    color: var(--carbon-black);
+    font-weight: 500;
+}
+
+/* Tags de estado */
+.tagActivo {
+    background-color: var(--slime-lime);
+    color: var(--dark-spruce);
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.tagInactivo {
+    background-color: var(--platinum);
+    color: var(--slate-grey);
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* --- GRÁFICOS --- */
+.chartContainer {
+    padding: 1.5rem 1rem 0 0; /* Padding derecho ajustado para que no se corte el chart */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.error {
+    text-align: center;
+    margin-top: 4rem;
+    color: var(--night-bordeaux);
+    font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gridDashboard {
+        grid-template-columns: 1fr;
+    }
+}
