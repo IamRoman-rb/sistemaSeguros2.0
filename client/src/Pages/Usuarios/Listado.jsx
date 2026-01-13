@@ -1,14 +1,25 @@
+import { useState } from 'react';
 import Style from '../../Styles/Usuarios/Listado.module.css';
 import { Link } from 'react-router-dom';
-import { IconEye } from '@tabler/icons-react';
+import { IconEye, IconPower } from '@tabler/icons-react';
 
 const Listado = () => {
 
-    const usuarios = [
-        { nombre: 'Juan Pérez', cuit: "20-34567890-3", estado: 'Activo' },
-        { nombre: 'María Gómez', cuit: "27-12345678-9", estado: 'Inactivo' },
-        { nombre: 'Carlos Rodríguez', cuit: "23-98765432-1", estado: 'Activo' },
-    ];
+    const [usuarios, setUsuarios] = useState([
+        { id: 1, nombre: 'Juan Pérez', cuit: "20-34567890-3", estado: 'Activo' },
+        { id: 2, nombre: 'María Gómez', cuit: "27-12345678-9", estado: 'Inactivo' },
+        { id: 3, nombre: 'Carlos Rodríguez', cuit: "23-98765432-1", estado: 'Activo' },
+    ]);
+
+    const cambiarEstado = (index) => {
+        const nuevosUsuarios = [...usuarios];
+        const usuario = nuevosUsuarios[index];
+
+        const nuevoEstado = usuario.estado === 'Activo' ? 'Inactivo' : 'Activo';
+        
+        usuario.estado = nuevoEstado;
+        setUsuarios(nuevosUsuarios);
+    };
 
     return(
         <section className={Style.listadoContainer}>
@@ -37,9 +48,24 @@ const Listado = () => {
                                     </span>
                                 </td>
                                 <td style={{textAlign: 'right'}}>
-                                    <Link to={`/admin/usuarios/detalle/${index}`} className={Style.btnDetalle}>
-                                        <IconEye size={18} /> Detalle
-                                    </Link>
+                                    <div className={Style.accionesContainer}>
+                                        
+                                        <button 
+                                            onClick={() => cambiarEstado(index)}
+                                            className={Style.btnEstado}
+                                            title={usuario.estado === 'Activo' ? "Desactivar usuario" : "Activar usuario"}
+                                        >
+                                            <IconPower 
+                                                size={18} 
+                                                color={usuario.estado === 'Activo' ? "var(--night-bordeaux)" : "var(--dark-spruce)"} 
+                                            />
+                                        </button>
+
+                                        <Link to={`/admin/usuarios/detalle/${index}`} className={Style.btnDetalle}>
+                                            <IconEye size={18} /> Detalle
+                                        </Link>
+                                        <Link to={`/admin/usuarios/editar/${index}`} className={Style.btnDetalle}>Editar</Link>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

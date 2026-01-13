@@ -10,11 +10,12 @@ import DetalleCliente from "./Pages/Clientes/Detalle";
 
 import ListadoPolizas from "./Pages/Polizas/Listado";
 import DetallePoliza from "./Pages/Polizas/Detalle";
-import Nueva from "./Pages/Polizas/Nueva";
+import NuevaPoliza from "./Pages/Polizas/Nueva";
 
-import Listado from "./Pages/Usuarios/Listado";
-import Nuevo from "./Pages/Usuarios/Nuevo";
-import Detalle from "./Pages/Usuarios/Detalle";
+import ListadoUsuario from "./Pages/Usuarios/Listado";
+import NuevoUsuario from "./Pages/Usuarios/Nuevo";
+import DetalleUsuario from "./Pages/Usuarios/Detalle";
+import EditarUsuario from "./Pages/Usuarios/Editar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,19 +59,23 @@ const router = createBrowserRouter([
           },
           {
             path: "polizas/nueva",
-            element: <Nueva />,
+            element: <NuevaPoliza />,
           },
           {
             path: "usuarios/listado",
-            element: <Listado />,
+            element: <ListadoUsuario />,
           },
           {
             path: "usuarios/nuevo",
-            element: <Nuevo />,
+            element: <NuevoUsuario />,
           },
           {
             path: "usuarios/detalle/:id",
-            element: <Detalle />
+            element: <DetalleUsuario />
+          },
+          {
+            path: "usuarios/editar/:id",
+            element: <EditarUsuario />
           },
           {
             path: "logout",
