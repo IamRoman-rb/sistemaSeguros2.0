@@ -47,7 +47,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/admin/empresas/nuevo",
+                "path": "/admin/empresas/nueva",
                 "alias": "nuevo",
                 "method": "get"
             },
@@ -81,13 +81,18 @@ path.admin = [
     {
         "coberturas": [
             {
-                "path": "/",
+                "path": "/admin/coberturas/listado",
                 "alias": "listado",
                 "method": "get"
             },
             {
-                "path": "/nueva",
+                "path": "/admin/coberturas/nueva",
                 "alias": "nueva",
+                "method": "get"
+            },
+            {
+                "path": "/admin/coberturas/editar/:id",
+                "alias": "editar",
                 "method": "get"
             },
             {

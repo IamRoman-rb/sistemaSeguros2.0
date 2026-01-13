@@ -20,6 +20,10 @@ import EditarUsuario from "./Pages/Usuarios/Editar";
 import ListadoEmpresas from "./Pages/Empresas/Listado";
 import NuevaEmpresa from "./Pages/Empresas/Nueva";
 import EditarEmpresa from "./Pages/Empresas/Editar";
+
+import ListadoCoberturas from "./Pages/Coberturas/Listado";
+import NuevaCobertura from "./Pages/Coberturas/Nueva";
+import EditarCobertura from "./Pages/Coberturas/Editar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -92,6 +96,18 @@ const router = createBrowserRouter([
           {
             path: "empresas/editar/:id",
             element: <EditarEmpresa />
+          },
+          {
+            path: "coberturas/listado",
+            element: <ListadoCoberturas />
+          },
+          {
+            path: "coberturas/nueva",
+            element: <NuevaCobertura />
+          },
+          {
+            path: "coberturas/editar/:id",
+            element: <EditarCobertura />
           },
           {
             path: "logout",
