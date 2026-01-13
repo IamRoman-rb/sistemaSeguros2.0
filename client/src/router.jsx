@@ -16,6 +16,10 @@ import ListadoUsuario from "./Pages/Usuarios/Listado";
 import NuevoUsuario from "./Pages/Usuarios/Nuevo";
 import DetalleUsuario from "./Pages/Usuarios/Detalle";
 import EditarUsuario from "./Pages/Usuarios/Editar";
+
+import ListadoEmpresas from "./Pages/Empresas/Listado";
+import NuevaEmpresa from "./Pages/Empresas/Nueva";
+import EditarEmpresa from "./Pages/Empresas/Editar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,6 +80,18 @@ const router = createBrowserRouter([
           {
             path: "usuarios/editar/:id",
             element: <EditarUsuario />
+          },
+          {
+            path: "empresas/listado",
+            element: <ListadoEmpresas />
+          },
+          {
+            path: "empresas/nueva",
+            element: <NuevaEmpresa />
+          },
+          {
+            path: "empresas/editar/:id",
+            element: <EditarEmpresa />
           },
           {
             path: "logout",

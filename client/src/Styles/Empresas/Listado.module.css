@@ -1,0 +1,188 @@
+@import url('../Variables.css');
+.listadoContainer {
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    font-family: var(--font-primary);
+}
+
+.header {
+    border-bottom: 2px solid var(--bright-snow);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    color: var(--deep-twilight);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.btnNuevo {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btnNuevo:hover {
+    background-color: var(--french-blue);
+}
+
+.tableResponsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.tabla thead tr {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    text-align: left;
+}
+
+.tabla th {
+    padding: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+    vertical-align: middle;
+}
+
+.filaPrincipal {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.filaPrincipal:hover {
+    background-color: var(--bright-snow);
+}
+
+.filaActiva {
+    background-color: var(--bright-snow);
+    border-left: 4px solid var(--french-blue);
+}
+
+.badgeCoberturas {
+    background-color: var(--platinum);
+    color: var(--slate-grey);
+    padding: 0.3rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+.accionesContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.btnIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    border-radius: 0.3rem;
+    color: var(--slate-grey);
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnIcon:hover {
+    background-color: var(--pale-slate);
+    color: var(--deep-twilight);
+}
+
+.btnDelete:hover {
+    background-color: #fee2e2;
+    color: var(--night-bordeaux);
+}
+
+.accordionRow td {
+    padding: 0;
+    border-bottom: 1px solid var(--alabaster-grey);
+    background-color: #f8f9fa;
+}
+
+.accordionContent {
+    padding: 1.5rem 2rem;
+    border-top: 1px dashed var(--pale-slate);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.accordionTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--deep-twilight);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.gridCoberturas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.coberturaCard {
+    background-color: var(--pure-white);
+    border: 1px solid var(--pale-slate-2);
+    border-radius: 0.3rem;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.cobCodigo {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--french-blue);
+    text-transform: uppercase;
+    background-color: var(--light-cyan);
+    width: fit-content;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.2rem;
+}
+
+.cobNombre {
+    font-size: 0.9rem;
+    color: var(--carbon-black);
+    font-weight: 500;
+}

@@ -42,22 +42,22 @@ path.admin = [
     {
         "empresas": [
             {
-                "path": "/",
+                "path": "/admin/empresas/listado",
                 "alias": "listado",
                 "method": "get"
             },
             {
-                "path": "/nuevo",
+                "path": "/admin/empresas/nuevo",
                 "alias": "nuevo",
                 "method": "get"
             },
             {
-                "path": "/detalle/:id",
+                "path": "/admin/empresas/detalle/:id",
                 "alias": "detalle",
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/empresas/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },
