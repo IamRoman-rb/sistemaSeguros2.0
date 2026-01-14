@@ -19,3 +19,6 @@ app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 import actividadRoutes from "./routes/actividad.routes.js";
 app.use("/actividades", actividadRoutes);
+
+import clienteRoutes from "./routes/cliente.routes.js";
+app.use("/clientes", clienteRoutes);
