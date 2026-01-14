@@ -12,7 +12,6 @@
     font-family: var(--font-primary);
 }
 
-/* --- HEADER --- */
 .header {
     border-bottom: 2px solid var(--bright-snow);
     margin-bottom: 1.5rem;
@@ -25,10 +24,9 @@
     font-weight: 700;
 }
 
-/* --- TABLA --- */
 .tableResponsive {
     width: 100%;
-    overflow-x: auto; /* Permite scroll horizontal en móviles */
+    overflow-x: auto;
 }
 
 .tabla {
@@ -58,13 +56,11 @@
     vertical-align: middle;
 }
 
-/* Efecto Hover en las filas */
 .tabla tbody tr:hover {
     background-color: var(--bright-snow);
     transition: background-color 0.2s ease;
 }
 
-/* --- TAGS DE ESTADO --- */
 .tagActivo, .tagInactivo {
     padding: 0.3rem 0.8rem;
     border-radius: 2rem;
@@ -83,7 +79,6 @@
     color: var(--slate-grey);
 }
 
-/* --- BOTÓN ACCIONES --- */
 .btnDetalle {
     display: inline-flex;
     align-items: center;
@@ -104,4 +99,38 @@
     border-color: var(--deep-twilight);
     color: var(--pure-white);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.accionesContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btnEstado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    background-color: transparent;
+    border: 1px solid var(--pale-slate-2);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnEstado:hover {
+    background-color: var(--platinum);
+    border-color: var(--slate-grey);
+    transform: scale(1.05);
+}
+
+.btnEstado:active {
+    transform: scale(0.95);
+}
+
+.btnDetalle {
+    height: 100%; 
+    white-space: nowrap;
 }

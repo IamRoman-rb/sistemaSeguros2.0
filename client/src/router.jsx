@@ -10,11 +10,20 @@ import DetalleCliente from "./Pages/Clientes/Detalle";
 
 import ListadoPolizas from "./Pages/Polizas/Listado";
 import DetallePoliza from "./Pages/Polizas/Detalle";
-import Nueva from "./Pages/Polizas/Nueva";
+import NuevaPoliza from "./Pages/Polizas/Nueva";
 
-import Listado from "./Pages/Usuarios/Listado";
-import Nuevo from "./Pages/Usuarios/Nuevo";
-import Detalle from "./Pages/Usuarios/Detalle";
+import ListadoUsuario from "./Pages/Usuarios/Listado";
+import NuevoUsuario from "./Pages/Usuarios/Nuevo";
+import DetalleUsuario from "./Pages/Usuarios/Detalle";
+import EditarUsuario from "./Pages/Usuarios/Editar";
+
+import ListadoEmpresas from "./Pages/Empresas/Listado";
+import NuevaEmpresa from "./Pages/Empresas/Nueva";
+import EditarEmpresa from "./Pages/Empresas/Editar";
+
+import ListadoCoberturas from "./Pages/Coberturas/Listado";
+import NuevaCobertura from "./Pages/Coberturas/Nueva";
+import EditarCobertura from "./Pages/Coberturas/Editar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,19 +67,47 @@ const router = createBrowserRouter([
           },
           {
             path: "polizas/nueva",
-            element: <Nueva />,
+            element: <NuevaPoliza />,
           },
           {
             path: "usuarios/listado",
-            element: <Listado />,
+            element: <ListadoUsuario />,
           },
           {
             path: "usuarios/nuevo",
-            element: <Nuevo />,
+            element: <NuevoUsuario />,
           },
           {
             path: "usuarios/detalle/:id",
-            element: <Detalle />
+            element: <DetalleUsuario />
+          },
+          {
+            path: "usuarios/editar/:id",
+            element: <EditarUsuario />
+          },
+          {
+            path: "empresas/listado",
+            element: <ListadoEmpresas />
+          },
+          {
+            path: "empresas/nueva",
+            element: <NuevaEmpresa />
+          },
+          {
+            path: "empresas/editar/:id",
+            element: <EditarEmpresa />
+          },
+          {
+            path: "coberturas/listado",
+            element: <ListadoCoberturas />
+          },
+          {
+            path: "coberturas/nueva",
+            element: <NuevaCobertura />
+          },
+          {
+            path: "coberturas/editar/:id",
+            element: <EditarCobertura />
           },
           {
             path: "logout",

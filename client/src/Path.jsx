@@ -42,22 +42,22 @@ path.admin = [
     {
         "empresas": [
             {
-                "path": "/",
+                "path": "/admin/empresas/listado",
                 "alias": "listado",
                 "method": "get"
             },
             {
-                "path": "/nuevo",
+                "path": "/admin/empresas/nueva",
                 "alias": "nuevo",
                 "method": "get"
             },
             {
-                "path": "/detalle/:id",
+                "path": "/admin/empresas/detalle/:id",
                 "alias": "detalle",
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/empresas/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },
@@ -81,13 +81,18 @@ path.admin = [
     {
         "coberturas": [
             {
-                "path": "/",
+                "path": "/admin/coberturas/listado",
                 "alias": "listado",
                 "method": "get"
             },
             {
-                "path": "/nueva",
+                "path": "/admin/coberturas/nueva",
                 "alias": "nueva",
+                "method": "get"
+            },
+            {
+                "path": "/admin/coberturas/editar/:id",
+                "alias": "editar",
                 "method": "get"
             },
             {

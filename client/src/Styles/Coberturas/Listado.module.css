@@ -1,0 +1,129 @@
+@import url('../Variables.css');
+
+.listadoContainer {
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    font-family: var(--font-primary);
+}
+
+.header {
+    border-bottom: 2px solid var(--bright-snow);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    color: var(--deep-twilight);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.btnNuevo {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btnNuevo:hover {
+    background-color: var(--french-blue);
+}
+
+.gridCoberturas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+}
+
+.coberturaCard {
+    background-color: var(--pure-white);
+    border: 1px solid var(--alabaster-grey);
+    border-radius: 0.5rem;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.coberturaCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    border-color: var(--pale-slate);
+}
+
+.cobCodigo {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--french-blue);
+    background-color: var(--light-cyan);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.cobNombre {
+    font-size: 1rem;
+    color: var(--carbon-black);
+    font-weight: 600;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.4;
+}
+
+.accionesContainer {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.btnIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    color: var(--slate-grey);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnIcon:hover {
+    background-color: var(--bright-snow);
+    color: var(--french-blue);
+}
+.btnDelete:hover {
+    background-color: var(--lavender-blush);
+    color: var(--cherry-rose);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    color: var(--slate-grey);
+    font-style: italic;
+    background-color: var(--bright-snow);
+    border-radius: 0.5rem;
+    border: 1px dashed var(--pale-slate);
+}
