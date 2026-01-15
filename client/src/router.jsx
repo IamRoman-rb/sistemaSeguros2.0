@@ -24,6 +24,8 @@ import EditarEmpresa from "./Pages/Empresas/Editar";
 import ListadoCoberturas from "./Pages/Coberturas/Listado";
 import NuevaCobertura from "./Pages/Coberturas/Nueva";
 import EditarCobertura from "./Pages/Coberturas/Editar";
+
+import ListadoCaja from "./Pages/Caja/Listado"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -108,6 +110,10 @@ const router = createBrowserRouter([
           {
             path: "coberturas/editar/:id",
             element: <EditarCobertura />
+          },
+          {
+            path: "caja/listado",
+            element: <ListadoCaja />
           },
           {
             path: "logout",

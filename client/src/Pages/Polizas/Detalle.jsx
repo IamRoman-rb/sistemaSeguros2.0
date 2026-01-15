@@ -105,7 +105,7 @@ const Detalle = () => {
         return (
             <div className={Style.errorContainer}>
                 <h2>Póliza no encontrada</h2>
-                <Link to="/admin/polizas" className={Style.btnVolver}>Volver al listado</Link>
+                <Link to="/admin/polizas/listado" className={Style.btnVolver}>Volver al listado</Link>
             </div>
         );
     }
@@ -115,7 +115,7 @@ const Detalle = () => {
     return(
         <section className={Style.detalleContainer}>
             <header className={Style.headerDetalle}>
-                <Link to="/admin/polizas" className={Style.btnVolver}>
+                <Link to="/admin/polizas/listado" className={Style.btnVolver}>
                     <IconArrowLeft size={20} /> Volver
                 </Link>
                 <h2 className={Style.tituloPagina}>Detalle de Póliza</h2>
