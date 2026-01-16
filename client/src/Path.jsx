@@ -147,7 +147,6 @@ path.admin = [
         ]
     },
     {
-
         "polizas": [
             {
                 "path": "/admin/polizas/listado",
@@ -163,60 +162,6 @@ path.admin = [
                 "path": "/admin/polizas/nueva",
                 "alias": "nuevo",
                 "method": "get"
-            },
-            {
-                "path": "/detalle/:id",
-                "alias": "detalle",
-                "method": "get"
-            },
-            {
-                "path": "/editar/:id",
-                "alias": "editar",
-                "method": "get"
-            },
-            {
-                "path": "/confirmar/:id",
-                "alias": "confirmar",
-                "method": "get"
-            },
-            {
-                "path": "/renovar/:id",
-                "alias": "renovar",
-                "method": "get"
-            },
-            {
-                "path": "/guardar",
-                "alias": "guardar",
-                "method": "post"
-            },
-            {
-                "path": "/actualizar",
-                "alias": "actualizar",
-                "method": "post"
-            },
-            {
-                "path": "/eliminar",
-                "alias": "eliminar",
-                "method": "post"
-            }
-        ]
-    },
-    {
-        "otros-riesgos": [
-            {
-                "path": "/",
-                "alias": "Otros Riesgos",
-                "method": "get"
-            },
-            {
-                "path": "/nuevo/:id",
-                "alias": "nuevo",
-                "method": "get"
-            },
-            {
-                "path": "/guardar",
-                "alias": "guardar",
-                "method": "post"
             },
             {
                 "path": "/detalle/:id",
@@ -292,7 +237,7 @@ path.admin = [
     {
         "caja": [
             {
-                "path": "/",
+                "path": "/admin/caja/listado",
                 "alias": "listado",
                 "method": "get"
             },
@@ -415,40 +360,6 @@ path.admin = [
             {
                 "path": "/eliminar",
                 "alias": "Eliminar",
-                "method": "post"
-            }
-        ]
-    },
-    {
-        "pagos-otros-riesgos": [
-            {
-                "path": "/detalle/:id",
-                "alias": "detalle",
-                "method": "get"
-            },
-            {
-                "path": "/recibo/:id",
-                "alias": "recibo",
-                "method": "get"
-            },
-            {
-                "path": "/pagar/:id",
-                "alias": "pagar",
-                "method": "get"
-            },
-            {
-                "path": "/acreditar",
-                "alias": "acreditar",
-                "method": "post"
-            },
-            {
-                "path": "/guardar",
-                "alias": "guardar",
-                "method": "post"
-            },
-            {
-                "path": "/eliminar",
-                "alias": "eliminar",
                 "method": "post"
             }
         ]

@@ -163,7 +163,7 @@ const Listado = () => {
                                         </div>
                                     </div>
 
-                                    <Link to={`/detalle/${poliza.id}`} className={Style.btnDetalle}>
+                                    <Link to={`/admin/polizas/detalle/${poliza.id}`} className={Style.btnDetalle}>
                                         Ver Detalle
                                     </Link>
                                 </div>
