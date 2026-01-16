@@ -22,3 +22,6 @@ app.use("/actividades", actividadRoutes);
 
 import clienteRoutes from "./routes/cliente.routes.js";
 app.use("/clientes", clienteRoutes);
+
+import coberturaRoutes from "./routes/cobertura.routes.js";
+app.use("/coberturas", coberturaRoutes);
