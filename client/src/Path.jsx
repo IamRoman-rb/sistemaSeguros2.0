@@ -203,7 +203,7 @@ path.admin = [
     {
         "pagos": [
             {
-                "path": "/detalle/:id",
+                "path": "/admin/pagos/detalle/:id",
                 "alias": "detalle",
                 "method": "get"
             },

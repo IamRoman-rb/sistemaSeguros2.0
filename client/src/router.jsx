@@ -26,6 +26,8 @@ import NuevaCobertura from "./Pages/Coberturas/Nueva";
 import EditarCobertura from "./Pages/Coberturas/Editar";
 
 import ListadoCaja from "./Pages/Caja/Listado"
+
+import DetallePago from "./Pages/Pagos/Detalle";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -114,6 +116,10 @@ const router = createBrowserRouter([
           {
             path: "caja/listado",
             element: <ListadoCaja />
+          },
+          {
+            path: "pagos/detalle/:id",
+            element: <DetallePago />
           },
           {
             path: "logout",

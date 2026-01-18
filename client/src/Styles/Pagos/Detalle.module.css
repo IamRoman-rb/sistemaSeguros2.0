@@ -1,1 +1,186 @@
 @import url('../Variables.css');
+.container {
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--alabaster-grey);
+}
+
+.headerTitleGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.subtitle {
+    color: var(--slate-grey);
+    font-size: 0.9rem;
+}
+
+.btnBack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--bright-snow);
+    color: var(--deep-twilight);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btnBack:hover {
+    background-color: var(--pale-slate);
+    transform: translateX(-3px);
+}
+
+.btnPrint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--pure-white);
+    border: 1px solid var(--pale-slate);
+    color: var(--gunmetal);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btnPrint:hover {
+    background-color: var(--bright-snow);
+    border-color: var(--deep-twilight);
+}
+
+.gridLayout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--pure-white);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+}
+
+.cardTitle {
+    color: var(--french-blue);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--pale-slate);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--slate-grey);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
+.value {
+    font-size: 1rem;
+    color: var(--carbon-black);
+    font-weight: 500;
+}
+
+.dataGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.dataGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.amount {
+    font-size: 1.5rem;
+    color: var(--green-3);
+    font-weight: 800;
+}
+
+.badgeUser {
+    display: inline-block;
+    background-color: var(--bright-snow);
+    color: var(--deep-twilight);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.dataList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bright-snow);
+    padding-bottom: 0.5rem;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row .label {
+    margin-bottom: 0;
+    color: var(--gunmetal);
+    text-transform: none;
+}
+
+.row .value {
+    text-align: right;
+    color: var(--deep-twilight);
+}
+
+.valueHighlight {
+    background-color: var(--light-cyan);
+    color: var(--french-blue);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.notFound {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    color: var(--cherry-rose);
+}
