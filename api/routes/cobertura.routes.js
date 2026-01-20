@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   getCoberturas,
   getCoberturaId,
-  createCobertura,
   getEmpresasByCobertura,
   createCobertura,
   updateCobertura,

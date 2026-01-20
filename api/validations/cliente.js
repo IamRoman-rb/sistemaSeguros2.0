@@ -1,6 +1,6 @@
 import { check } from "express-validator";
-import { PrismaClient } from "../generated/prisma/client.js";
-const prisma = new PrismaClient();
+import prisma from "../db.js";
+
 export const clienteCreationValidation = [
   check("dni")
     .notEmpty()
@@ -47,7 +47,7 @@ export const clienteCreationValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID de la localidad debe ser un número entero positivo"
+          "El ID de la localidad debe ser un número entero positivo",
         );
       }
       let localidadExists = await prisma.localidad.findUnique({
@@ -83,6 +83,7 @@ export const clienteUpdateValidation = [
     .isLength({ max: 100 })
     .withMessage("El nombre no puede exceder los 100 caracteres"),
   check("nacimiento")
+    .notEmpty()
     .withMessage("La fecha de nacimiento es obligatoria")
     .isISO8601()
     .withMessage("La fecha de nacimiento debe ser una fecha válida"),
@@ -97,13 +98,14 @@ export const clienteUpdateValidation = [
     .isLength({ max: 15 })
     .withMessage("El teléfono no puede exceder los 15 caracteres"),
   check("id_localidad")
+    .notEmpty()
     .withMessage("El ID de la localidad es obligatorio")
     .isInt()
     .withMessage("El ID de la localidad debe ser un número entero")
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID de la localidad debe ser un número entero positivo"
+          "El ID de la localidad debe ser un número entero positivo",
         );
       }
       let localidadExists = await prisma.localidad.findUnique({

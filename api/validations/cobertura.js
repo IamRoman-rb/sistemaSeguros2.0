@@ -1,6 +1,5 @@
 import { check } from "express-validator";
-import { PrismaClient } from "../generated/prisma/client.js";
-const prisma = new PrismaClient();
+import prisma from "../db.js";
 
 export const coberturaCreateValidation = [
   check("cobertura")

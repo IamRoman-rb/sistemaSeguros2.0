@@ -19,3 +19,5 @@ router.get("/:dni", getClienteId);
 router.post("/", [clienteCreationValidation, validate], createCliente);
 router.put("/", [clienteUpdateValidation, validate], updateCliente);
 router.delete("/", [clienteDeleteValidation, validate], deleteCliente);
+
+export default router;

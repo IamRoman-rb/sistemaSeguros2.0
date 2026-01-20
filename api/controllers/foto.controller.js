@@ -1,8 +1,7 @@
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { unlink } from "node:fs/promises";
-import { PrismaClient } from "../generated/prisma/client.js";
-const prisma = new PrismaClient();
+import prisma from "../db.js";
 
 export const getFotos = async (req, res) => {
   try {

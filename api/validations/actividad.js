@@ -1,6 +1,6 @@
 import { check } from "express-validator";
-import { PrismaClient } from "../generated/prisma/client.js";
-const prisma = new PrismaClient();
+import prisma from "../db.js";
+
 export const actividadCreationValidation = [
   check("descripcion")
     .notEmpty()
@@ -15,7 +15,7 @@ export const actividadCreationValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID del empleado debe ser un número entero positivo"
+          "El ID del empleado debe ser un número entero positivo",
         );
       }
       let empleadoExists = await prisma.empleado.findUnique({
@@ -34,7 +34,7 @@ export const actividadCreationValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID del tipo de actividad debe ser un número entero positivo"
+          "El ID del tipo de actividad debe ser un número entero positivo",
         );
       }
       let tipoActividadExists = await prisma.tipo_actividad.findUnique({
@@ -56,7 +56,7 @@ export const actividadUpdateValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID de la actividad debe ser un número entero positivo"
+          "El ID de la actividad debe ser un número entero positivo",
         );
       }
       let actividadExists = await prisma.actividad.findUnique({
@@ -78,7 +78,7 @@ export const actividadUpdateValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID del empleado debe ser un número entero positivo"
+          "El ID del empleado debe ser un número entero positivo",
         );
       }
       let empleadoExists = await prisma.empleado.findUnique({
@@ -96,7 +96,7 @@ export const actividadUpdateValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID del tipo de actividad debe ser un número entero positivo"
+          "El ID del tipo de actividad debe ser un número entero positivo",
         );
       }
       let tipoActividadExists = await prisma.tipo_actividad.findUnique({
@@ -117,7 +117,7 @@ export const actividadDeletionValidation = [
     .custom(async (value) => {
       if (value <= 0) {
         throw new Error(
-          "El ID de la actividad debe ser un número entero positivo"
+          "El ID de la actividad debe ser un número entero positivo",
         );
       }
       let actividadExists = await prisma.actividad.findUnique({
