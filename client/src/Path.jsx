@@ -275,11 +275,6 @@ path.admin = [
                 "path": "/eliminar",
                 "alias": "confirmar",
                 "method": "post"
-            },
-            {
-                "path": "/cajaPorDia",
-                "alias": "Por Dia",
-                "method": "get"
             }
         ]
     },

@@ -1,62 +1,36 @@
 import React, { useState, useMemo } from 'react';
 import Filtro from './Filtro';
 import Style from '../../Styles/Caja/Listado.module.css';
-import { Link } from 'react-router-dom';
+import Balance from './Balance'; 
+import TablaPagos from './TablaPagos';
+import TablaMovimientos from './TablaMovimientos';
+
 const Listado = () => {
     const getDateString = (daysOffset = 0) => {
         const date = new Date();
         date.setDate(date.getDate() + daysOffset);
         return date.toISOString().split('T')[0];
     };
-
     const hoy = getDateString(0);
-    const pagosOriginales = useMemo(() => [
-        { 
-            id: 1,
-            fecha: hoy,
-            cliente: 'Juan Perez (Hoy)', 
-            poliza: '900-542100-1', 
-            importe: 1500, 
-            usuario: 'admin1' 
-        },
-        { 
-            id: 2,
-            fecha: hoy,
-            cliente: 'Ana Martinez (Hoy)', 
-            poliza: '900-544100-8', 
-            importe: 2000, 
-            usuario: 'admin2' 
-        },
-        { 
-            id: 3,
-            fecha: getDateString(-1),
-            cliente: 'Carlos Gomez (Ayer)', 
-            poliza: '900-542200-2', 
-            importe: 1750, 
-            usuario: 'admin1' 
-        },
-        {
-            id: 4,
-            fecha: getDateString(-5),
-            cliente: 'Maria Rodriguez (Antiguo)', 
-            poliza: '900-111222-3', 
-            importe: 3000, 
-            usuario: 'admin2' 
-        },
-        { 
-            id: 5,
-            fecha: getDateString(1),
-            cliente: 'Pedro Test (Mañana)', 
-            poliza: '900-999888-7', 
-            importe: 500, 
-            usuario: 'admin1' 
-        },
-    ], [hoy]);
+    
+    const [pagos] = useState([
+        { id: 1, fecha: hoy, cliente: 'Juan Perez', poliza: '900-542100-1', importe: 1500, usuario: 'admin1' },
+        { id: 2, fecha: hoy, cliente: 'Ana Martinez', poliza: '900-544100-8', importe: 2000, usuario: 'admin2' },
+        { id: 3, fecha: getDateString(-1), cliente: 'Carlos Gomez', poliza: '900-542200-2', importe: 1750, usuario: 'admin1' },
+    ]);
 
-    const user = {
-        role: 'admin'
-    }
+    const [ingresos, setIngresos] = useState([
+        { id: 101, fecha: hoy, concepto: 'Venta Cartón', descripcion: 'Venta de archivo muerto', monto: 500 },
+        { id: 102, fecha: getDateString(-1), concepto: 'Ajuste', descripcion: 'Diferencia de caja a favor', monto: 150 },
+    ]);
 
+    const [egresos, setEgresos] = useState([
+        { id: 201, fecha: hoy, concepto: 'Librería', descripcion: 'Compra de resmas A4', monto: 3500 },
+        { id: 202, fecha: hoy, concepto: 'Limpieza', descripcion: 'Artículos de limpieza', monto: 1200 },
+        { id: 203, fecha: getDateString(-2), concepto: 'Cafetería', descripcion: 'Café y azúcar', monto: 800 },
+    ]);
+
+    // --- 2. Estado del Filtro ---
     const [criterios, setCriterios] = useState({
         fechaInicio: hoy,
         fechaFin: hoy,
@@ -64,74 +38,81 @@ const Listado = () => {
         poliza: ''
     });
 
-    const handleFiltrar = (nuevosFiltros) => {
-        setCriterios(nuevosFiltros);
+    const handleFiltrar = (nuevosFiltros) => setCriterios(nuevosFiltros);
+
+    // --- 3. Lógica de Eliminado ---
+    const handleDelete = (id, tipo) => {
+        if(!window.confirm('¿Estás seguro de eliminar este movimiento?')) return;
+
+        if (tipo === 'ingreso') {
+            setIngresos(prev => prev.filter(item => item.id !== id));
+        } else if (tipo === 'egreso') {
+            setEgresos(prev => prev.filter(item => item.id !== id));
+        }
     };
+
+    // --- 4. Filtrado de Datos ---
+    // Función auxiliar para chequear fechas
+    const filterByDate = (item) => {
+        if (criterios.fechaInicio && item.fecha < criterios.fechaInicio) return false;
+        if (criterios.fechaFin && item.fecha > criterios.fechaFin) return false;
+        return true;
+    };
+
     const pagosFiltrados = useMemo(() => {
-        return pagosOriginales.filter(pago => {
-            if (criterios.fechaInicio && pago.fecha < criterios.fechaInicio) return false;
-            if (criterios.fechaFin && pago.fecha > criterios.fechaFin) return false;
+        return pagos.filter(pago => {
+            if (!filterByDate(pago)) return false;
             if (criterios.cliente && !pago.cliente.toLowerCase().includes(criterios.cliente.toLowerCase())) return false;
             if (criterios.poliza && !pago.poliza.includes(criterios.poliza)) return false;
-
             return true;
         });
-    }, [criterios, pagosOriginales]);
+    }, [criterios, pagos]);
 
-    return(
+    // Ingresos y Egresos SOLO se filtran por FECHA (ignoramos cliente/poliza)
+    const ingresosFiltrados = useMemo(() => ingresos.filter(filterByDate), [criterios, ingresos]);
+    const egresosFiltrados = useMemo(() => egresos.filter(filterByDate), [criterios, egresos]);
+
+    // --- 5. Cálculo de Totales ---
+    const totalPagos = pagosFiltrados.reduce((acc, curr) => acc + curr.importe, 0);
+    const totalIngresos = ingresosFiltrados.reduce((acc, curr) => acc + curr.monto, 0);
+    const totalEgresos = egresosFiltrados.reduce((acc, curr) => acc + curr.monto, 0);
+
+    return (
         <section className={Style.container}>
             <header className={Style.header}>
-                <h2 className={Style.title}>Listado de Pagos</h2>
+                <h2 className={Style.title}>Movimientos de Caja</h2>
                 <Filtro onFiltrar={handleFiltrar} initialDate={hoy} />
             </header>
 
-            <div className={Style.tableContainer}>
-                <table className={Style.table}>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Póliza</th>
-                            <th style={{ textAlign: 'right' }}>Importe</th>
-                            <th>Usuario</th>
-                            <th>Detalle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {pagosFiltrados.length > 0 ? (
-                            pagosFiltrados.map((pago, index) => (
-                                <tr key={index}>
-                                    <td>{pago.fecha}</td>
-                                    <td style={{ fontWeight: '600' }}>{pago.cliente}</td>
-                                    <td>{pago.poliza}</td>
-                                    <td className={Style.colImporte}>
-                                        ${pago.importe.toLocaleString()}
-                                    </td>
-                                    <td>
-                                        <span style={{ 
-                                            backgroundColor: '#e9ecef', 
-                                            padding: '2px 6px', 
-                                            borderRadius: '4px', 
-                                            fontSize: '0.85rem' 
-                                        }}>
-                                            {pago.usuario}
-                                        </span>
-                                    </td>
-                                    <td><Link to={`/${user.role}/pagos/detalle/${pago.id}`}>Ver Detalle</Link></td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', fontStyle: 'italic', color: 'var(--slate-grey)' }}>
-                                    No hay pagos registrados para los filtros seleccionados.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            {/* Componente Balance (Totales) */}
+            <Balance 
+                totalPagos={totalPagos} 
+                totalIngresos={totalIngresos} 
+                totalEgresos={totalEgresos} 
+            />
+
+            {/* Tabla 1: Pagos (Pólizas) */}
+            <TablaPagos datos={pagosFiltrados} />
+
+            {/* Tabla 2: Otros Ingresos */}
+            <TablaMovimientos 
+                titulo="Otros Ingresos" 
+                datos={ingresosFiltrados} 
+                tipo="ingreso" 
+                onDelete={handleDelete} 
+            />
+
+            {/* Tabla 3: Egresos / Gastos */}
+            <TablaMovimientos 
+                titulo="Egresos y Gastos" 
+                datos={egresosFiltrados} 
+                tipo="egreso" 
+                onDelete={handleDelete} 
+            />
+
         </section>
-    )
-}
+    );
+};
+
 
 export default Listado;

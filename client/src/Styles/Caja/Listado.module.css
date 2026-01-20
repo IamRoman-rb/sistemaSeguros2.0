@@ -1,4 +1,5 @@
 @import url('../Variables.css');
+
 .container {
     width: 95%;
     max-width: 1200px;
@@ -12,7 +13,7 @@
 }
 
 .header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .title {
@@ -49,9 +50,10 @@
 
 .filterGrid {
     display: grid;
+    /* Columnas automáticas: mínimo 200px, máximo flexible */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    align-items: end;
+    align-items: end; /* Alinea los inputs y el botón abajo */
 }
 
 .inputGroup {
@@ -91,16 +93,70 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
-    height: 42px;
+    height: 42px; /* Altura fija para alinear con inputs */
 }
 
 .btnFilter:hover {
     background-color: var(--deep-twilight);
 }
 
+/* --- Estilos del Balance --- */
+.balanceContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background-color: var(--bright-snow);
+    border-radius: 8px;
+    border: 1px solid var(--alabaster-grey);
+}
+
+.balanceCard {
+    background-color: var(--pure-white);
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-left: 4px solid transparent;
+}
+
+.cardTitle {
+    font-size: 0.85rem;
+    color: var(--slate-grey);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.cardAmount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--deep-twilight);
+}
+
+/* Colores para los bordes del balance */
+.borderGreen { border-left-color: var(--green-3); }
+.borderBlue { border-left-color: var(--french-blue); }
+.borderRed { border-left-color: var(--cherry-rose); }
+.borderDark { border-left-color: var(--deep-twilight); }
+
+/* --- Subtítulos de Secciones --- */
+.sectionTitle {
+    font-size: 1.2rem;
+    color: var(--gunmetal);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* --- Tablas --- */
 .tableContainer {
     width: 100%;
     overflow-x: auto;
+    margin-bottom: 2rem;
 }
 
 .table {
@@ -115,20 +171,21 @@
 }
 
 .table th {
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     text-align: left;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     letter-spacing: 0.5px;
 }
 
 .table td {
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     border-bottom: 1px solid var(--alabaster-grey);
     color: var(--iron-grey);
     vertical-align: middle;
 }
+
 .table tr:hover {
     background-color: var(--light-cyan);
 }
@@ -136,6 +193,25 @@
 .colImporte {
     text-align: right;
     font-weight: 700;
-    color: var(--deep-twilight);
+    font-family: monospace;
     font-size: 1rem;
+}
+
+.incomeText { color: var(--green-3); }
+.expenseText { color: var(--cherry-rose); }
+
+/* Botón Eliminar */
+.btnDelete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--slate-grey);
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnDelete:hover {
+    color: var(--cherry-rose);
 }
