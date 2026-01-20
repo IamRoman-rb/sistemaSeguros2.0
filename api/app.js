@@ -28,3 +28,42 @@ app.use("/coberturas", coberturaRoutes);
 
 import empleadoRoutes from "./routes/empleado.routes.js";
 app.use("/empleados", empleadoRoutes);
+
+import empresaRoutes from "./routes/empresa.routes.js";
+app.use("/empresas", empresaRoutes);
+
+import fotoRoutes from "./routes/foto.routes.js";
+app.use("/fotos", fotoRoutes);
+
+import localidadRoutes from "./routes/localidad.routes.js";
+app.use("/localidades", localidadRoutes);
+
+import marcaRoutes from "./routes/marca.routes.js";
+app.use("/marcas", marcaRoutes);
+
+import metodoRoutes from "./routes/metodo.routes.js";
+app.use("/metodos", metodoRoutes);
+
+import movimientoRoutes from "./routes/movimiento.routes.js";
+app.use("/movimientos", movimientoRoutes);
+
+import pagoRoutes from "./routes/pago.routes.js";
+app.use("/pagos", pagoRoutes);
+
+import polizasRoutes from "./routes/polizas.routes.js";
+app.use("/polizas", polizasRoutes);
+
+import provinciaRoutes from "./routes/provincia.routes.js";
+app.use("/provincias", provinciaRoutes);
+
+import riesgoRoutes from "./routes/riesgo.routes.js";
+app.use("/riesgos", riesgoRoutes);
+
+import rolRoutes from "./routes/rol.routes.js";
+app.use("/roles", rolRoutes);
+
+import sucursalRoutes from "./routes/sucursal.routes.js";
+app.use("/sucursales", sucursalRoutes);
+
+import vehiculoRoutes from "./routes/vehiculo.routes.js";
+app.use("/vehiculos", vehiculoRoutes);

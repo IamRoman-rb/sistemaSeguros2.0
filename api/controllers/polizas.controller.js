@@ -140,7 +140,7 @@ export const createPoliza = async (req, res) => {
   }
 };
 
-export const createTypePoliza = async (req, res) => {
+export const createTipoPoliza = async (req, res) => {
   const { tipo } = req.body;
   try {
     const newTipoPoliza = await prisma.tipo_poliza.create({

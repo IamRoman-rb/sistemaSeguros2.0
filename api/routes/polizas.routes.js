@@ -8,9 +8,9 @@ import {
   createPoliza,
   updatePoliza,
   deletePoliza,
-  createTypePoliza,
-  updateTypePoliza,
-  deleteTypePoliza,
+  createTipoPoliza,
+  updateTipoPoliza,
+  deleteTipoPoliza,
   addCoberturaToPoliza,
   addVehiculoToPoliza,
   removeCoberturaFromPoliza,
@@ -26,9 +26,9 @@ router.get("/tipo", getTipoPolizas);
 router.post("/", createPoliza);
 router.put("/", updatePoliza);
 router.delete("/", deletePoliza);
-router.post("/tipo", createTypePoliza);
-router.put("/tipo", updateTypePoliza);
-router.delete("/tipo", deleteTypePoliza);
+router.post("/tipo", createTipoPoliza);
+router.put("/tipo", updateTipoPoliza);
+router.delete("/tipo", deleteTipoPoliza);
 router.post("/cobertura", addCoberturaToPoliza);
 router.post("/vehiculo", addVehiculoToPoliza);
 router.delete("/cobertura", removeCoberturaFromPoliza);
