@@ -25,3 +25,6 @@ app.use("/clientes", clienteRoutes);
 
 import coberturaRoutes from "./routes/cobertura.routes.js";
 app.use("/coberturas", coberturaRoutes);
+
+import empleadoRoutes from "./routes/empleado.routes.js";
+app.use("/empleados", empleadoRoutes);

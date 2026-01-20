@@ -55,7 +55,7 @@ export const updateVehiculo = async (req, res) => {
   }
 };
 
-export const deleteMarca = async (req, res) => {
+export const deleteVehiculo = async (req, res) => {
   const { id } = req.body;
   try {
     await prisma.vehiculo.delete({
