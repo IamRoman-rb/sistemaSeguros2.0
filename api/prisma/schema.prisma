@@ -47,7 +47,7 @@ model provincia {
 
 model localidad {
   id           Int       @id @default(autoincrement())
-  localidad    String    @unique
+  localidad    String    
   id_provincia Int
   provincia    provincia @relation(fields: [id_provincia], references: [id])
   clientes     cliente[]

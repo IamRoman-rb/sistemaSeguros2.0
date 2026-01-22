@@ -1,81 +1,65 @@
 import prisma from "../db.js";
-
+import { brands, ubicaciones } from "./request.js";
 async function main() {
   // Marcas de vehículos
+  const brandList = await brands();
   await prisma.marca.createMany({
-    data: [{ marca: "Toyota" }, { marca: "Ford" }, { marca: "Honda" }],
+    data: brandList.map((brand) => ({ marca: brand })),
   });
 
   // Provincias
-  await prisma.provincia.createMany({
-    data: [
-      { provincia: "Buenos Aires" },
-      { provincia: "Córdoba" },
-      { provincia: "Santa Fe" },
-    ],
-  });
+  const ubicacionesData = await ubicaciones();
+  for (const prov of ubicacionesData) {
+    await prisma.provincia.create({
+      data: {
+        provincia: prov.nombre,
+      },
+    });
+  }
 
-  // Localidades (dependen de provincia)
-  await prisma.localidad.createMany({
-    data: [
-      { localidad: "La Plata", id_provincia: bsas.id },
-      { localidad: "Córdoba Capital", id_provincia: cordoba.id },
-    ],
-  });
+  // Localidades
+  for (const prov of ubicacionesData) {
+    const provinciaRecord = await prisma.provincia.findUnique({
+      where: { provincia: prov.nombre },
+    });
+    for (const loc of prov.localidades) {
+      await prisma.localidad.create({
+        data: {
+          localidad: loc,
+          id_provincia: provinciaRecord.id,
+        },
+      });
+    }
+  }
 
   // Roles
   await prisma.rol.createMany({
     data: [
-      { rol: "Administrador" },
-      { rol: "Vendedor" },
-      { rol: "Supervisor" },
+      { rol: "admin" },
+      { rol: "propietario" },
+      { rol: "supervisor" },
+      { rol: "empleado" },
     ],
   });
 
   // Sucursales
   await prisma.sucursal.createMany({
-    data: [{ sucursal: "Sucursal Centro" }, { sucursal: "Sucursal Norte" }],
+    data: [
+      { sucursal: "Solano" },
+      { sucursal: "Calle - Solano" },
+      { sucursal: "Las Toninas" },
+      { sucursal: "Calle - Las Toninas" },
+    ],
   });
 
   // Tipos de actividad
   await prisma.tipo_actividad.createMany({
-    data: [{ tipo: "Venta" }, { tipo: "Consulta" }, { tipo: "Mantenimiento" }],
+    data: [{ tipo: "Crear" }, { tipo: "Editar" }, { tipo: "Borrar" }],
   });
 
   // Métodos de pago
   await prisma.metodo.createMany({
-    data: [
-      { metodo: "Efectivo" },
-      { metodo: "Tarjeta de Crédito" },
-      { metodo: "Transferencia" },
-    ],
-  });
-
-  // Empresas
-  await prisma.empresa.createMany({
-    data: [{ empresa: "Empresa A" }, { empresa: "Empresa B" }],
-  });
-
-  // Coberturas
-  await prisma.cobertura.createMany({
-    data: [
-      { cobertura: "Cobertura Básica", descripcion: "Cobertura estándar" },
-      { cobertura: "Cobertura Premium", descripcion: "Cobertura completa" },
-    ],
-  });
-
-  // Riesgos
-  await prisma.riesgo.createMany({
-    data: [
-      { riesgo: "Robo" },
-      { riesgo: "Accidente" },
-      { riesgo: "Daños a terceros" },
-    ],
-  });
-
-  // Tipos de póliza
-  await prisma.tipo_poliza.createMany({
-    data: [{ tipo: "Automóvil" }, { tipo: "Hogar" }],
+    data: [{ metodo: "Efectivo" }, { metodo: "Transferencia" }],
   });
 
   console.log("Seed completado para modelos básicos");
