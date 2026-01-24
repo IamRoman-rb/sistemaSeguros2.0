@@ -29,8 +29,6 @@ const Listado = () => {
         { id: 202, fecha: hoy, concepto: 'Limpieza', descripcion: 'Artículos de limpieza', monto: 1200 },
         { id: 203, fecha: getDateString(-2), concepto: 'Cafetería', descripcion: 'Café y azúcar', monto: 800 },
     ]);
-
-    // --- 2. Estado del Filtro ---
     const [criterios, setCriterios] = useState({
         fechaInicio: hoy,
         fechaFin: hoy,
@@ -39,8 +37,6 @@ const Listado = () => {
     });
 
     const handleFiltrar = (nuevosFiltros) => setCriterios(nuevosFiltros);
-
-    // --- 3. Lógica de Eliminado ---
     const handleDelete = (id, tipo) => {
         if(!window.confirm('¿Estás seguro de eliminar este movimiento?')) return;
 
@@ -50,9 +46,6 @@ const Listado = () => {
             setEgresos(prev => prev.filter(item => item.id !== id));
         }
     };
-
-    // --- 4. Filtrado de Datos ---
-    // Función auxiliar para chequear fechas
     const filterByDate = (item) => {
         if (criterios.fechaInicio && item.fecha < criterios.fechaInicio) return false;
         if (criterios.fechaFin && item.fecha > criterios.fechaFin) return false;
@@ -68,11 +61,10 @@ const Listado = () => {
         });
     }, [criterios, pagos]);
 
-    // Ingresos y Egresos SOLO se filtran por FECHA (ignoramos cliente/poliza)
     const ingresosFiltrados = useMemo(() => ingresos.filter(filterByDate), [criterios, ingresos]);
     const egresosFiltrados = useMemo(() => egresos.filter(filterByDate), [criterios, egresos]);
 
-    // --- 5. Cálculo de Totales ---
+
     const totalPagos = pagosFiltrados.reduce((acc, curr) => acc + curr.importe, 0);
     const totalIngresos = ingresosFiltrados.reduce((acc, curr) => acc + curr.monto, 0);
     const totalEgresos = egresosFiltrados.reduce((acc, curr) => acc + curr.monto, 0);
@@ -83,26 +75,18 @@ const Listado = () => {
                 <h2 className={Style.title}>Movimientos de Caja</h2>
                 <Filtro onFiltrar={handleFiltrar} initialDate={hoy} />
             </header>
-
-            {/* Componente Balance (Totales) */}
             <Balance 
                 totalPagos={totalPagos} 
                 totalIngresos={totalIngresos} 
                 totalEgresos={totalEgresos} 
             />
-
-            {/* Tabla 1: Pagos (Pólizas) */}
             <TablaPagos datos={pagosFiltrados} />
-
-            {/* Tabla 2: Otros Ingresos */}
             <TablaMovimientos 
                 titulo="Otros Ingresos" 
                 datos={ingresosFiltrados} 
                 tipo="ingreso" 
                 onDelete={handleDelete} 
             />
-
-            {/* Tabla 3: Egresos / Gastos */}
             <TablaMovimientos 
                 titulo="Egresos y Gastos" 
                 datos={egresosFiltrados} 

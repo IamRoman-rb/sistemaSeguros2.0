@@ -26,6 +26,9 @@ import NuevaCobertura from "./Pages/Coberturas/Nueva";
 import EditarCobertura from "./Pages/Coberturas/Editar";
 
 import ListadoCaja from "./Pages/Caja/Listado"
+import Egreso from "./Pages/Caja/Egreso";
+import Ingreso from "./Pages/Caja/Ingreso";
+import Resumen from "./Pages/Caja/Resumen";
 
 import DetallePago from "./Pages/Pagos/Detalle";
 const router = createBrowserRouter([
@@ -116,6 +119,18 @@ const router = createBrowserRouter([
           {
             path: "caja/listado",
             element: <ListadoCaja />
+          },
+          {
+            path: "caja/egresos",
+            element: <Egreso />
+          },
+          {
+            path: "caja/ingresos",
+            element: <Ingreso />
+          },
+          {
+            path: "caja/resumen",
+            element: <Resumen />
           },
           {
             path: "pagos/detalle/:id",

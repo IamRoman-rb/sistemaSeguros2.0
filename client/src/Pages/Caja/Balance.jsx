@@ -1,5 +1,5 @@
 import React from 'react';
-import Style from '../../Styles/Caja/Listado.module.css'; // Asegúrate de apuntar al CSS correcto
+import Style from '../../Styles/Caja/Listado.module.css';
 
 const Balance = ({ totalPagos, totalIngresos, totalEgresos }) => {
     const totalCaja = (totalPagos + totalIngresos) - totalEgresos;

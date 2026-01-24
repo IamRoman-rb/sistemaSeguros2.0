@@ -242,12 +242,12 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/ingresos",
+                "path": "/admin/caja/ingresos",
                 "alias": "ingresos",
                 "method": "get"
             },
             {
-                "path": "/egresos",
+                "path": "/admin/caja/egresos",
                 "alias": "egresos",
                 "method": "get"
             },
@@ -257,7 +257,7 @@ path.admin = [
                 "method": "post"
             },
             {
-                "path": "/resumen",
+                "path": "/admin/caja/resumen",
                 "alias": "resumen",
                 "method": "get"
             },
