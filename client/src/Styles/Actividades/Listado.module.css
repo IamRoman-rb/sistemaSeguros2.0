@@ -1,0 +1,209 @@
+@import url('../Variables.css');
+
+/* ... (Mantén los estilos anteriores de container, headers, filters) ... */
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.mainHeader {
+    border-bottom: 2px solid var(--alabaster-grey);
+    padding-bottom: 1rem;
+}
+
+.mainHeader h2 {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.sectionCard {
+    background-color: var(--pure-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    overflow: hidden;
+}
+
+.cardHeader {
+    background-color: var(--bright-snow);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+}
+
+.cardHeader h3 {
+    margin: 0;
+    color: var(--gunmetal);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* --- FILTROS --- */
+.filterContainer {
+    padding: 1rem 1.5rem;
+    background-color: var(--pure-white);
+    border-bottom: 1px dashed var(--alabaster-grey);
+}
+
+.filterTitle {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.9rem;
+    color: var(--slate-grey);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filterGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--pale-slate);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.btnClear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    background: none;
+    border: 1px solid var(--cherry-rose);
+    color: var(--cherry-rose);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btnClear:hover {
+    background-color: var(--lavender-blush);
+}
+
+/* --- TABLA Y PAGINACIÓN --- */
+.tableWrapper {
+    width: 100%;
+}
+
+.tableScroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.table thead tr {
+    background-color: var(--deep-twilight);
+    color: var(--pure-white);
+}
+
+.table th {
+    padding: 0.8rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.table td {
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+    vertical-align: middle;
+}
+
+/* --- ESTILOS DE PAGINACIÓN --- */
+.paginationContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--bright-snow);
+    border-top: 1px solid var(--alabaster-grey);
+}
+
+.pageInfo {
+    font-size: 0.85rem;
+    color: var(--slate-grey);
+    font-weight: 500;
+}
+
+.paginationButtons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pageNumber {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--deep-twilight);
+    padding: 0 0.5rem;
+}
+
+.pageBtn {
+    background-color: var(--pure-white);
+    border: 1px solid var(--pale-slate);
+    color: var(--gunmetal);
+    padding: 0.3rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.pageBtn:hover:not(:disabled) {
+    background-color: var(--french-blue);
+    color: var(--pure-white);
+    border-color: var(--french-blue);
+}
+
+.pageBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--platinum);
+}
+
+/* --- BADGES Y UTILIDADES --- */
+.timeBadge {
+    background-color: var(--platinum);
+    color: var(--slate-grey);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.userBadge {
+    background-color: var(--light-cyan);
+    color: var(--french-blue);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: lowercase;
+}
+
+.fontBold { font-weight: 600; color: var(--deep-twilight); }
+.amount { font-family: monospace; font-weight: 700; color: var(--green-3); }
+.emptyState { text-align: center; padding: 2rem; color: var(--slate-grey); font-style: italic; }

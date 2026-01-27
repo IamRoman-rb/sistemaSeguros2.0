@@ -295,7 +295,7 @@ path.admin = [
     {
         "actividades": [
             {
-                "path": "/",
+                "path": "/admin/actividades/listado",
                 "alias": "listado",
                 "method": "get"
             },

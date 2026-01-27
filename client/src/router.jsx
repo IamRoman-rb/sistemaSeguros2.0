@@ -31,6 +31,8 @@ import Ingreso from "./Pages/Caja/Ingreso";
 import Resumen from "./Pages/Caja/Resumen";
 
 import DetallePago from "./Pages/Pagos/Detalle";
+
+import ActividadesListado from "./Pages/Actividades/Listado";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -135,6 +137,10 @@ const router = createBrowserRouter([
           {
             path: "pagos/detalle/:id",
             element: <DetallePago />
+          },
+          {
+            path: "actividades/listado",
+            element: <ActividadesListado />
           },
           {
             path: "logout",
