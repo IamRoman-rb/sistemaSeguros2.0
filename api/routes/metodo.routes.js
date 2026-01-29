@@ -6,10 +6,16 @@ import {
   updateMetodo,
   deleteMetodo,
 } from "../controllers/metodo.controller.js";
+import {
+  metodoCreateValidation,
+  metodoUpdateValidation,
+  metodoDeleteValidation,
+} from "../validations/metodo.js";
+import { validate } from "../middlewares/validate.js";
 const router = Router();
 router.get("/", getMetodos);
 router.get("/:id", getMetodoById);
-router.post("/", createMetodo);
-router.put("/", updateMetodo);
-router.delete("/", deleteMetodo);
+router.post("/", [metodoCreateValidation, validate], createMetodo);
+router.put("/", [metodoUpdateValidation, validate], updateMetodo);
+router.delete("/", [metodoDeleteValidation, validate], deleteMetodo);
 export default router;
