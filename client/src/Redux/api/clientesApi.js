@@ -4,6 +4,7 @@ export const clientesApi = createApi({
   reducerPath: 'clientesApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
   tagTypes: ['Clientes'],
+  keepUnusedDataFor: 3600,
   endpoints: (builder) => ({
 
     getClientes: builder.query({

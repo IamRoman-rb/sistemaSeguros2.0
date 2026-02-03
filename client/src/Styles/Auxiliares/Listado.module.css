@@ -1,1 +1,180 @@
-@import url("../Variables.css");
+@import url('../Variables.css');
+
+.container {
+    width: 95%;
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    font-family: var(--font-primary);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--bright-snow);
+}
+
+.title {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    color: var(--slate-grey);
+    margin: 0.2rem 0 0 0;
+    font-size: 0.9rem;
+}
+
+.btnAdd {
+    background-color: var(--french-blue);
+    color: var(--pure-white);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+    font-size: 0.95rem;
+}
+
+.btnAdd:hover {
+    background-color: var(--deep-twilight);
+}
+
+.searchBar {
+    position: relative;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate-grey);
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    border: 1px solid var(--pale-slate);
+    border-radius: 0.3rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: var(--french-blue);
+    box-shadow: 0 0 0 3px var(--light-cyan);
+}
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--alabaster-grey);
+    border-radius: 6px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: var(--bright-snow);
+    color: var(--gunmetal);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 1rem;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+    vertical-align: middle;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover {
+    background-color: var(--light-cyan);
+}
+
+.idCell {
+    color: var(--slate-grey);
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.marcaCell {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 600;
+    color: var(--deep-twilight);
+    font-size: 1rem;
+}
+
+.actionsCell {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.btnEdit {
+    color: var(--french-blue);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.btnDelete {
+    color: var(--cherry-rose);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.btnEdit:hover, .btnDelete:hover {
+    transform: scale(1.1);
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.loading, .error, .emptyState {
+    text-align: center;
+    padding: 2rem;
+    color: var(--slate-grey);
+    font-style: italic;
+}
+
+.error {
+    color: var(--cherry-rose);
+}

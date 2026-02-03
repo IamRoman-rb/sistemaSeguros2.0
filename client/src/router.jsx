@@ -36,6 +36,7 @@ import ActividadesListado from "./Pages/Actividades/Listado";
 import ActividadesDatos from "./Pages/Actividades/Datos";
 
 import AuxiliaresListado from "./Pages/Auxiliares/Listado";
+import NuevoAuxiliar from "./Pages/Auxiliares/Nuevo";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -152,6 +153,10 @@ const router = createBrowserRouter([
           {
             path: "auxiliares/listado",
             element: <AuxiliaresListado />
+          },
+          {
+            path: "auxiliares/nuevo",
+            element: <NuevoAuxiliar />
           },
           {
             path: "logout",
