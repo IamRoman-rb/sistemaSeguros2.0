@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const clientesApi = createApi({
   reducerPath: 'clientesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }), // La URL de tu Express
-  tagTypes: ['Clientes'], // Etiquetas para invalidar caché automáticamente
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
+  tagTypes: ['Clientes'],
   endpoints: (builder) => ({
 
     getClientes: builder.query({
@@ -36,14 +36,13 @@ export const clientesApi = createApi({
       query: (dni) => ({
         url: '/clientes',
         method: 'DELETE',
-        body: { dni }, // Ajusta esto según cómo lo espere tu controlador deleteCliente
+        body: { dni },
       }),
       invalidatesTags: ['Clientes'],
     }),
   }),
 });
 
-// Exportamos los hooks autogenerados para usarlos en los componentes
 export const { 
   useGetClientesQuery, 
   useGetClienteByDniQuery,

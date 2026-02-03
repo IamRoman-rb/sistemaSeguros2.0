@@ -300,7 +300,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/datos",
+                "path": "/admin/actividades/datos   ",
                 "alias": "datos",
                 "method": "get"
             }
@@ -309,7 +309,7 @@ path.admin = [
     {
         "auxiliares": [
             {
-                "path": "/",
+                "path": "/admin/auxiliares/listado",
                 "alias": "listado",
                 "method": "get"
             },

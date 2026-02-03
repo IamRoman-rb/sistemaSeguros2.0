@@ -12,39 +12,40 @@ export const user = {
     role: "admin"
 }
 
-
-
 const Listado = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
+
     const { data: clientes, error, isLoading } = useGetClientesQuery();
     const [deleteCliente] = useDeleteClienteMutation();
 
+    useEffect(() => {
+        setCurrentIndex(0);
+    }, [searchTerm]);
     const handleDelete = async (dni) => {
         if (confirm('¿Borrar cliente?')) {
             await deleteCliente(dni);
         }
     }
-
     if (isLoading) return <div>Cargando base de datos...</div>;
     if (error) return <div>Error conectando al servidor: {error.message}</div>;
-
     const itemsPorVista = 3;
+    const clientesSafe = clientes || []; 
 
-    const clientesFiltrados = clientes.filter((cliente) => {
+    const clientesFiltrados = clientesSafe.filter((cliente) => {
         const termino = searchTerm.toLowerCase();
+        const nombre = cliente.nombreCompleto ? cliente.nombreCompleto.toLowerCase() : "";
+        const cuit = cliente.cuit || "";
+        const telefono = cliente.telefono || "";
+
         return (
-            cliente.nombreCompleto.toLowerCase().includes(termino) ||
-            cliente.cuit.includes(termino) ||
-            cliente.telefono.includes(termino)
+            nombre.includes(termino) ||
+            cuit.includes(termino) ||
+            telefono.includes(termino)
         );
     });
 
     const totalSlides = Math.ceil(clientesFiltrados.length / itemsPorVista);
-
-    useEffect(() => {
-        setCurrentIndex(0);
-    }, [searchTerm]);
 
     const nextSlide = () => {
         if (totalSlides === 0) return;
@@ -59,7 +60,6 @@ const Listado = () => {
             prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
         );
     };
-
     return (
         <section className={Style.listadoContainer}>
             <header className={Style.headerListadoClientes}>
@@ -69,7 +69,10 @@ const Listado = () => {
             <Buscador onSearch={setSearchTerm} />
 
             <div className={Style.carouselWrapper}>
-                <button onClick={prevSlide} className={Style.arrowBtn}><IconCaretLeft /></button>
+                {clientesFiltrados.length > 3 && (
+                    <button onClick={prevSlide} className={Style.arrowBtn}><IconCaretLeft /></button>
+                )}
+
 
                 <div className={Style.carouselWindow}>
                     {clientesFiltrados.length === 0 && (
@@ -104,11 +107,15 @@ const Listado = () => {
                         ))}
                     </ul>
                 </div>
-
-                <button onClick={nextSlide} className={Style.arrowBtn}><IconCaretRight /></button>
+                {
+                    clientesFiltrados.length > 3 && (
+                        <button onClick={nextSlide} className={Style.arrowBtn}><IconCaretRight /></button>
+                    )
+                }
             </div>
-
-            {totalSlides > 1 && (
+        
+            {
+            totalSlides > 1 && (
                 <div className={Style.dotsContainer}>
                     {Array.from({ length: totalSlides }).map((_, idx) => (
                         <div

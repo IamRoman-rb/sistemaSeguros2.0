@@ -33,6 +33,9 @@ import Resumen from "./Pages/Caja/Resumen";
 import DetallePago from "./Pages/Pagos/Detalle";
 
 import ActividadesListado from "./Pages/Actividades/Listado";
+import ActividadesDatos from "./Pages/Actividades/Datos";
+
+import AuxiliaresListado from "./Pages/Auxiliares/Listado";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -141,6 +144,14 @@ const router = createBrowserRouter([
           {
             path: "actividades/listado",
             element: <ActividadesListado />
+          },
+          {
+            path: "actividades/datos",
+            element: <ActividadesDatos />
+          },
+          {
+            path: "auxiliares/listado",
+            element: <AuxiliaresListado />
           },
           {
             path: "logout",
