@@ -1,4 +1,4 @@
-import { argon2d } from "argon2";
+import * as argon2 from "argon2";
 import prisma from "../db.js";
 
 /*
@@ -45,7 +45,7 @@ export const getEmpleadoId = async (req, res) => {
 
 export const createEmpleado = async (req, res) => {
   const { nombre, dni, clave, id_sucursal, id_rol } = req.body;
-  let hashClave = await argon2d.hash(clave);
+  let hashClave = await argon2.hash(clave);
   try {
     const newEmpleado = await prisma.empleado.create({
       data: {
