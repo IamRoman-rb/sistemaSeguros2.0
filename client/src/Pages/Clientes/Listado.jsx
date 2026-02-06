@@ -22,25 +22,24 @@ const Listado = () => {
     useEffect(() => {
         setCurrentIndex(0);
     }, [searchTerm]);
-    const handleDelete = async (dni) => {
-        if (confirm('¿Borrar cliente?')) {
-            await deleteCliente(dni);
-        }
-    }
+
     if (isLoading) return <div>Cargando base de datos...</div>;
     if (error) return <div>Error conectando al servidor: {error.message}</div>;
     const itemsPorVista = 3;
-    const clientesSafe = clientes || []; 
+    const clientesSafe = clientes || [];
 
     const clientesFiltrados = clientesSafe.filter((cliente) => {
         const termino = searchTerm.toLowerCase();
-        const nombre = cliente.nombreCompleto ? cliente.nombreCompleto.toLowerCase() : "";
-        const cuit = cliente.cuit || "";
-        const telefono = cliente.telefono || "";
+
+        const nombre = cliente.nombre ? cliente.nombre.toLowerCase() : "";
+
+        const dni = cliente.dni ? cliente.dni.toString() : "";
+
+        const telefono = cliente.telefono ? cliente.telefono.toString() : "";
 
         return (
             nombre.includes(termino) ||
-            cuit.includes(termino) ||
+            dni.includes(termino) ||
             telefono.includes(termino)
         );
     });
@@ -89,17 +88,17 @@ const Listado = () => {
                             <li key={cliente.id} className={Style.clienteCard}>
                                 <div className={Style.cardInner}>
                                     <div className={Style.cardData}>
-                                        <h3>{cliente.nombreCompleto}</h3>
+                                        <h3>{cliente.nombre}</h3>
                                         <div className={Style.datoRow}>
                                             <span className={Style.label}>CUIT:</span>
-                                            <span>{cliente.cuit}</span>
+                                            <span>{cliente.dni}</span>
                                         </div>
                                         <div className={Style.datoRow}>
                                             <span className={Style.label}>Tel:</span>
                                             <span>{cliente.telefono}</span>
                                         </div>
                                     </div>
-                                    <Link to={`/${user.role}/clientes/detalle/${cliente.id}`} className={Style.btnDetalle}>
+                                    <Link to={`/${user.role}/clientes/detalle/${cliente.dni}`} className={Style.btnDetalle}>
                                         Ver Detalle
                                     </Link>
                                 </div>
@@ -113,19 +112,19 @@ const Listado = () => {
                     )
                 }
             </div>
-        
+
             {
-            totalSlides > 1 && (
-                <div className={Style.dotsContainer}>
-                    {Array.from({ length: totalSlides }).map((_, idx) => (
-                        <div
-                            key={idx}
-                            className={`${Style.dot} ${currentIndex === idx ? Style.activeDot : ''}`}
-                            onClick={() => setCurrentIndex(idx)}
-                        ></div>
-                    ))}
-                </div>
-            )}
+                totalSlides > 1 && (
+                    <div className={Style.dotsContainer}>
+                        {Array.from({ length: totalSlides }).map((_, idx) => (
+                            <div
+                                key={idx}
+                                className={`${Style.dot} ${currentIndex === idx ? Style.activeDot : ''}`}
+                                onClick={() => setCurrentIndex(idx)}
+                            ></div>
+                        ))}
+                    </div>
+                )}
 
         </section>
     );

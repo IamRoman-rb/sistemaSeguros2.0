@@ -1,0 +1,152 @@
+@import url('../Variables.css');
+
+.container {
+    width: 95%;
+    max-width: 500px; /* Formulario compacto */
+    margin: 3rem auto;
+    background-color: var(--pure-white);
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+    font-family: var(--font-primary);
+}
+
+/* HEADER */
+.header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--bright-snow);
+    padding-bottom: 1rem;
+}
+
+.title {
+    color: var(--deep-twilight);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.btnBack {
+    color: var(--slate-grey);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.btnBack:hover {
+    color: var(--french-blue);
+}
+
+/* FORMULARIO */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-weight: 600;
+    color: var(--gunmetal);
+    font-size: 0.95rem;
+}
+
+/* Input con Icono */
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.iconInput {
+    position: absolute;
+    left: 12px;
+    color: var(--slate-grey);
+    pointer-events: none;
+}
+
+.input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.8rem; /* Espacio para el icono */
+    border: 1px solid var(--pale-slate);
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    color: var(--carbon-black);
+    background-color: var(--pure-white);
+    transition: all 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--french-blue);
+    box-shadow: 0 0 0 3px var(--light-cyan);
+}
+
+.inputError {
+    border-color: var(--cherry-rose);
+}
+
+.errorText {
+    color: var(--cherry-rose);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* BOTONES */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btnCancel {
+    padding: 0.8rem 1.5rem;
+    color: var(--slate-grey);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    border-radius: 0.3rem;
+    transition: background-color 0.2s;
+}
+
+.btnCancel:hover {
+    background-color: var(--bright-snow);
+    color: var(--deep-twilight);
+}
+
+.btnSubmit {
+    background-color: var(--french-blue);
+    color: var(--pure-white);
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btnSubmit:hover {
+    background-color: var(--deep-twilight);
+}
+
+.btnSubmit:active {
+    transform: scale(0.98);
+}
+
+.btnSubmit:disabled {
+    background-color: var(--pale-slate);
+    cursor: not-allowed;
+}

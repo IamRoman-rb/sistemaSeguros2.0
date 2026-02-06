@@ -1,1 +1,75 @@
 @import url("../Variables.css");
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+}
+
+.header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--alabaster-grey);
+    padding-bottom: 1rem;
+}
+
+.title {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    color: var(--slate-grey);
+    margin: 0.5rem 0 0 0;
+    font-size: 0.95rem;
+}
+
+/* --- GRID LAYOUT --- */
+.chartsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- TARJETAS DE GRÁFICOS --- */
+.chartCard {
+    background-color: var(--pure-white);
+    border: 1px solid var(--alabaster-grey);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Clase para que el último gráfico ocupe todo el ancho */
+.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.chartTitle {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.1rem;
+    color: var(--gunmetal);
+    font-weight: 700;
+    border-left: 4px solid var(--french-blue);
+    padding-left: 0.8rem;
+}
+
+.chartWrapper {
+    width: 100%;
+    height: 300px; /* Altura fija para los gráficos */
+}
+
+/* Responsive: En pantallas pequeñas, quitar el fullWidth */
+@media (max-width: 768px) {
+    .chartsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fullWidth {
+        grid-column: auto;
+    }
+}

@@ -35,10 +35,10 @@ import {
 const router = Router();
 
 router.get("/", getPolizas);
-router.get("/:numero", getPolizaId);
+router.get("/tipo", getTipoPolizas);
 router.get("/cliente/:clienteId", getPolizasByCliente);
 router.get("/empleado/:empleadoId", getPolizasByEmpleado);
-router.get("/tipo", getTipoPolizas);
+router.get("/:numero", getPolizaId);
 router.post("/", [polizaCreateValidation, validate], createPoliza);
 router.put("/", [polizaUpdateValidation, validate], updatePoliza);
 router.delete("/", [polizaDeleteValidation, validate], deletePoliza);

@@ -1,120 +1,228 @@
 @import url('../Variables.css');
 
-.detalleContainer{
-    width: 90%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 3rem;
-}
-.headerDetalle{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-flow: row nowrap;
-    padding: .5rem;
-}
-.nav{
-    width: min-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.btnVolver{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .5rem;
-    padding: .5rem 1rem;
-    background-color: var(--bright-teal-blue);
-    color: var(--pure-white);
-    font-family: var(--font-primary);
-    font-weight: 500;
-    border-radius: .5rem;
-    text-decoration: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-}
-.titulo{
+.detalleContainer {
     width: 95%;
-    text-align: center;
-    color: var(--gunmetal);
-}
-.cardInfo{
-    width: 90%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
     display: flex;
-    align-items: center;
     flex-direction: column;
     gap: 2rem;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    background-color: var(--bright-snow);
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-@media screen and (min-width: 768px) {
-    .cardInfo{
-        width: 60%;
-    }
-}
-.subTitle{
-    width: 100%;
-    text-align: center;
-    color: var(--gunmetal);
-}
-.datosCliente{
-    width: 90%;
+
+/* --- HEADER Y NAVEGACIÓN --- */
+.headerDetalle {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--bright-snow);
 }
-.label{
-    font-weight: 600;
-    color: var(--iron-grey);
-}
-.tagActivo{
-    padding: .2rem .5rem;
-    background-color: var(--slime-lime);
-    color: var(--carbon-black);
-    border-radius: .5rem;
-    font-weight: 600;
-}
-.seccionTabla{
-    width: 100%;
+
+.nav {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+}
+
+.btnVolver {
+    display: flex;
     align-items: center;
-    gap: 1rem;
-}
-.tablaPolizas{
-    width: 90%;
-    border-collapse: collapse;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: .2rem;
-}
-.tablaPolizas thead{
-    background-color: var(--bright-teal-blue);
-    color: var(--pure-white);
-}
-.tablaPolizas th, .tablaPolizas td{
-    padding: .5rem;
-    text-align: center;
-    border-bottom: 1px solid var(--pale-slate);
-}
-.tablaPolizas tbody tr:nth-child(even){
-    background-color: var(--platinum);
-}
-.tablaPolizas tbody tr:hover{
-    transition: all 0.1s ease-in-out;
-    background-color: var(--light-cyan);
-    cursor: pointer;
-}
-.detalle{
-    color: var(--bright-teal-blue);
-    font-weight: 600;
+    gap: 0.5rem;
+    color: var(--slate-grey);
     text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.btnVolver:hover {
+    color: var(--french-blue);
+    transform: translateX(-4px);
+}
+
+.titulo {
+    color: var(--deep-twilight);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dniBadge {
+    background-color: var(--platinum);
+    color: var(--gunmetal);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--pale-slate);
+}
+
+/* --- TARJETA DE INFORMACIÓN PERSONAL --- */
+.cardInfo {
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+}
+
+.subTitle {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.1rem;
+    color: var(--gunmetal);
+    font-weight: 700;
+    border-left: 4px solid var(--french-blue);
+    padding-left: 0.8rem;
+}
+
+.datosCliente {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.datoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--slate-grey);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.valor {
+    font-size: 1.05rem;
+    color: var(--deep-twilight);
+    font-weight: 500;
+}
+
+/* --- SECCIÓN Y TABLA DE PÓLIZAS --- */
+.seccionTabla {
+    background-color: var(--pure-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--alabaster-grey);
+}
+
+.btnNuevaPoliza {
+    background-color: var(--french-blue);
+    color: var(--pure-white);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btnNuevaPoliza:hover {
+    background-color: var(--deep-twilight);
+}
+
+.tableResponsive {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.tablaPolizas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.tablaPolizas thead tr {
+    background-color: var(--bright-snow);
+    color: var(--gunmetal);
+    text-align: left;
+}
+
+.tablaPolizas th {
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.tablaPolizas td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--alabaster-grey);
+    color: var(--iron-grey);
+    vertical-align: middle;
+}
+
+.tablaPolizas tr:last-child td {
+    border-bottom: none;
+}
+
+.tablaPolizas tr:hover {
+    background-color: var(--light-cyan);
+}
+
+.detalle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--french-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.detalle:hover {
+    text-decoration: underline;
+}
+
+/* --- ETIQUETAS DE ESTADO --- */
+.tagActivo, .tagVigente {
+    background-color: #d1fae5; /* Verde suave */
+    color: #065f46;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.tagVencida {
+    background-color: #fee2e2; /* Rojo suave */
+    color: #991b1b;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* --- ESTADOS DE CARGA Y ERROR --- */
+.loadingContainer, .errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    color: var(--slate-grey);
+    font-family: var(--font-primary);
+}
+
+.errorContainer h3 {
+    color: var(--cherry-rose);
+    margin-bottom: 0.5rem;
+}
+
+.emptyState {
+    padding: 3rem;
+    text-align: center;
+    background-color: var(--bright-snow);
+    border-radius: 6px;
+    border: 1px dashed var(--pale-slate);
+}
+
+.sinResultados {
+    color: var(--slate-grey);
+    font-style: italic;
+    margin: 0;
 }

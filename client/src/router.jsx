@@ -4,13 +4,6 @@ import Login from "./Pages/Website/Login";
 import Logout from "./Pages/Website/Logout";
 import Perfil from "./Pages/Website/Perfil";
 import Autenticados from "./Layouts/Autenticados";
-import ListadoClientes from "./Pages/Clientes/Listado";
-import NuevoClietne from "./Pages/Clientes/Nuevo"
-import DetalleCliente from "./Pages/Clientes/Detalle";
-
-import ListadoPolizas from "./Pages/Polizas/Listado";
-import DetallePoliza from "./Pages/Polizas/Detalle";
-import NuevaPoliza from "./Pages/Polizas/Nueva";
 
 import ListadoUsuario from "./Pages/Usuarios/Listado";
 import NuevoUsuario from "./Pages/Usuarios/Nuevo";
@@ -25,6 +18,18 @@ import ListadoCoberturas from "./Pages/Coberturas/Listado";
 import NuevaCobertura from "./Pages/Coberturas/Nueva";
 import EditarCobertura from "./Pages/Coberturas/Editar";
 
+import ListadoTipoPolizas from "./Pages/TipoPolizas/Listado";
+import NuevoTipoPoliza from "./Pages/TipoPolizas/Nuevo";
+import EditarTipoPoliza from "./Pages/TipoPolizas/Editar";
+
+import ListadoClientes from "./Pages/Clientes/Listado";
+import NuevoClietne from "./Pages/Clientes/Nuevo"
+import DetalleCliente from "./Pages/Clientes/Detalle";
+
+import ListadoPolizas from "./Pages/Polizas/Listado";
+import DetallePoliza from "./Pages/Polizas/Detalle";
+import NuevaPoliza from "./Pages/Polizas/Nueva";
+
 import ListadoCaja from "./Pages/Caja/Listado"
 import Egreso from "./Pages/Caja/Egreso";
 import Ingreso from "./Pages/Caja/Ingreso";
@@ -37,6 +42,7 @@ import ActividadesDatos from "./Pages/Actividades/Datos";
 
 import AuxiliaresListado from "./Pages/Auxiliares/Listado";
 import NuevoAuxiliar from "./Pages/Auxiliares/Nuevo";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,30 +64,7 @@ const router = createBrowserRouter([
             index: true,
             element: <Navigate to={"clientes/listado"} />,
           },
-          {
-            path: "clientes/listado",
-            element: <ListadoClientes />,
-          },
-          {
-            path: "clientes/nuevo",
-            element: <NuevoClietne />,
-          },
-          {
-            path: "clientes/detalle/:id",
-            element: <DetalleCliente />,
-          },
-          {
-            path: "polizas/listado",
-            element: <ListadoPolizas />,
-          },
-          {
-            path: "polizas/detalle/:id",
-            element: <DetallePoliza />,
-          },
-          {
-            path: "polizas/nueva",
-            element: <NuevaPoliza />,
-          },
+          // --- Usuarios ---
           {
             path: "usuarios/listado",
             element: <ListadoUsuario />,
@@ -98,6 +81,7 @@ const router = createBrowserRouter([
             path: "usuarios/editar/:id",
             element: <EditarUsuario />
           },
+          // --- Empresas ---
           {
             path: "empresas/listado",
             element: <ListadoEmpresas />
@@ -110,6 +94,7 @@ const router = createBrowserRouter([
             path: "empresas/editar/:id",
             element: <EditarEmpresa />
           },
+          // --- Coberturas ---
           {
             path: "coberturas/listado",
             element: <ListadoCoberturas />
@@ -122,6 +107,46 @@ const router = createBrowserRouter([
             path: "coberturas/editar/:id",
             element: <EditarCobertura />
           },
+          // --- Tipo Polizas (Agregadas porque estaban importadas) ---
+          {
+            path: "tipo_polizas/listado",
+            element: <ListadoTipoPolizas />
+          },
+          {
+            path: "tipo_polizas/nuevo",
+            element: <NuevoTipoPoliza />
+          },
+          {
+            path: "tipo_polizas/editar/:id",
+            element: <EditarTipoPoliza />
+          },
+          // --- Clientes ---
+          {
+            path: "clientes/listado",
+            element: <ListadoClientes />,
+          },
+          {
+            path: "clientes/nuevo",
+            element: <NuevoClietne />,
+          },
+          {
+            path: "clientes/detalle/:id",
+            element: <DetalleCliente />,
+          },
+          // --- Polizas ---
+          {
+            path: "polizas/listado",
+            element: <ListadoPolizas />,
+          },
+          {
+            path: "polizas/detalle/:id",
+            element: <DetallePoliza />,
+          },
+          {
+            path: "polizas/nueva",
+            element: <NuevaPoliza />,
+          },
+          // --- Caja ---
           {
             path: "caja/listado",
             element: <ListadoCaja />
@@ -138,10 +163,12 @@ const router = createBrowserRouter([
             path: "caja/resumen",
             element: <Resumen />
           },
+          // --- Pagos ---
           {
             path: "pagos/detalle/:id",
             element: <DetallePago />
           },
+          // --- Actividades ---
           {
             path: "actividades/listado",
             element: <ActividadesListado />
@@ -150,6 +177,7 @@ const router = createBrowserRouter([
             path: "actividades/datos",
             element: <ActividadesDatos />
           },
+          // --- Auxiliares ---
           {
             path: "auxiliares/listado",
             element: <AuxiliaresListado />
@@ -158,6 +186,7 @@ const router = createBrowserRouter([
             path: "auxiliares/nuevo",
             element: <NuevoAuxiliar />
           },
+          // --- General ---
           {
             path: "logout",
             element: <Logout />,
@@ -167,7 +196,6 @@ const router = createBrowserRouter([
             element: <Perfil />,
           },
         ],
-
       }
     ]
   }

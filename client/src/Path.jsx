@@ -103,6 +103,30 @@ path.admin = [
         ]
     },
     {
+        "tipo polizas": [
+            {
+                "path": "/admin/tipo_polizas/listado",
+                "alias": "listado",
+                "method": "get"
+            },
+            {
+                "path": "/admin/tipo_polizas/nuevo",
+                "alias": "nuevo",
+                "method": "get"
+            },
+            {
+                "path": "/admin/tipo_polizas/editar/:id",
+                "alias": "editar",
+                "method": "get"
+            },
+            {
+                "path": "/admin/tipo_polizas/crear",
+                "alias": "crear",
+                "method": "post"
+            }
+        ]
+    },
+    {
         "clientes": [
             {
                 "path": "/admin/clientes/listado",
@@ -300,7 +324,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/admin/actividades/datos   ",
+                "path": "/admin/actividades/datos",
                 "alias": "datos",
                 "method": "get"
             }
