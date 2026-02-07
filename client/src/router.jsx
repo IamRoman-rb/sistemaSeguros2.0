@@ -42,6 +42,7 @@ import ActividadesDatos from "./Pages/Actividades/Datos";
 
 import AuxiliaresListado from "./Pages/Auxiliares/Listado";
 import NuevoAuxiliar from "./Pages/Auxiliares/Nuevo";
+import EditarAuxiliar from "./Pages/Auxiliares/Editar";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +65,6 @@ const router = createBrowserRouter([
             index: true,
             element: <Navigate to={"clientes/listado"} />,
           },
-          // --- Usuarios ---
           {
             path: "usuarios/listado",
             element: <ListadoUsuario />,
@@ -81,7 +81,6 @@ const router = createBrowserRouter([
             path: "usuarios/editar/:id",
             element: <EditarUsuario />
           },
-          // --- Empresas ---
           {
             path: "empresas/listado",
             element: <ListadoEmpresas />
@@ -94,7 +93,6 @@ const router = createBrowserRouter([
             path: "empresas/editar/:id",
             element: <EditarEmpresa />
           },
-          // --- Coberturas ---
           {
             path: "coberturas/listado",
             element: <ListadoCoberturas />
@@ -107,7 +105,6 @@ const router = createBrowserRouter([
             path: "coberturas/editar/:id",
             element: <EditarCobertura />
           },
-          // --- Tipo Polizas (Agregadas porque estaban importadas) ---
           {
             path: "tipo_polizas/listado",
             element: <ListadoTipoPolizas />
@@ -120,7 +117,6 @@ const router = createBrowserRouter([
             path: "tipo_polizas/editar/:id",
             element: <EditarTipoPoliza />
           },
-          // --- Clientes ---
           {
             path: "clientes/listado",
             element: <ListadoClientes />,
@@ -133,7 +129,6 @@ const router = createBrowserRouter([
             path: "clientes/detalle/:id",
             element: <DetalleCliente />,
           },
-          // --- Polizas ---
           {
             path: "polizas/listado",
             element: <ListadoPolizas />,
@@ -146,7 +141,6 @@ const router = createBrowserRouter([
             path: "polizas/nueva",
             element: <NuevaPoliza />,
           },
-          // --- Caja ---
           {
             path: "caja/listado",
             element: <ListadoCaja />
@@ -163,12 +157,10 @@ const router = createBrowserRouter([
             path: "caja/resumen",
             element: <Resumen />
           },
-          // --- Pagos ---
           {
             path: "pagos/detalle/:id",
             element: <DetallePago />
           },
-          // --- Actividades ---
           {
             path: "actividades/listado",
             element: <ActividadesListado />
@@ -177,7 +169,6 @@ const router = createBrowserRouter([
             path: "actividades/datos",
             element: <ActividadesDatos />
           },
-          // --- Auxiliares ---
           {
             path: "auxiliares/listado",
             element: <AuxiliaresListado />
@@ -186,7 +177,10 @@ const router = createBrowserRouter([
             path: "auxiliares/nuevo",
             element: <NuevoAuxiliar />
           },
-          // --- General ---
+            {
+              path: "auxiliares/editar/:id",
+              element: <EditarAuxiliar />
+            },
           {
             path: "logout",
             element: <Logout />,

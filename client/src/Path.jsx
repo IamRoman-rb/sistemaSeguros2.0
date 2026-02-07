@@ -343,17 +343,17 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/auxiliares/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },
             {
-                "path": "/guardar",
+                "path": "/admin/auxiliares/guardar",
                 "alias": "guardar",
                 "method": "post"
             },
             {
-                "path": "/actualizar",
+                "path": "/admin/auxiliares/actualizar",
                 "alias": "actualizar",
                 "method": "post"
             }

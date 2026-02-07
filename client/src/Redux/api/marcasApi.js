@@ -10,13 +10,7 @@ export const marcasApi = createApi({
       query: () => '/marcas',
       providesTags: ['Marcas'],
     }),
-    deleteMarca: builder.mutation({
-      query: (id) => ({
-        url: `/marcas/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Marcas'],
-    }),
+
     createMarca: builder.mutation({
       query: (body) => ({
         url: '/marcas',
@@ -25,11 +19,29 @@ export const marcasApi = createApi({
       }),
       invalidatesTags: ['Marcas'],
     }),
+    updateMarca: builder.mutation({
+      query: (data) => ({
+        url: '/marcas',
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Marcas'],
+    }),
+
+    deleteMarca: builder.mutation({
+      query: (id) => ({
+        url: '/marcas',
+        method: 'DELETE',
+        body: { id }, 
+      }),
+      invalidatesTags: ['Marcas'],
+    }),
   }),
 });
 
 export const { 
     useGetMarcasQuery, 
-    useDeleteMarcaMutation,
-    useCreateMarcaMutation 
+    useCreateMarcaMutation, 
+    useUpdateMarcaMutation, 
+    useDeleteMarcaMutation 
 } = marcasApi;

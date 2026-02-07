@@ -1,9 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Style from "../../Styles/Auxiliares/Nuevo.module.css";
-import { IconCar, IconPlus, IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft } from '@tabler/icons-react';
+import Formulario from './Formulario';
+
+import { useCreateMarcaMutation } from '../../Redux/api/marcasApi';
 
 const Nuevo = () => {
+    const navigate = useNavigate();
+    const [createMarca, { isLoading }] = useCreateMarcaMutation();
+
+    const handleSubmit = async (formData) => {
+        try {
+            await createMarca(formData).unwrap();
+            alert("Marca creada correctamente");
+            navigate('/admin/auxiliares/listado');
+        } catch (error) {
+            console.error(error);
+            alert("Error al crear marca");
+        }
+    };
+
     return (
         <section className={Style.container}>
             <header className={Style.header}>
@@ -14,29 +31,11 @@ const Nuevo = () => {
                     <h1 className={Style.title}>Nuevo Auxiliar</h1>
                 </div>
             </header>
-
-            <form action="" className={Style.form}>
-                <div className={Style.inputGroup}>
-                    <label htmlFor="marca" className={Style.label}>Nombre de la marca</label>
-                    <div className={Style.inputWrapper}>
-                        <IconCar stroke={1.5} size={20} className={Style.inputIcon} />
-                        <input 
-                            type="text" 
-                            id="marca"
-                            name="marca"
-                            placeholder="Ej: Toyota, Ford, Honda..." 
-                            className={Style.input}
-                        />
-                    </div>
-                </div>
-                
-                <div className={Style.btnGroup}>
-                    <button type="submit" className={Style.btnSubmit}>
-                        <IconPlus size={18} />
-                        Agregar Marca
-                    </button>
-                </div>
-            </form>
+            <Formulario 
+                onSubmit={handleSubmit} 
+                isLoading={isLoading}
+                buttonLabel="Agregar Marca"
+            />
         </section>
     );
 };
