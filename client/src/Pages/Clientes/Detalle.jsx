@@ -1,33 +1,57 @@
 import { useParams, Link } from "react-router-dom";
 import Style from "../../Styles/Clientes/Detalle.module.css";
-import { IconArrowLeft, IconFileText } from '@tabler/icons-react';
+import { IconArrowLeft, IconFileText, IconEdit } from '@tabler/icons-react';
 import { useGetClienteByDniQuery } from '../../Redux/api/clientesApi';
+import { useGetPolizasByClienteQuery } from '../../Redux/api/polizasApi';
 
 const Detalle = () => {
     const { id } = useParams();
-    const { data: cliente, isLoading, error } = useGetClienteByDniQuery(id);
-    if (isLoading) return <div className={Style.loadingContainer}>Cargando datos del cliente...</div>;
+    const { 
+        data: cliente, 
+        isLoading: isLoadingCliente, 
+        error: errorCliente 
+    } = useGetClienteByDniQuery(id);
+
+    const { 
+        data: polizasData, 
+        isLoading: isLoadingPolizas 
+    } = useGetPolizasByClienteQuery(cliente?.dni, {
+        skip: !cliente,
+    });
+
+    const polizasDelCliente = polizasData || []; 
     
-    if (error) return (
+    if (isLoadingCliente) return <div className={Style.loadingContainer}>Cargando datos del cliente...</div>;
+    
+    if (errorCliente) return (
         <div className={Style.errorContainer}>
             <h3>Error al cargar cliente</h3>
-            <p>{error.data?.error || "No se pudo conectar con el servidor"}</p>
+            <p>{errorCliente.data?.error || "No se pudo conectar con el servidor"}</p>
             <Link to="/admin/clientes/listado" className={Style.btnVolver}>Volver al listado</Link>
         </div>
     );
 
     if (!cliente) return <div className={Style.errorContainer}>Cliente no encontrado.</div>;
-    const polizasDelCliente = cliente.polizas || []; 
 
     return (
         <section className={Style.detalleContainer}>
             <header className={Style.headerDetalle}>
-                <nav className={Style.nav}>
-                    <Link to="/admin/clientes/listado" className={Style.btnVolver}>
-                        <IconArrowLeft size={20} /> Volver
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                    <nav className={Style.nav}>
+                        <Link to="/admin/clientes/listado" className={Style.btnVolver}>
+                            <IconArrowLeft size={20} /> Volver
+                        </Link>
+                    </nav>
+                    <Link 
+                        to={`/admin/clientes/editar/${cliente.dni}`} 
+                        className={Style.btnVolver}
+                        style={{ color: 'var(--french-blue)' }}
+                    >
+                        <IconEdit size={20} /> Editar Cliente
                     </Link>
-                </nav>
-                <div style={{display:'flex', alignItems:'center', gap: '10px'}}>
+                </div>
+
+                <div style={{display:'flex', alignItems:'center', gap: '10px', marginTop: '10px'}}>
                     <h2 className={Style.titulo}>Detalle del Cliente</h2>
                     <span className={Style.dniBadge}>DNI: {cliente.dni}</span>
                 </div>
@@ -73,7 +97,9 @@ const Detalle = () => {
                     </Link>
                 </div>
                 
-                {polizasDelCliente.length > 0 ? (
+                {isLoadingPolizas ? (
+                    <div style={{padding: '2rem', textAlign: 'center'}}>Cargando historial de pólizas...</div>
+                ) : polizasDelCliente.length > 0 ? (
                     <div className={Style.tableResponsive}>
                         <table className={Style.tablaPolizas}>
                             <thead>

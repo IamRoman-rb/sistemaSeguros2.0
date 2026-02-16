@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Select from "react-select";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Style from "../../Styles/Empresas/Editar.module.css";
 import { 
     IconBuildingSkyscraper, 
@@ -12,55 +12,36 @@ import {
     IconChevronLeft 
 } from '@tabler/icons-react';
 
+// Hooks de Redux
+import { 
+    useGetEmpresaByIdQuery, 
+    useUpdateEmpresaMutation,
+    useAddCoberturaToEmpresaMutation,
+    useRemoveCoberturaFromEmpresaMutation
+} from '../../Redux/api/empresasApi';
+import { useGetCoberturasQuery } from '../../Redux/api/coberturasApi';
+
 const empresaSchema = z.object({
     nombre: z.string().min(2, "El nombre es obligatorio"),
+    // El array de objetos del select
     coberturas: z.array(z.object({
-        value: z.string(),
+        value: z.number(), // ID de cobertura (usualmente número)
         label: z.string()
     })).min(1, "Debe seleccionar al menos una cobertura")
 });
 
 const Editar = () => {
     const { id } = useParams();
-    const empresasDB = [
-        {
-            id: 1,
-            nombre: "Sancor Seguros",
-            coberturas: [
-                { codigo: "A", nombre: "Responsabilidad Civil" },
-                { codigo: "B", nombre: "Terceros Completo" },
-                { codigo: "C", nombre: "Todo Riesgo con Franquicia" },
-                { codigo: "D", nombre: "Todo Riesgo sin Franquicia" }
-            ]
-        },
-        {
-            id: 2,
-            nombre: "Federación Patronal",
-            coberturas: [
-                { codigo: "RC", nombre: "Resp. Civil Básica" },
-                { codigo: "C1", nombre: "Terceros + Granizo" }
-            ]
-        },
-        {
-            id: 3,
-            nombre: "La Caja",
-            coberturas: [
-                { codigo: "PACK", nombre: "Pack Ahorro" },
-                { codigo: "TR", nombre: "Todo Riesgo" },
-                { codigo: "GR", nombre: "Granizo Total" }
-            ]
-        }
-    ];
+    const navigate = useNavigate();
 
-    const opcionesCoberturas = [
-        { value: "A", label: "A - Responsabilidad Civil" },
-        { value: "B", label: "B - Terceros Completo" },
-        { value: "C", label: "C - Todo Riesgo c/ Franquicia" },
-        { value: "D", label: "D - Todo Riesgo s/ Franquicia" },
-        { value: "C1", label: "C1 - Terceros + Granizo" },
-        { value: "RC", label: "RC - Básica" },
-        { value: "AP", label: "AP - Accidentes Personales" }
-    ];
+    // 1. Obtener Empresa y Coberturas
+    const { data: empresa, isLoading: loadingEmpresa } = useGetEmpresaByIdQuery(id);
+    const { data: todasLasCoberturas = [], isLoading: loadingCoberturas } = useGetCoberturasQuery();
+
+    // 2. Mutaciones
+    const [updateEmpresa, { isLoading: updating }] = useUpdateEmpresaMutation();
+    const [addCobertura] = useAddCoberturaToEmpresaMutation();
+    const [removeCobertura] = useRemoveCoberturaFromEmpresaMutation();
 
     const { 
         register, 
@@ -75,29 +56,68 @@ const Editar = () => {
     });
 
     const coberturasSeleccionadas = watch("coberturas");
-    useEffect(() => {
-        const empresaEncontrada = empresasDB.find(e => e.id === Number(id));
 
-        if (empresaEncontrada) {
-            const coberturasFormatoSelect = empresaEncontrada.coberturas.map(c => ({
-                value: c.codigo,
-                label: c.nombre
-            }));
+    // 3. Preparar opciones para el Select
+    const opcionesCoberturas = useMemo(() => {
+        return todasLasCoberturas.map(c => ({
+            value: c.id,
+            label: `${c.cobertura} - ${c.descripcion || c.nombre}` // Ajusta según tu modelo
+        }));
+    }, [todasLasCoberturas]);
+
+    // 4. Cargar datos iniciales
+    useEffect(() => {
+        if (empresa) {
+            // Mapear las coberturas que la empresa YA tiene
+            // Nota: Ajusta 'cobertura_empresas' si tu backend usa otro nombre para la relación
+            const coberturasActuales = empresa.cobertura_empresas?.map(rel => ({
+                value: rel.cobertura.id,
+                label: `${rel.cobertura.cobertura} - ${rel.cobertura.descripcion}`
+            })) || [];
+
             reset({
-                nombre: empresaEncontrada.nombre,
-                coberturas: coberturasFormatoSelect
+                nombre: empresa.empresa || empresa.nombre,
+                coberturas: coberturasActuales
             });
         }
-    }, [id, reset]);
+    }, [empresa, reset]);
 
-    const onSubmit = (data) => {
-        const payload = {
-            id: Number(id),
-            nombre: data.nombre,
-            coberturas: data.coberturas.map(c => c.value)
-        };
-        console.log("Editando Empresa:", payload);
+    const onSubmit = async (data) => {
+        try {
+            // 1. Actualizar datos básicos (Nombre)
+            await updateEmpresa({ id: Number(id), empresa: data.nombre }).unwrap();
+
+            // 2. Gestionar Relaciones (Agregar/Quitar)
+            // IDs seleccionados actualmente en el form
+            const idsSeleccionados = data.coberturas.map(c => c.value);
+            
+            // IDs que ya tenía la empresa en base de datos
+            const idsOriginales = empresa.cobertura_empresas?.map(rel => rel.cobertura.id) || [];
+
+            // A) Detectar Nuevas (Están en seleccionados pero NO en originales)
+            const nuevas = idsSeleccionados.filter(idCob => !idsOriginales.includes(idCob));
+            
+            // B) Detectar Eliminadas (Estaban en originales pero NO en seleccionados)
+            const eliminadas = idsOriginales.filter(idCob => !idsSeleccionados.includes(idCob));
+
+            // Ejecutar promesas en paralelo
+            const promesas = [
+                ...nuevas.map(idCob => addCobertura({ empresaId: Number(id), coberturaId: idCob }).unwrap()),
+                ...eliminadas.map(idCob => removeCobertura({ empresaId: Number(id), coberturaId: idCob }).unwrap())
+            ];
+
+            await Promise.all(promesas);
+
+            alert("¡Empresa actualizada correctamente!");
+            navigate('/admin/empresas/listado');
+
+        } catch (error) {
+            console.error("Error al editar:", error);
+            alert("Ocurrió un error al actualizar la empresa.");
+        }
     };
+
+    // Estilos personalizados para react-select (Mantenidos igual)
     const customStyles = {
         control: (base, state) => ({
             ...base,
@@ -127,6 +147,8 @@ const Editar = () => {
             },
         }),
     };
+
+    if (loadingEmpresa || loadingCoberturas) return <div style={{textAlign:'center', padding:'2rem'}}>Cargando datos...</div>;
 
     return(
         <section className={Style.editarContainer}>
@@ -176,8 +198,9 @@ const Editar = () => {
                 </fieldset>
 
                 <div className={Style.actions}>
-                    <button type="submit" className={Style.btnSubmit}>
-                        <IconDeviceFloppy size={20} /> Guardar Cambios
+                    <button type="submit" className={Style.btnSubmit} disabled={updating}>
+                        <IconDeviceFloppy size={20} /> 
+                        {updating ? "Guardando..." : "Guardar Cambios"}
                     </button>
                 </div>
             </form>

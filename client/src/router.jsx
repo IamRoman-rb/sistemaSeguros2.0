@@ -25,10 +25,12 @@ import EditarTipoPoliza from "./Pages/TipoPolizas/Editar";
 import ListadoClientes from "./Pages/Clientes/Listado";
 import NuevoClietne from "./Pages/Clientes/Nuevo"
 import DetalleCliente from "./Pages/Clientes/Detalle";
+import EditarCliente from "./Pages/Clientes/Editar";
 
 import ListadoPolizas from "./Pages/Polizas/Listado";
 import DetallePoliza from "./Pages/Polizas/Detalle";
 import NuevaPoliza from "./Pages/Polizas/Nueva";
+import EditarPoliza from "./Pages/Polizas/Editar";
 
 import ListadoCaja from "./Pages/Caja/Listado"
 import Egreso from "./Pages/Caja/Egreso";
@@ -130,6 +132,10 @@ const router = createBrowserRouter([
             element: <DetalleCliente />,
           },
           {
+            path: "clientes/editar/:id",
+            element: <EditarCliente />
+          },
+          {
             path: "polizas/listado",
             element: <ListadoPolizas />,
           },
@@ -140,6 +146,10 @@ const router = createBrowserRouter([
           {
             path: "polizas/nueva",
             element: <NuevaPoliza />,
+          },
+          {
+            path: "polizas/editar/:id",
+            element: <EditarPoliza />,
           },
           {
             path: "caja/listado",

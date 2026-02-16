@@ -1,30 +1,42 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Style from "../../Styles/Empresas/Nueva.module.css";
-import { IconBuildingSkyscraper, IconShieldCheck, IconId, IconMail, IconDeviceFloppy, IconChevronLeft } from '@tabler/icons-react';
+import { 
+    IconBuildingSkyscraper, 
+    IconShieldCheck, 
+    IconDeviceFloppy, 
+    IconChevronLeft 
+} from '@tabler/icons-react';
 
+// Hooks de Redux
+import { 
+    useCreateEmpresaMutation, 
+    useAddCoberturaToEmpresaMutation 
+} from '../../Redux/api/empresasApi';
+import { useGetCoberturasQuery } from '../../Redux/api/coberturasApi';
+
+// Esquema actualizado (value ahora es un number para coincidir con la BD)
 const empresaSchema = z.object({
     nombre: z.string().min(2, "El nombre es obligatorio"),
     coberturas: z.array(z.object({
-        value: z.string(),
+        value: z.number(), 
         label: z.string()
     })).min(1, "Debe seleccionar al menos una cobertura")
 });
 
 const Nueva = () => {
-    const opcionesCoberturas = [
-        { value: "A", label: "A - Responsabilidad Civil" },
-        { value: "B", label: "B - Terceros Completo" },
-        { value: "C", label: "C - Todo Riesgo c/ Franquicia" },
-        { value: "D", label: "D - Todo Riesgo s/ Franquicia" },
-        { value: "C1", label: "C1 - Terceros + Granizo" },
-        { value: "RC", label: "RC - Básica" },
-        { value: "AP", label: "AP - Accidentes Personales" }
-    ];
+    const navigate = useNavigate();
+
+    // 1. Obtener coberturas de la BD
+    const { data: todasLasCoberturas = [], isLoading: loadingCoberturas } = useGetCoberturasQuery();
+
+    // 2. Mutaciones
+    const [createEmpresa, { isLoading: isCreating }] = useCreateEmpresaMutation();
+    const [addCobertura] = useAddCoberturaToEmpresaMutation();
 
     const { 
         register, 
@@ -36,12 +48,39 @@ const Nueva = () => {
         resolver: zodResolver(empresaSchema)
     });
 
-    const onSubmit = (data) => {
-        const payload = {
-            ...data,
-            coberturas: data.coberturas.map(c => c.value) 
-        };
-        console.log("Enviando Empresa:", payload);
+    // 3. Mapear opciones para el Select
+    const opcionesCoberturas = useMemo(() => {
+        return todasLasCoberturas.map(c => ({
+            value: c.id,
+            label: `${c.cobertura} - ${c.descripcion || ''}`
+        }));
+    }, [todasLasCoberturas]);
+
+    const onSubmit = async (data) => {
+        try {
+            // 1. Crear la empresa base
+            // Según tu controlador, espera { empresa: "Nombre" }
+            const nuevaEmpresa = await createEmpresa({ empresa: data.nombre }).unwrap();
+
+            // 2. Asociar coberturas a la empresa creada
+            // nuevaEmpresa debería devolver el objeto insertado con su ID
+            const promesasCoberturas = data.coberturas.map(cob => 
+                addCobertura({ 
+                    empresaId: nuevaEmpresa.id, 
+                    coberturaId: cob.value 
+                }).unwrap()
+            );
+
+            // Ejecutamos todas las inserciones en paralelo
+            await Promise.all(promesasCoberturas);
+
+            alert("¡Empresa registrada exitosamente!");
+            navigate("/admin/empresas/listado");
+
+        } catch (error) {
+            console.error("Error al guardar empresa:", error);
+            alert("Ocurrió un error al registrar la empresa o sus coberturas.");
+        }
     };
 
     const customStyles = {
@@ -103,6 +142,7 @@ const Nueva = () => {
                         {errors.nombre && <span className={Style.errorText}>⚠ {errors.nombre.message}</span>}
                     </fieldset>
                 </div>
+
                 <fieldset className={Style.fieldset}>
                     <label className={Style.label}>
                         <IconShieldCheck size={18} className={Style.iconLabel}/> Coberturas Disponibles
@@ -111,7 +151,8 @@ const Nueva = () => {
                         isMulti
                         options={opcionesCoberturas}
                         styles={customStyles}
-                        placeholder="Seleccione una o varias coberturas..."
+                        placeholder={loadingCoberturas ? "Cargando coberturas..." : "Seleccione una o varias coberturas..."}
+                        isDisabled={loadingCoberturas}
                         closeMenuOnSelect={false}
                         onChange={(val) => {
                             setValue("coberturas", val);
@@ -123,8 +164,9 @@ const Nueva = () => {
                 </fieldset>
 
                 <div className={Style.actions}>
-                    <button type="submit" className={Style.btnSubmit}>
-                        <IconDeviceFloppy size={20} /> Guardar Empresa
+                    <button type="submit" className={Style.btnSubmit} disabled={isCreating || loadingCoberturas}>
+                        <IconDeviceFloppy size={20} /> 
+                        {isCreating ? "Guardando..." : "Guardar Empresa"}
                     </button>
                 </div>
             </form>

@@ -1,30 +1,36 @@
-import { useState } from 'react';
-import Style from '../../Styles/Usuarios/Listado.module.css';
+import React from 'react';
+import Style from '../../Styles/usuarios/Listado.module.css';
 import { Link } from 'react-router-dom';
 import { IconEye, IconPower } from '@tabler/icons-react';
+import { useGetEmpleadosQuery, useUpdateEmpleadoMutation, useDeleteEmpleadoMutation } from '../../Redux/api/empleadosApi';
 
 const Listado = () => {
+const { data: empleados = [], isLoading, isError, error } = useGetEmpleadosQuery();
+    const [updateEmpleado] = useUpdateEmpleadoMutation();
+    const [deleteEmpleado] = useDeleteEmpleadoMutation()    
 
-    const [usuarios, setUsuarios] = useState([
-        { id: 1, nombre: 'Juan Pérez', cuit: "20-34567890-3", estado: 'Activo' },
-        { id: 2, nombre: 'María Gómez', cuit: "27-12345678-9", estado: 'Inactivo' },
-        { id: 3, nombre: 'Carlos Rodríguez', cuit: "23-98765432-1", estado: 'Activo' },
-    ]);
+    const cambiarEstado = async (empleado) => {
+        const nuevoEstado = empleado.estado === 'Activo' ? 'Inactivo' : 'Activo';
 
-    const cambiarEstado = (index) => {
-        const nuevosUsuarios = [...usuarios];
-        const usuario = nuevosUsuarios[index];
+        try {
+            await updateEmpleado({ 
+                id: empleado.id, 
+                ...empleado, 
+                estado: nuevoEstado 
+            }).unwrap();
+        } catch (err) {
+            console.error('Error al actualizar estado:', err);
+            alert("No se pudo cambiar el estado del empleado. Por favor, inténtalo de nuevo.");
+        }
+    };    
 
-        const nuevoEstado = usuario.estado === 'Activo' ? 'Inactivo' : 'Activo';
-        
-        usuario.estado = nuevoEstado;
-        setUsuarios(nuevosUsuarios);
-    };
+    if (isLoading) return <div style={{padding: '20px'}}>Cargando empleados...</div>;
+    if (isError) return <div style={{padding: '20px', color: 'red'}}>Error: {error.message}</div>;
 
-    return(
+    return (
         <section className={Style.listadoContainer}>
             <header className={Style.header}>
-                <h2>Listado de Usuarios</h2>
+                <h2>Listado de Empleados</h2>
             </header>
             
             <div className={Style.tableResponsive}>
@@ -38,33 +44,33 @@ const Listado = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {usuarios.map((usuario, index) => (
-                            <tr key={index}>
-                                <td style={{fontWeight: '600'}}>{usuario.nombre}</td>
-                                <td>{usuario.cuit}</td>
+                        {empleados.map((empleado) => (
+                            <tr key={empleado.id}>
+                                <td style={{fontWeight: '600'}}>{empleado.nombre}</td>
+                                <td>{empleado.dni}</td>
                                 <td style={{textAlign: 'center'}}>
-                                    <span className={usuario.estado === 'Activo' ? Style.tagActivo : Style.tagInactivo}>
-                                        {usuario.estado}
+                                    <span className={empleado.estado === 'Activo' ? Style.tagActivo : Style.tagInactivo}>
+                                        {empleado.estado}
                                     </span>
                                 </td>
                                 <td style={{textAlign: 'right'}}>
                                     <div className={Style.accionesContainer}>
                                         
                                         <button 
-                                            onClick={() => cambiarEstado(index)}
+                                            onClick={() => cambiarEstado(empleado)}
                                             className={Style.btnEstado}
-                                            title={usuario.estado === 'Activo' ? "Desactivar usuario" : "Activar usuario"}
+                                            title={empleado.estado === 'Activo' ? "Desactivar empleado" : "Activar empleado"}
                                         >
                                             <IconPower 
                                                 size={18} 
-                                                color={usuario.estado === 'Activo' ? "var(--night-bordeaux)" : "var(--dark-spruce)"} 
+                                                color={empleado.estado === 'Activo' ? "var(--night-bordeaux)" : "var(--dark-spruce)"} 
                                             />
                                         </button>
 
-                                        <Link to={`/admin/usuarios/detalle/${index}`} className={Style.btnDetalle}>
+                                        <Link to={`/admin/usuarios/detalle/${empleado.id}`} className={Style.btnDetalle}>
                                             <IconEye size={18} /> Detalle
                                         </Link>
-                                        <Link to={`/admin/usuarios/editar/${index}`} className={Style.btnDetalle}>Editar</Link>
+                                        <Link to={`/admin/usuarios/editar/${empleado.id}`} className={Style.btnDetalle}>Editar</Link>
                                     </div>
                                 </td>
                             </tr>

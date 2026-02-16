@@ -2,9 +2,10 @@
 
 .nuevoContainer {
     width: 95%;
-    max-width: 600px; /* Ancho acotado porque son pocos datos */
+    max-width: 600px; /* Ancho acotado para formularios de una columna */
     margin: 3rem auto;
     font-family: var(--font-primary);
+    animation: fadeIn 0.3s ease-out;
 }
 
 /* --- HEADER --- */
@@ -31,30 +32,35 @@
     color: var(--slate-grey);
     font-weight: 600;
     font-size: 0.9rem;
-    transition: color 0.2s;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s;
 }
 
 .btnVolver:hover {
     color: var(--deep-twilight);
+    background-color: var(--bright-snow);
 }
 
 .titulo {
     color: var(--deep-twilight);
     font-size: 1.8rem;
     font-weight: 700;
+    margin: 0;
 }
 
 .subtitulo {
     color: var(--slate-grey);
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 /* --- FORM CARD --- */
 .formCard {
     background-color: var(--pure-white);
     padding: 2.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--alabaster-grey);
     display: flex;
     flex-direction: column;
@@ -75,7 +81,7 @@
     align-items: center;
     gap: 0.5rem;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--deep-twilight);
 }
 
@@ -83,37 +89,55 @@
     color: var(--french-blue);
 }
 
-.input {
+/* --- INPUTS Y SELECTS --- */
+/* Aplicamos estilos a ambos para consistencia */
+.input, .select {
+    width: 100%;
     padding: 0.8rem 1rem;
-    border: 1px solid var(--pale-slate-2);
-    border-radius: 0.3rem;
+    border: 1px solid var(--pale-slate);
+    border-radius: 6px;
     font-family: var(--font-primary);
     font-size: 1rem;
     color: var(--carbon-black);
     background-color: #fcfcfc;
     transition: all 0.2s ease;
+    outline: none;
+    box-sizing: border-box; /* Importante para el padding */
 }
 
-.input:focus {
-    outline: none;
+.input:focus, .select:focus {
     border-color: var(--french-blue);
     background-color: var(--pure-white);
-    box-shadow: 0 0 0 3px var(--light-cyan);
+    box-shadow: 0 0 0 3px rgba(62, 124, 177, 0.15);
 }
 
 .input::placeholder {
-    color: var(--pale-slate-2);
+    color: var(--slate-grey);
+    opacity: 0.7;
+}
+
+/* Estilo específico para el cursor en selects */
+.select {
+    cursor: pointer;
+    appearance: none; /* Opcional: quita la flecha nativa si quisieras poner una custom */
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
 }
 
 /* --- ERROR MESSAGES --- */
 .errorText {
-    color: var(--night-bordeaux);
-    font-size: 0.85rem;
-    font-weight: 500;
+    color: var(--cherry-rose);
+    font-size: 0.8rem;
+    font-weight: 600;
     margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-/* --- BOTÓN --- */
+/* --- BOTÓN DE ACCIÓN --- */
 .actions {
     margin-top: 1rem;
     padding-top: 1.5rem;
@@ -125,26 +149,60 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     padding: 0.9rem;
     background-color: var(--deep-twilight);
     color: var(--pure-white);
     border: none;
-    border-radius: 0.4rem;
-    font-size: 1.1rem;
+    border-radius: 6px;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.btnSubmit:hover {
+.btnSubmit:hover:not(:disabled) {
     background-color: var(--french-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(62, 124, 177, 0.25);
 }
 
-.btnSubmit:active {
+.btnSubmit:active:not(:disabled) {
     transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estado Deshabilitado (Cargando) */
+.btnSubmit:disabled {
+    background-color: var(--slate-grey);
+    cursor: wait;
+    opacity: 0.8;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 480px) {
+    .nuevoContainer {
+        width: 100%;
+        margin: 1rem auto;
+        padding: 0 1rem;
+    }
+
+    .formCard {
+        padding: 1.5rem;
+    }
+
+    .titulo {
+        font-size: 1.5rem;
+    }
 }

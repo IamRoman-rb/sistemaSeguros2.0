@@ -1,37 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { IconPlus, IconPencil, IconTrash } from "@tabler/icons-react";
 import Style from "../../Styles/Coberturas/Listado.module.css";
 
-const Listado = () => {
-    const [coberturas, setCoberturas] = useState([
-        { codigo: "A", nombre: "Responsabilidad Civil" },
-        { codigo: "B", nombre: "Terceros Completo" },
-        { codigo: "C", nombre: "Todo Riesgo con Franquicia" },
-        { codigo: "D", nombre: "Todo Riesgo sin Franquicia" },
-        { codigo: "RC", nombre: "Resp. Civil Básica" },
-        { codigo: "C1", nombre: "Terceros + Granizo" },
-        { codigo: "PACK", nombre: "Pack Ahorro" },
-        { codigo: "TR", nombre: "Todo Riesgo" },
-        { codigo: "GR", nombre: "Granizo Total" }
-    ]);
+// Importamos los hooks de Redux
+import { useGetCoberturasQuery, useDeleteCoberturaMutation } from "../../Redux/api/coberturasApi";
 
-    const user = {
-        name: "Walter Rodriguez",
-        role: "admin"
-    }
-    const handleDelete = (codigo) => {
-        if (window.confirm(`¿Estás seguro de eliminar la cobertura ${codigo}?`)) {
-            const nuevaLista = coberturas.filter(item => item.codigo !== codigo);
-            setCoberturas(nuevaLista);
+const Listado = () => {
+    // 1. Obtener datos de la API
+    const { data: coberturas = [], isLoading, error } = useGetCoberturasQuery();
+    
+    // 2. Hook para eliminar
+    const [deleteCobertura] = useDeleteCoberturaMutation();
+
+    // Variable auxiliar para rutas (puedes ajustarlo si usas un context de auth)
+    const basePath = "/admin/coberturas"; 
+
+    const handleDelete = async (id, codigo) => {
+        if (window.confirm(`¿Estás seguro de eliminar la cobertura "${codigo}"?`)) {
+            try {
+                // Pasamos el ID numérico que espera tu backend
+                await deleteCobertura(id).unwrap();
+            } catch (err) {
+                console.error("Error al eliminar:", err);
+                alert("No se pudo eliminar la cobertura. Verifique que no esté asignada a una póliza o empresa.");
+            }
         }
     };
+
+    if (isLoading) return <div style={{padding:'2rem'}}>Cargando coberturas...</div>;
+    if (error) return <div style={{padding:'2rem', color:'red'}}>Error al cargar coberturas.</div>;
 
     return (
         <section className={Style.listadoContainer}>
             <header className={Style.header}>
                 <h2>Listado de Coberturas</h2>
-                <Link to={`/${user.role}/coberturas/nueva`} className={Style.btnNuevo}>
+                <Link to={`${basePath}/nueva`} className={Style.btnNuevo}>
                     <IconPlus size={18} />
                     Nueva Cobertura
                 </Link>
@@ -39,23 +43,24 @@ const Listado = () => {
 
             <div className={Style.gridCoberturas}>
                 {coberturas.length > 0 ? (
-                    coberturas.map((item, index) => (
-                        <article key={item.codigo} className={Style.coberturaCard}>
+                    coberturas.map((item) => (
+                        <article key={item.id} className={Style.coberturaCard}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                {/* Código de la cobertura (ej: A, RC, TR) */}
                                 <span className={Style.cobCodigo}>
-                                    {item.codigo}
+                                    {item.cobertura}
                                 </span>
                                 
                                 <div className={Style.accionesContainer}>
                                     <Link 
-                                        to={`/${user.role}/coberturas/editar/${index}`} 
+                                        to={`${basePath}/editar/${item.id}`} 
                                         className={Style.btnIcon}
                                         title="Editar"
                                     >
                                         <IconPencil size={18} stroke={1.5} />
                                     </Link>
                                     <button 
-                                        onClick={() => handleDelete(item.codigo)}
+                                        onClick={() => handleDelete(item.id, item.cobertura)}
                                         className={`${Style.btnIcon} ${Style.btnDelete}`}
                                         title="Eliminar"
                                     >
@@ -64,8 +69,9 @@ const Listado = () => {
                                 </div>
                             </div>
 
+                            {/* Descripción / Nombre completo */}
                             <h4 className={Style.cobNombre}>
-                                {item.nombre}
+                                {item.descripcion || "Sin descripción"}
                             </h4>
                         </article>
                     ))

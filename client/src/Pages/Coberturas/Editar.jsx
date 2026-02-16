@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-react';
-import Style from "../../Styles/Coberturas/Editar.module.css";
+import Style from "../../Styles/Coberturas/Nueva.module.css"; // Reutilizamos estilos de Nueva para consistencia
+
+// Hooks de Redux
+import { useGetCoberturaByIdQuery, useUpdateCoberturaMutation } from "../../Redux/api/coberturasApi";
+
 const schema = z.object({
     nombre: z.string()
         .min(1, "El nombre es obligatorio")
@@ -15,20 +19,14 @@ const schema = z.object({
 });
 
 const Editar = () => {
-
     const { id } = useParams();
+    const navigate = useNavigate();
 
-    const [coberturas, setCoberturas] = useState([
-        { codigo: "A", nombre: "Responsabilidad Civil" },
-        { codigo: "B", nombre: "Terceros Completo" },
-        { codigo: "C", nombre: "Todo Riesgo con Franquicia" },
-        { codigo: "D", nombre: "Todo Riesgo sin Franquicia" },
-        { codigo: "RC", nombre: "Resp. Civil Básica" },
-        { codigo: "C1", nombre: "Terceros + Granizo" },
-        { codigo: "PACK", nombre: "Pack Ahorro" },
-        { codigo: "TR", nombre: "Todo Riesgo" },
-        { codigo: "GR", nombre: "Granizo Total" }
-    ]);
+    // 1. Obtener la cobertura actual por ID
+    const { data: coberturaData, isLoading: loadingData, error } = useGetCoberturaByIdQuery(id);
+    
+    // 2. Mutación para actualizar
+    const [updateCobertura, { isLoading: updating }] = useUpdateCoberturaMutation();
 
     const {
         register,
@@ -39,27 +37,51 @@ const Editar = () => {
         resolver: zodResolver(schema)
     });
 
-    useEffect(() => {
-        const cobertura = coberturas.find((c, index) => c.codigo === coberturas[id].codigo)
-        if (cobertura) {
-            reset({
-                codigo: cobertura.codigo,
-                nombre: cobertura.nombre
-            }
-            )
-        } else {
-            console.log("Cobertura no encontrada");
-        }
-    }, [id, reset])
+    // Simulamos el rol del usuario (ajustar según tu lógica de auth)
+    const user = { role: "admin" };
 
-    const onSubmit = () => {
-        return
-    }
+    // 3. Cargar datos en el formulario
+    useEffect(() => {
+        if (coberturaData) {
+            reset({
+                // Mapeo: Backend 'cobertura' -> Form 'nombre'
+                nombre: coberturaData.cobertura, 
+                descripcion: coberturaData.descripcion
+            });
+        }
+    }, [coberturaData, reset]);
+
+    const onSubmit = async (data) => {
+        try {
+            await updateCobertura({
+                id: Number(id), // ID necesario para la URL PUT /coberturas/:id
+                cobertura: data.nombre, // Mapeo inverso
+                descripcion: data.descripcion
+            }).unwrap();
+
+            alert("Cobertura actualizada correctamente");
+            navigate(`/${user.role}/coberturas/listado`);
+
+        } catch (err) {
+            console.error("Error al actualizar:", err);
+            alert(err.data?.error || "Error al actualizar la cobertura");
+        }
+    };
+
+    if (loadingData) return <div style={{textAlign:'center', marginTop:'2rem'}}>Cargando datos...</div>;
+    if (error) return <div style={{textAlign:'center', color:'red'}}>Error al cargar la cobertura</div>;
+
     return (
         <section className={Style.formContainer}>
-            <header>
-                <h2>Editar Cobertura</h2>
+            <header className={Style.header}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Link to={`/${user.role}/coberturas/listado`} className={Style.btnBack} title="Volver">
+                        <IconArrowLeft size={20} />
+                    </Link>
+                    <h2>Editar Cobertura</h2>
+                </div>
             </header>
+
             <form onSubmit={handleSubmit(onSubmit)} className={Style.form}>
                 <fieldset className={Style.fieldset}>
                     <label htmlFor="nombre" className={Style.label}>Nombre (Código)</label>
@@ -68,10 +90,11 @@ const Editar = () => {
                         id="nombre"
                         placeholder="Ej: A, B, C, C1"
                         className={`${Style.input} ${errors.nombre ? Style.inputError : ''}`}
-                        {...register("codigo")}
+                        {...register("nombre")}
                     />
                     {errors.nombre && <span className={Style.errorMsg}>{errors.nombre.message}</span>}
                 </fieldset>
+
                 <fieldset className={Style.fieldset}>
                     <label htmlFor="descripcion" className={Style.label}>Descripción</label>
                     <input
@@ -79,15 +102,15 @@ const Editar = () => {
                         id="descripcion"
                         placeholder="Ej: Robo, incendio total y parcial..."
                         className={`${Style.input} ${errors.descripcion ? Style.inputError : ''}`}
-                        {...register("nombre")}
+                        {...register("descripcion")}
                     />
                     {errors.descripcion && <span className={Style.errorMsg}>{errors.descripcion.message}</span>}
                 </fieldset>
 
                 <div className={Style.footer}>
-                    <button type="submit" className={Style.btnSubmit}>
+                    <button type="submit" className={Style.btnSubmit} disabled={updating}>
                         <IconDeviceFloppy size={18} />
-                        Crear Cobertura
+                        {updating ? "Guardando..." : "Guardar Cambios"}
                     </button>
                 </div>
             </form>

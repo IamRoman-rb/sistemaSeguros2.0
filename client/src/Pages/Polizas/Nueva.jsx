@@ -1,22 +1,55 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Select from "react-select";
-import { Link, useSearchParams } from "react-router-dom"; 
+import { Link, useSearchParams } from "react-router-dom";
 import Style from "../../Styles/Polizas/Nueva.module.css";
 import FormularioAutomotor from "./FormularioAutomotor";
 import FormularioOtrosRiesgos from "./FormularioOtrosRiesgos";
 import { IconChevronLeft, IconUser, IconFiles } from '@tabler/icons-react';
 import { useGetClientesQuery } from '../../Redux/api/clientesApi';
 import { useGetTiposPolizaQuery } from '../../Redux/api/polizasApi';
+import { useGetEmpresasQuery } from '../../Redux/api/empresasApi';
 
 const Nueva = () => {
     const [searchParams] = useSearchParams();
     const dniPreseleccionado = searchParams.get("dni");
+    
+    // Hooks de API
     const { data: clientesData, isLoading: isLoadingClientes } = useGetClientesQuery();
-
     const { data: tiposPolizaData, isLoading: isLoadingTipos } = useGetTiposPolizaQuery();
+    const { data: empresas } = useGetEmpresasQuery();
 
+    // Estados
     const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
     const [tipoPolizaId, setTipoPolizaId] = useState("");
+    const [formDefaults, setFormDefaults] = useState({}); // Estado para pasar valores por defecto a los hijos
+
+    // CORRECCIÓN: Lógica para calcular defaults basada en el cliente seleccionado
+    useEffect(() => {
+        // Usamos 'clienteSeleccionado', NO 'clientePreseleccionado'
+        if (clienteSeleccionado && empresas) {
+            // Buscamos la empresa del cliente
+            const empresa = empresas.find(e => e.id === clienteSeleccionado.id_empresa);
+            
+            if (empresa) {
+                // Determinamos si es auto para buscar la cobertura correcta
+                const tipoPolizaObj = tiposPolizaData?.find(t => t.id == tipoPolizaId);
+                const isAuto = tipoPolizaObj ? /auto|moto|camion/i.test(tipoPolizaObj.tipo) : false;
+                
+                // Buscamos una cobertura por defecto si existe
+                const coberturaDefault = isAuto 
+                    ? empresa.coberturas?.find(c => c.tipo.toLowerCase().includes('auto') || c.tipo.includes('Riesgo'))
+                    : null;
+
+                // Actualizamos el estado de defaults en lugar de usar setValue
+                setFormDefaults({
+                    compania: empresa.id.toString(), // Usamos el ID para el select
+                    cobertura: coberturaDefault ? coberturaDefault.id.toString() : ""
+                });
+            }
+        } else {
+            setFormDefaults({});
+        }
+    }, [clienteSeleccionado, empresas, tipoPolizaId, tiposPolizaData]);
 
     const opcionesClientes = useMemo(() => {
         if (!clientesData) return [];
@@ -50,9 +83,7 @@ const Nueva = () => {
         }),
         option: (base, state) => ({
             ...base,
-            backgroundColor: state.isSelected 
-                ? 'var(--deep-twilight)' 
-                : state.isFocused ? 'var(--bright-snow)' : 'white',
+            backgroundColor: state.isSelected ? 'var(--deep-twilight)' : state.isFocused ? 'var(--bright-snow)' : 'white',
             color: state.isSelected ? 'white' : 'var(--gunmetal)',
             fontFamily: 'var(--font-primary)',
             cursor: 'pointer',
@@ -70,8 +101,8 @@ const Nueva = () => {
     };
 
     const tipoSeleccionadoObj = tiposPolizaData?.find(t => t.id === Number(tipoPolizaId));
-    const isAutomotor = tipoSeleccionadoObj 
-        ? /auto|moto|camion|rodado/i.test(tipoSeleccionadoObj.tipo) 
+    const isAutomotor = tipoSeleccionadoObj
+        ? /auto|moto|camion|rodado/i.test(tipoSeleccionadoObj.tipo)
         : false;
 
     return (
@@ -80,103 +111,87 @@ const Nueva = () => {
                 <h2 className={Style.title}>Nueva Póliza</h2>
                 <div className={Style.headerButtons}>
                     {clienteSeleccionado ? (
-                         <Link to={`/admin/clientes/detalle/${clienteSeleccionado.dni}`} className={Style.btnVolver}>
-                            <IconChevronLeft size={16} style={{marginBottom:-2}}/> Volver a Cliente
-                         </Link>
+                        <Link to={`/admin/clientes/detalle/${clienteSeleccionado.dni}`} className={Style.btnVolver}>
+                            <IconChevronLeft size={16} style={{ marginBottom: -2 }} /> Volver a Cliente
+                        </Link>
                     ) : (
                         <Link to="/admin/clientes/listado" className={Style.btnVolver}>
-                            <IconChevronLeft size={16} style={{marginBottom:-2}}/> Clientes
+                            <IconChevronLeft size={16} style={{ marginBottom: -2 }} /> Clientes
                         </Link>
                     )}
-                    
                     <Link to="/admin/polizas/listado" className={Style.btnVolver}>
-                        <IconChevronLeft size={16} style={{marginBottom:-2}}/> Pólizas
+                        <IconChevronLeft size={16} style={{ marginBottom: -2 }} /> Pólizas
                     </Link>
                 </div>
             </header>
 
             <div className={Style.selectorCard}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem'}}>
-                    <IconUser size={20} color="var(--deep-twilight)"/>
-                    <label htmlFor="selectorCliente" className={Style.selectorLabel} style={{marginBottom:0}}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
+                    <IconUser size={20} color="var(--deep-twilight)" />
+                    <label htmlFor="selectorCliente" className={Style.selectorLabel} style={{ marginBottom: 0 }}>
                         1. Busque y Seleccione el Cliente Tomador:
                     </label>
                 </div>
-                
                 <Select
                     id="selectorCliente"
-                    value={clienteSeleccionado 
-                        ? opcionesClientes.find(op => op.value === clienteSeleccionado.dni) 
-                        : null
-                    }
+                    value={clienteSeleccionado ? opcionesClientes.find(op => op.value === clienteSeleccionado.dni) : null}
                     options={opcionesClientes}
                     onChange={handleClienteChange}
                     styles={customStyles}
                     placeholder={isLoadingClientes ? "Cargando clientes..." : "Escriba nombre o DNI para buscar..."}
                     noOptionsMessage={() => isLoadingClientes ? "Cargando..." : "No se encontraron clientes"}
-                    isClearable={true} 
+                    isClearable={true}
                     isDisabled={isLoadingClientes}
                 />
             </div>
 
             {clienteSeleccionado && (
-                <div className={Style.selectorCard} style={{animation: 'fadeIn 0.3s ease-in-out'}}>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem'}}>
-                        <IconFiles size={20} color="var(--deep-twilight)"/>
-                        <label htmlFor="selectorTipo" className={Style.selectorLabel} style={{marginBottom:0}}>
+                <div className={Style.selectorCard} style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                        <IconFiles size={20} color="var(--deep-twilight)" />
+                        <label htmlFor="selectorTipo" className={Style.selectorLabel} style={{ marginBottom: 0 }}>
                             2. Seleccione el Tipo de Póliza a emitir:
                         </label>
                     </div>
-                    
-                    <select 
-                        id="selectorTipo" 
-                        className={Style.select} 
-                        value={tipoPolizaId} 
+                    <select
+                        id="selectorTipo"
+                        className={Style.select}
+                        value={tipoPolizaId}
                         onChange={handleTipoChange}
                         disabled={isLoadingTipos}
-                        style={{fontSize: '1.1rem', padding: '1rem'}}
+                        style={{ fontSize: '1.1rem', padding: '1rem' }}
                     >
-                        <option value="" disabled>
-                            {isLoadingTipos ? "Cargando tipos..." : "-- Seleccionar Tipo --"}
-                        </option>
-
+                        <option value="" disabled>{isLoadingTipos ? "Cargando tipos..." : "-- Seleccionar Tipo --"}</option>
                         {tiposPolizaData?.map((tipo) => (
-                            <option key={tipo.id} value={tipo.id}>
-                                {tipo.tipo}
-                            </option>
+                            <option key={tipo.id} value={tipo.id}>{tipo.tipo}</option>
                         ))}
                     </select>
                 </div>
             )}
 
-            <div style={{marginTop: '2rem'}}>
-                
+            <div style={{ marginTop: '2rem' }}>
                 {clienteSeleccionado && tipoPolizaId && isAutomotor && (
-                    <FormularioAutomotor 
-                        clientePreseleccionado={clienteSeleccionado} 
-                        tipoPolizaId={tipoPolizaId} 
-                    />
-                )}
-                
-                {clienteSeleccionado && tipoPolizaId && !isAutomotor && (
-                    <FormularioOtrosRiesgos 
+                    <FormularioAutomotor
                         clientePreseleccionado={clienteSeleccionado}
                         tipoPolizaId={tipoPolizaId}
+                        defaults={formDefaults} // Pasamos los defaults calculados
                     />
                 )}
-                {!clienteSeleccionado && !isLoadingClientes && (
-                    <div style={{textAlign: 'center', color: 'var(--slate-grey)', fontStyle: 'italic', marginTop: '2rem'}}>
-                        <p>Utilice el buscador superior para encontrar al cliente por nombre o DNI.</p>
-                    </div>
+
+                {clienteSeleccionado && tipoPolizaId && !isAutomotor && (
+                    <FormularioOtrosRiesgos
+                        clientePreseleccionado={clienteSeleccionado}
+                        tipoPolizaId={tipoPolizaId}
+                        defaults={formDefaults} // Pasamos los defaults calculados
+                    />
                 )}
                 
-                {clienteSeleccionado && !tipoPolizaId && (
-                    <div style={{textAlign: 'center', color: 'var(--slate-grey)', fontStyle: 'italic', marginTop: '2rem'}}>
-                        <p>Cliente seleccionado: <strong>{clienteSeleccionado.nombre}</strong>. Ahora seleccione el tipo de riesgo.</p>
+                {!clienteSeleccionado && !isLoadingClientes && (
+                    <div style={{ textAlign: 'center', color: 'var(--slate-grey)', fontStyle: 'italic', marginTop: '2rem' }}>
+                        <p>Utilice el buscador superior para encontrar al cliente.</p>
                     </div>
                 )}
             </div>
-
         </section>
     );
 };

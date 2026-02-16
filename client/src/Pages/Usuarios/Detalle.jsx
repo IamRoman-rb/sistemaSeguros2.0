@@ -1,23 +1,18 @@
 import React from 'react';
 import { useParams, Link } from "react-router-dom";
 import { 
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     AreaChart, Area 
 } from 'recharts';
 import Style from '../../Styles/Usuarios/Detalle.module.css';
-import { IconChevronLeft, IconUser, IconActivity, IconChartBar } from '@tabler/icons-react';
+import { IconChevronLeft, IconUser, IconActivity, IconChartBar, IconId, IconBriefcase, IconBuildingStore } from '@tabler/icons-react';
+import { useGetEmpleadoByIdQuery } from '../../Redux/api/empleadosApi';
+import { sucursalesApi } from '../../Redux/api/sucursalesApi';
 
 const Detalle = () => {
     const { id } = useParams();
-
-    const usuarios = [
-        { id: 0, nombre: 'Juan Pérez', cuit: "20-34567890-3", estado: 'Activo', email: 'juan.perez@sistema.com', rol: 'Administrador' },
-        { id: 1, nombre: 'María Gómez', cuit: "27-12345678-9", estado: 'Inactivo', email: 'maria.gomez@sistema.com', rol: 'Vendedor' },
-        { id: 2, nombre: 'Carlos Rodríguez', cuit: "23-98765432-1", estado: 'Activo', email: 'carlos.rod@sistema.com', rol: 'Supervisor' },
-    ];
-
-    const usuario = usuarios.find(u => u.id === Number(id));
-
+    const { data: usuario, isLoading, error } = useGetEmpleadoByIdQuery(id);
+    const { data: sucursales } = sucursalesApi.endpoints.getSucursales.useQuery();
     const dataAcciones = [
         { name: 'Altas', cantidad: 12, fill: '#00a884' },
         { name: 'Bajas', cantidad: 3, fill: '#d32f2f' },
@@ -34,6 +29,14 @@ const Detalle = () => {
         { dia: 'Sab', acciones: 1 },
         { dia: 'Dom', acciones: 0 },
     ];
+    if (isLoading) return <div className={Style.loading}>Cargando perfil...</div>;
+    
+    if (error) return (
+        <div className={Style.errorContainer}>
+            <h3>Error al cargar usuario</h3>
+            <Link to="/admin/usuarios/listado" className={Style.btnVolver}>Volver al listado</Link>
+        </div>
+    );
 
     if (!usuario) return <div className={Style.error}>Usuario no encontrado</div>;
 
@@ -47,7 +50,6 @@ const Detalle = () => {
             </header>
 
             <div className={Style.gridDashboard}>
-                
                 <article className={Style.cardInfo}>
                     <header className={Style.cardHeader}>
                         <IconUser size={22} color="var(--deep-twilight)" />
@@ -55,30 +57,31 @@ const Detalle = () => {
                     </header>
                     <div className={Style.cardBody}>
                         <div className={Style.datoRow}>
-                            <span className={Style.label}>Nombre:</span>
+                            <span className={Style.label}><IconUser size={16}/> Nombre:</span>
                             <span className={Style.valor}>{usuario.nombre}</span>
                         </div>
                         <div className={Style.datoRow}>
-                            <span className={Style.label}>CUIT:</span>
-                            <span className={Style.valor}>{usuario.cuit}</span>
+                            <span className={Style.label}><IconId size={16}/> CUIT/DNI:</span>
+                            <span className={Style.valor}>{usuario.cuit || usuario.dni}</span>
                         </div>
                         <div className={Style.datoRow}>
-                            <span className={Style.label}>Email:</span>
-                            <span className={Style.valor}>{usuario.email}</span>
+                            <span className={Style.label}><IconBriefcase size={16}/> Rol:</span>
+                            <span className={Style.valor}>
+                                {usuario.rol?.rol || `ID Rol: ${usuario.id_rol}`}
+                            </span>
                         </div>
                         <div className={Style.datoRow}>
-                            <span className={Style.label}>Rol:</span>
-                            <span className={Style.valor}>{usuario.rol}</span>
+                            <span className={Style.label}><IconBuildingStore size={16}/> Sucursal:</span>
+                            <span className={Style.valor}>{usuario.sucursal?.sucursal || `ID Sucursal: ${usuario.id_sucursal}`}</span>
                         </div>
                         <div className={Style.datoRow}>
                             <span className={Style.label}>Estado:</span>
                             <span className={usuario.estado === 'Activo' ? Style.tagActivo : Style.tagInactivo}>
-                                {usuario.estado}
+                                {usuario.estado || 'Activo'}
                             </span>
                         </div>
                     </div>
                 </article>
-
                 <article className={Style.cardChart}>
                     <header className={Style.cardHeader}>
                         <IconChartBar size={22} color="var(--deep-twilight)" />
@@ -99,7 +102,6 @@ const Detalle = () => {
                         </ResponsiveContainer>
                     </div>
                 </article>
-
                 <article className={`${Style.cardChart} ${Style.fullWidth}`}>
                     <header className={Style.cardHeader}>
                         <IconActivity size={22} color="var(--deep-twilight)" />

@@ -285,10 +285,10 @@ export const deletePolizaCobertura = async (req, res) => {
 };
 
 export const getPolizasByCliente = async (req, res) => {
-  const { id_cliente } = req.params;
+  const { clienteId } = req.params;  
   try {
     const clientePolizas = await prisma.poliza.findMany({
-      where: { id_cliente: parseInt(id_cliente) },
+      where: { id_cliente: parseInt(clienteId) },
       include: {
         tipo_poliza: true,
         sucursal: true,

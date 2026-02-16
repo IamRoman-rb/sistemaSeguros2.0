@@ -1,23 +1,6 @@
 import * as argon2 from "argon2";
 import prisma from "../db.js";
 
-/*
-model empleado {
-  id          Int          @id @default(autoincrement())
-  nombre      String
-  dni         Int          @unique
-  clave       String
-  id_sucursal Int
-  id_rol      Int
-  rol         rol          @relation(fields: [id_rol], references: [id])
-  sucursal    sucursal     @relation(fields: [id_sucursal], references: [id])
-  movimientos movimiento[]
-  actividades actividad[]
-  pagos       pago[]
-  polizas     poliza[]
-}
-*/
-
 export const getEmpleados = async (req, res) => {
   try {
     const empleados = await prisma.empleado.findMany();
@@ -45,8 +28,9 @@ export const getEmpleadoId = async (req, res) => {
 
 export const createEmpleado = async (req, res) => {
   const { nombre, dni, clave, id_sucursal, id_rol } = req.body;
-  let hashClave = await argon2.hash(clave);
+  
   try {
+    let hashClave = await argon2.hash(clave);
     const newEmpleado = await prisma.empleado.create({
       data: {
         nombre,
@@ -64,23 +48,30 @@ export const createEmpleado = async (req, res) => {
 
 export const updateEmpleado = async (req, res) => {
   const { id, nombre, dni, clave, id_sucursal, id_rol } = req.body;
-  const hashClave = await argon2d.hash(clave);
+
   try {
-    const updatedEmpleado = await prisma.empleado.update({
-      where: { id: parseInt(id) },
-      data: {
+    const dataToUpdate = {
         nombre,
         dni,
-        clave: hashClave,
         id_sucursal,
-        id_rol,
-      },
+        id_rol
+    };
+    if (clave && clave.trim() !== "") {
+        dataToUpdate.clave = await argon2.hash(clave);
+    }
+
+    const updatedEmpleado = await prisma.empleado.update({
+      where: { id: parseInt(id) },
+      data: dataToUpdate,
     });
+    
     res.json(updatedEmpleado);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Error updating empleado" });
   }
 };
+
 export const deleteEmpleado = async (req, res) => {
   const { id } = req.body;
   try {
@@ -102,7 +93,8 @@ export const validateEmpleado = async (req, res) => {
     if (!empleado) {
       return res.status(401).json({ error: "Invalid DNI" });
     }
-    const isValid = await argon2d.verify(empleado.clave, clave);
+    const isValid = await argon2.verify(empleado.clave, clave);
+    
     if (!isValid) {
       return res.status(401).json({ error: "Invalid clave" });
     }

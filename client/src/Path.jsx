@@ -144,7 +144,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/clientes/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },
@@ -188,12 +188,12 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/detalle/:id",
+                "path": "/admin/polizas/detalle/:id",
                 "alias": "detalle",
                 "method": "get"
             },
             {
-                "path": "/editar/:id",
+                "path": "/admin/polizas/editar/:id",
                 "alias": "editar",
                 "method": "get"
             },

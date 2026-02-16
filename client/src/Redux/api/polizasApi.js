@@ -4,10 +4,8 @@ export const polizasApi = createApi({
   reducerPath: 'polizasApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
   tagTypes: ['Polizas', 'TiposPoliza'],
-  keepUnusedDataFor: 3600, // Cache de 1 hora
+  keepUnusedDataFor: 3600,
   endpoints: (builder) => ({
-    
-    // --- PÓLIZAS ---
     getPolizas: builder.query({
       query: () => '/polizas',
       providesTags: ['Polizas'],
@@ -32,7 +30,6 @@ export const polizasApi = createApi({
       invalidatesTags: ['Polizas'],
     }),
 
-    // Nota: Tu ruta backend es PUT / (espera el ID o Numero en el body)
     updatePoliza: builder.mutation({
       query: (polizaData) => ({
         url: '/polizas',
@@ -46,25 +43,28 @@ export const polizasApi = createApi({
       query: (numero) => ({
         url: '/polizas',
         method: 'DELETE',
-        body: { numero }, // Tu backend espera el numero en el body
+        body: { numero },
       }),
       invalidatesTags: ['Polizas'],
     }),
 
-    // --- TIPOS DE PÓLIZA (Para los selectores) ---
     getTiposPoliza: builder.query({
       query: () => '/polizas/tipo',
       providesTags: ['TiposPoliza'],
     }),
-    
-    // --- ASOCIACIONES (Coberturas y Vehículos) ---
+
+    // --- NUEVO: Endpoint para buscar vehículo usando este mismo slice ---
+    getVehiculoByPatente: builder.query({
+        query: (patente) => `/vehiculos/${patente}`, // Consultamos al endpoint de vehículos
+    }),
+
     addVehiculoToPoliza: builder.mutation({
       query: (data) => ({
         url: '/polizas/vehiculo',
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Polizas'], // Refresca la póliza para mostrar el vehículo nuevo
+      invalidatesTags: ['Polizas'],
     }),
     
     addCoberturaToPoliza: builder.mutation({
@@ -80,9 +80,9 @@ export const polizasApi = createApi({
       query: (id) => ({
         url: '/polizas/tipo',
         method: 'DELETE',
-        body: { id }, // Tu backend espera el ID en el body
+        body: { id },
       }),
-      invalidatesTags: ['TiposPoliza'], // Esto refrescará la tabla automáticamente
+      invalidatesTags: ['TiposPoliza'],
     }),
 
     createTipoPoliza: builder.mutation({
@@ -91,7 +91,7 @@ export const polizasApi = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['TiposPoliza'], // Para que se actualice la lista automáticamente
+      invalidatesTags: ['TiposPoliza'],
     }),
 
   }),
@@ -108,5 +108,6 @@ export const {
     useDeleteTipoPolizaMutation,
     useAddVehiculoToPolizaMutation,
     useAddCoberturaToPolizaMutation,
-    useCreateTipoPolizaMutation
+    useCreateTipoPolizaMutation,
+    useLazyGetVehiculoByPatenteQuery 
 } = polizasApi;
