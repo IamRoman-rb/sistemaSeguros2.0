@@ -237,12 +237,12 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/pagar/:id",
+                "path": "/admin/pagos/pagar/:id",
                 "alias": "pagar",
                 "method": "get"
             },
             {
-                "path": "/acreditar",
+                "path": "/admin/pagos/acreditar",
                 "alias": "acreditar",
                 "method": "post"
             },

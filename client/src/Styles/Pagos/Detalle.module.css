@@ -73,7 +73,7 @@
 
 .gridLayout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(1fr, auto-fit);
     gap: 1.5rem;
 }
 

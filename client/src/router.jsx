@@ -38,6 +38,7 @@ import Ingreso from "./Pages/Caja/Ingreso";
 import Resumen from "./Pages/Caja/Resumen";
 
 import DetallePago from "./Pages/Pagos/Detalle";
+import Pagar from "./Pages/Pagos/Pagar";
 
 import ActividadesListado from "./Pages/Actividades/Listado";
 import ActividadesDatos from "./Pages/Actividades/Datos";
@@ -170,6 +171,10 @@ const router = createBrowserRouter([
           {
             path: "pagos/detalle/:id",
             element: <DetallePago />
+          },
+          {
+            path: "pagos/pagar/:id",
+            element: <Pagar />
           },
           {
             path: "actividades/listado",

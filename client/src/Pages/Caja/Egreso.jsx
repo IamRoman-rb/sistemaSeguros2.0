@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Link } from 'react-router-dom';
 import { IconArrowLeft, IconMinus, IconCurrencyDollar } from '@tabler/icons-react';
 import Style from "../../Styles/Caja/Egreso.module.css";
+import { useCreateMovimientoMutation } from '../../Redux/api/movimientosApi';
 
 const schema = z.object({
     monto: z.number({ invalid_type_error: "El monto es obligatorio" })
@@ -28,9 +29,24 @@ const Egreso = () => {
         resolver: zodResolver(schema)
     });
 
-    const onSubmit = (data) => {
-        alert("Egreso registrado correctamente");
-        reset();
+    const [createMovimiento] = useCreateMovimientoMutation();
+
+    const onSubmit = async (data) => {
+        try {
+            const movimiento = {
+                importe: Number(data.monto),
+                motivo: data.motivo,
+                descripcion: data.descripcion,
+                es_ingreso: false,
+                id_empleado: 1
+            };
+            await createMovimiento(movimiento).unwrap();
+            alert("Egreso registrado correctamente");
+            reset();
+        } catch (error) {
+            console.error("Error al registrar egreso:", error);
+            alert("Error al registrar el egreso. Inténtalo de nuevo.");
+        }
     };
 
     const user = { id: 1, name: "Admin User", role: "admin" };

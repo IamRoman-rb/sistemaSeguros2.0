@@ -38,34 +38,21 @@ const FormularioOtrosRiesgos = ({ clientePreseleccionado, tipoPolizaId, defaults
             sumaAsegurada: 0
         }
     });
-
-    // --- LÓGICA DE PRECARGA DE DATOS ---
     useEffect(() => {
         if (defaults) {
-            // 1. Mapeo de datos básicos (que sí existen en tu JSON)
             const formData = {
                 nPoliza: defaults.numero,
                 premioTotal: defaults.premio,
                 cuotas: defaults.cuotas,
-                // Cortar fecha ISO (2026-02-16T...) para input date
                 inicioVigencia: defaults.inicio ? defaults.inicio.split('T')[0] : '',
                 periodo: defaults.periodo === 12 ? 'anual' : (defaults.periodo === 1 ? 'mensual' : 'semestral'),
             };
-
-            // 2. RECUPERAR "TIPO DE RIESGO"
-            // Como no tienes columna 'tipoRiesgo', usamos el nombre del tipo de póliza (ej: "Hogar")
             if (defaults.tipo_poliza?.tipo) {
                 formData.tipoRiesgo = defaults.tipo_poliza.tipo;
             }
-
-            // 3. RECUPERAR "UBICACIÓN"
-            // Si no hay ubicación guardada, asumimos la dirección del cliente
             if (defaults.cliente?.direccion) {
                 formData.ubicacion = defaults.cliente.direccion;
             }
-
-            // 4. RECUPERAR "SUMA ASEGURADA" y otros datos desde OBSERVACIONES (si existen)
-            // Esto sirve si guardaste los datos concatenados anteriormente
             if (defaults.observaciones) {
                 const partes = defaults.observaciones.split(' - ');
                 const partUbicacion = partes.find(p => p.includes("Ubicación:"));
@@ -74,19 +61,13 @@ const FormularioOtrosRiesgos = ({ clientePreseleccionado, tipoPolizaId, defaults
                 if (partUbicacion) formData.ubicacion = partUbicacion.replace("Ubicación: ", "").trim();
                 if (partSuma) formData.sumaAsegurada = Number(partSuma.replace("Suma: ", ""));
             } 
-            // Si la suma viene en columna propia 'suma' en la DB
             else if (defaults.suma) {
                 formData.sumaAsegurada = defaults.suma;
             }
-
-            // 5. RECUPERAR "COMPAÑÍA"
-            // Intentamos sacarla de las coberturas relacionadas si existen
             if (defaults.poliza_coberturas && defaults.poliza_coberturas.length > 0) {
                 const idEmpresa = defaults.poliza_coberturas[0].cobertura?.id_empresa;
                 if (idEmpresa) formData.compania = idEmpresa.toString();
             }
-
-            // Aplicamos los datos al formulario
             reset(formData);
         }
     }, [defaults, reset]);
@@ -99,15 +80,11 @@ const FormularioOtrosRiesgos = ({ clientePreseleccionado, tipoPolizaId, defaults
 
         const fechaInicio = new Date(data.inicioVigencia);
         const fechaFin = new Date(fechaInicio);
-
-        // Calcular fin de vigencia
         if (data.periodo === 'anual') fechaFin.setFullYear(fechaFin.getFullYear() + 1);
         else if (data.periodo === 'semestral') fechaFin.setMonth(fechaFin.getMonth() + 6);
         else fechaFin.setMonth(fechaFin.getMonth() + 1);
 
         try {
-            // Empaquetamos los datos extra en un string para 'observaciones'
-            // Así persistimos la ubicación y el tipo específico aunque no tengas columnas en la DB
             const observacionesStr = `Riesgo: ${data.tipoRiesgo} - Ubicación: ${data.ubicacion} - Suma: ${data.sumaAsegurada}`;
 
             const polizaData = {
@@ -118,14 +95,10 @@ const FormularioOtrosRiesgos = ({ clientePreseleccionado, tipoPolizaId, defaults
                 cuotas: data.cuotas,
                 premio: data.premioTotal,
                 id_cliente: clientePreseleccionado ? clientePreseleccionado.dni : defaults.id_cliente,
-                // Guardamos los datos extra en observaciones
                 observaciones: observacionesStr, 
-                // Si agregaste columna 'suma' en la DB, descomenta esto:
-                // suma: data.sumaAsegurada 
             };
 
             if (isEditing) {
-                // Actualizar
                 await updatePoliza({
                     ...polizaData,
                     id_tipo_poliza: Number(tipoPolizaId)
@@ -134,14 +107,13 @@ const FormularioOtrosRiesgos = ({ clientePreseleccionado, tipoPolizaId, defaults
                 alert("¡Póliza actualizada correctamente!");
                 navigate(`/admin/polizas/detalle/${data.nPoliza}`);
             } else {
-                // Crear
                 const nuevaPoliza = {
                     ...polizaData,
                     id_tipo_poliza: Number(tipoPolizaId),
                     emision: new Date().toISOString(),
                     valido: true,
-                    id_sucursal: 1, // Ajustar según auth
-                    id_empleado: 1  // Ajustar según auth
+                    id_sucursal: 1,
+                    id_empleado: 1
                 };
                 
                 await createPoliza(nuevaPoliza).unwrap();

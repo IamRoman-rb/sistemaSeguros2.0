@@ -1,0 +1,181 @@
+@import url('../Variables.css');
+
+.container {
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    font-family: var(--font-primary);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.titulo {
+    font-size: 1.8rem;
+    color: var(--deep-twilight);
+    font-weight: 700;
+}
+
+.btnVolver {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--slate-grey);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.btnVolver:hover { color: var(--deep-twilight); }
+
+/* LAYOUT GRID DE 2 COLUMNAS */
+.gridLayout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Columna derecha un poco más ancha */
+    gap: 2rem;
+}
+
+/* CARDS DE INFORMACIÓN (IZQUIERDA) */
+.infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cardInfo {
+    background: #f8f9fa;
+    border: 1px solid var(--alabaster-grey);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cardHeader {
+    background: var(--deep-twilight);
+    color: white;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cardBody {
+    padding: 1rem;
+    color: var(--carbon-black);
+    font-size: 0.95rem;
+}
+
+.cardBody p {
+    margin-bottom: 0.5rem;
+}
+
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 0.8rem 0;
+}
+
+.total {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* FORMULARIO DE PAGO (DERECHA) */
+.formCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid var(--alabaster-grey);
+}
+
+.formTitle {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--french-blue);
+    border-bottom: 2px solid var(--light-cyan);
+    padding-bottom: 0.5rem;
+}
+
+.fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-weight: 600;
+    color: var(--deep-twilight);
+}
+
+.inputHuge {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+    border: 2px solid var(--pale-slate);
+    border-radius: 6px;
+    font-weight: bold;
+    color: var(--french-blue);
+    text-align: right;
+}
+
+.inputHuge:focus {
+    outline: none;
+    border-color: var(--french-blue);
+}
+
+.select, .textarea {
+    padding: 0.8rem;
+    border: 1px solid var(--pale-slate);
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+}
+
+.btnSubmit {
+    width: 100%;
+    padding: 1rem;
+    background-color: #10b981; /* Verde */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btnSubmit:hover:not(:disabled) {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.btnSubmit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.errorText {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .gridLayout {
+        grid-template-columns: 1fr;
+    }
+}

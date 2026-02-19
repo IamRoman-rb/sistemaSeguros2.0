@@ -4,7 +4,7 @@ import Style from '../../Styles/Caja/Listado.module.css';
 
 const TablaMovimientos = ({ titulo, datos, tipo, onDelete }) => {
     const amountClass = tipo === 'ingreso' ? Style.incomeText : Style.expenseText;
-
+    
     return (
         <div className={Style.tableContainer}>
             <h3 className={Style.sectionTitle}>{titulo}</h3>
@@ -12,7 +12,7 @@ const TablaMovimientos = ({ titulo, datos, tipo, onDelete }) => {
                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>Concepto</th>
+                        <th>Motivo</th>
                         <th>Descripción</th>
                         <th style={{ textAlign: 'right' }}>Importe</th>
                         <th style={{ textAlign: 'center' }}>Acciones</th>
@@ -22,7 +22,7 @@ const TablaMovimientos = ({ titulo, datos, tipo, onDelete }) => {
                     {datos.length > 0 ? datos.map((item) => (
                         <tr key={item.id}>
                             <td>{item.fecha}</td>
-                            <td style={{ fontWeight: '600' }}>{item.concepto}</td>
+                            <td style={{ fontWeight: '600' }}>{item.motivo}</td>
                             <td>{item.descripcion}</td>
                             <td className={`${Style.colImporte} ${amountClass}`}>
                                 ${item.monto.toLocaleString()}

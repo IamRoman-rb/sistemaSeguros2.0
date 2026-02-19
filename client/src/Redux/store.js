@@ -10,6 +10,9 @@ import { empleadosApi } from './api/empleadosApi';
 import { rolesApi } from './api/rolesApi';
 import { sucursalesApi } from './api/sucursalesApi';
 import { coberturasApi } from './api/coberturasApi';
+import { pagosApi } from './api/pagosApi';
+import { metodosApi } from './api/metodosApi';
+import { movimientosApi } from './api/movimientosApi';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +27,9 @@ const store = configureStore({
     [rolesApi.reducerPath]: rolesApi.reducer,
     [sucursalesApi.reducerPath]: sucursalesApi.reducer,
     [coberturasApi.reducerPath]: coberturasApi.reducer,
+    [pagosApi.reducerPath]: pagosApi.reducer,
+    [metodosApi.reducerPath]: metodosApi.reducer,
+    [movimientosApi.reducerPath]: movimientosApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -37,7 +43,11 @@ const store = configureStore({
       .concat(empleadosApi.middleware)
       .concat(rolesApi.middleware)
       .concat(sucursalesApi.middleware)
-      .concat(coberturasApi.middleware),
+      .concat(coberturasApi.middleware)
+      .concat(pagosApi.middleware)
+      .concat(metodosApi.middleware)
+      .concat(movimientosApi.middleware),
+      
 });
 
 export default store;
