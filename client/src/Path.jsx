@@ -232,7 +232,7 @@ path.admin = [
                 "method": "get"
             },
             {
-                "path": "/recibo/:id",
+                "path": "/admin/pagos/recibo/:id",
                 "alias": "recibo",
                 "method": "get"
             },

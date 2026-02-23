@@ -57,7 +57,6 @@ const Listado = () => {
                         <tr>
                             <th style={{width: '5%'}}></th>
                             <th>Empresa</th>
-                            <th>CUIT</th>
                             <th style={{textAlign: 'center'}}>Coberturas</th>
                             <th style={{textAlign: 'right'}}>Acciones</th>
                         </tr>
@@ -76,7 +75,6 @@ const Listado = () => {
                                     <td style={{fontWeight: '600', color: 'var(--deep-twilight)'}}>
                                         {empresa.empresa || empresa.nombre} {/* Ajusta según venga del backend */}
                                     </td>
-                                    <td>{empresa.cuit}</td>
                                     <td style={{textAlign: 'center'}}>
                                         <span className={Style.badgeCoberturas}>
                                             {/* Contamos las coberturas asociadas. Ajusta 'cobertura_empresas' si tu backend usa otro nombre */}
@@ -85,9 +83,6 @@ const Listado = () => {
                                     </td>
                                     <td style={{textAlign: 'right'}} onClick={(e) => e.stopPropagation()}> 
                                         <div className={Style.accionesContainer}>
-                                            <Link to={`/admin/empresas/detalle/${empresa.id}`} className={Style.btnIcon} title="Ver Detalle">
-                                                <IconEye size={18} />
-                                            </Link>
                                             <Link to={`/admin/empresas/editar/${empresa.id}`} className={Style.btnIcon} title="Editar">
                                                 <IconPencil size={18} />
                                             </Link>

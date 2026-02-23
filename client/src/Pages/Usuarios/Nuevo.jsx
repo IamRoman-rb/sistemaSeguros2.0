@@ -8,16 +8,13 @@ import { IconUser, IconId, IconLock, IconDeviceFloppy, IconChevronLeft, IconBrie
 // Hooks de Redux
 import { useCreateEmpleadoMutation } from '../../Redux/api/empleadosApi';
 import { useGetRolesQuery } from '../../Redux/api/rolesApi';
-// import { useGetSucursalesQuery } from '../../Redux/api/sucursalesApi'; // Si tienes slice de sucursales
+import { useGetSucursalesQuery } from '../../Redux/api/sucursalesApi'; // <-- Importado
 
-// 1. ESQUEMA DE VALIDACIÓN ACTUALIZADO
 const usuarioSchema = z.object({
     nombre: z.string()
         .min(3, "El nombre debe tener al menos 3 caracteres")
         .max(50, "El nombre es muy largo"),
-    cuit: z.string()
-        .regex(/^\d{2}-\d{8}-\d{1}$/, "Formato inválido. Ej: 20-12345678-9"), // Asumo que usas CUIT como DNI o identificador
-    dni: z.coerce.number().min(1, "DNI es requerido"), // Agrego DNI si tu modelo empleado lo pide separado del CUIT
+    dni: z.coerce.number().min(1, "DNI es requerido"), 
     clave: z.string()
         .min(6, "La contraseña debe tener al menos 6 caracteres"),
     id_rol: z.coerce.number().min(1, "Debe seleccionar un rol"),
@@ -28,13 +25,12 @@ const Nuevo = () => {
     const navigate = useNavigate();
     
     // Hooks de API
-    const [createEmpleado, { isLoading }] = useCreateEmpleadoMutation();
-    const { data: roles = [] } = useGetRolesQuery();
-    // const { data: sucursales = [] } = useGetSucursalesQuery(); 
+    const [createEmpleado, { isLoading: isCreating }] = useCreateEmpleadoMutation();
     
-    // Simulación de sucursales si no tienes el endpoint aún
-    const sucursales = [{ id: 1, nombre: "Sucursal Central" }, { id: 2, nombre: "Sucursal Norte" }];
-
+    // Consultas para los selects
+    const { data: roles = [], isLoading: isLoadingRoles } = useGetRolesQuery();
+    const { data: sucursales = [], isLoading: isLoadingSucursales } = useGetSucursalesQuery(); // <-- Conectado
+    
     const { 
         register, 
         handleSubmit, 
@@ -42,19 +38,15 @@ const Nuevo = () => {
     } = useForm({
         resolver: zodResolver(usuarioSchema),
         defaultValues: {
-            id_sucursal: 1 // Valor por defecto si quieres
+            id_sucursal: 1 
         }
     });
 
     const onSubmit = async (data) => {
-        console.log("Enviando empleado:", data);
         try {
-            // Ajusta el payload según lo que espere tu backend exactamente
             const nuevoEmpleado = {
                 nombre: data.nombre,
-                // Si tu backend espera 'dni' como int y 'cuit' como string, envía ambos si es necesario
                 dni: data.dni, 
-                // cuit: data.cuit, // Si tu modelo empleado tiene campo cuit
                 clave: data.clave,
                 id_rol: data.id_rol,
                 id_sucursal: data.id_sucursal
@@ -71,6 +63,9 @@ const Nuevo = () => {
             alert(mensaje);
         }
     };
+
+    // Mostrar un pequeño indicador mientras cargan los datos de los selects
+    const isLoadingData = isLoadingRoles || isLoadingSucursales;
 
     return (
         <section className={Style.nuevoContainer}>
@@ -97,11 +92,12 @@ const Nuevo = () => {
                         className={Style.input}
                         placeholder="Ej: Juan Pérez"
                         {...register("nombre")} 
+                        disabled={isCreating || isLoadingData}
                     />
                     {errors.nombre && <span className={Style.errorText}>⚠ {errors.nombre.message}</span>}
                 </fieldset>
 
-                {/* DNI (Numérico para la DB) */}
+                {/* DNI */}
                 <fieldset className={Style.fieldset}>
                     <label htmlFor="dni" className={Style.label}>
                         <IconId size={18} className={Style.iconLabel}/> DNI (Usuario)
@@ -112,23 +108,9 @@ const Nuevo = () => {
                         className={Style.input}
                         placeholder="Ej: 30123456"
                         {...register("dni")} 
+                        disabled={isCreating || isLoadingData}
                     />
                     {errors.dni && <span className={Style.errorText}>⚠ {errors.dni.message}</span>}
-                </fieldset>
-
-                {/* CUIT (String con guiones) - Opcional si solo usas DNI */}
-                <fieldset className={Style.fieldset}>
-                    <label htmlFor="cuit" className={Style.label}>
-                        <IconId size={18} className={Style.iconLabel}/> CUIT
-                    </label>
-                    <input 
-                        type="text" 
-                        id="cuit" 
-                        className={Style.input}
-                        placeholder="20-xxxxxxxx-x"
-                        {...register("cuit")} 
-                    />
-                    {errors.cuit && <span className={Style.errorText}>⚠ {errors.cuit.message}</span>}
                 </fieldset>
 
                 {/* Rol */}
@@ -136,7 +118,12 @@ const Nuevo = () => {
                     <label htmlFor="id_rol" className={Style.label}>
                         <IconBriefcase size={18} className={Style.iconLabel}/> Rol
                     </label>
-                    <select id="id_rol" className={Style.select} {...register("id_rol")}>
+                    <select 
+                        id="id_rol" 
+                        className={Style.select} 
+                        {...register("id_rol")}
+                        disabled={isCreating || isLoadingRoles}
+                    >
                         <option value="">Seleccione un rol...</option>
                         {roles.map(rol => (
                             <option key={rol.id} value={rol.id}>{rol.rol}</option>
@@ -145,14 +132,22 @@ const Nuevo = () => {
                     {errors.id_rol && <span className={Style.errorText}>⚠ {errors.id_rol.message}</span>}
                 </fieldset>
 
-                {/* Sucursal */}
+                {/* Sucursal conectada al backend */}
                 <fieldset className={Style.fieldset}>
                     <label htmlFor="id_sucursal" className={Style.label}>
                         <IconBuildingStore size={18} className={Style.iconLabel}/> Sucursal
                     </label>
-                    <select id="id_sucursal" className={Style.select} {...register("id_sucursal")}>
+                    <select 
+                        id="id_sucursal" 
+                        className={Style.select} 
+                        {...register("id_sucursal")}
+                        disabled={isCreating || isLoadingSucursales}
+                    >
+                        <option value="">Seleccione una sucursal...</option>
                         {sucursales.map(suc => (
-                            <option key={suc.id} value={suc.id}>{suc.nombre}</option>
+                            // Asegúrate de que tu modelo devuelva 'sucursal' o 'nombre'
+                            // Por convención Prisma, podría ser suc.nombre o suc.sucursal
+                            <option key={suc.id} value={suc.id}>{suc.sucursal || suc.nombre}</option>
                         ))}
                     </select>
                     {errors.id_sucursal && <span className={Style.errorText}>⚠ {errors.id_sucursal.message}</span>}
@@ -169,14 +164,15 @@ const Nuevo = () => {
                         className={Style.input}
                         placeholder="••••••"
                         {...register("clave")} 
+                        disabled={isCreating || isLoadingData}
                     />
                     {errors.clave && <span className={Style.errorText}>⚠ {errors.clave.message}</span>}
                 </fieldset>
 
                 <div className={Style.actions}>
-                    <button type="submit" className={Style.btnSubmit} disabled={isLoading}>
+                    <button type="submit" className={Style.btnSubmit} disabled={isCreating || isLoadingData}>
                         <IconDeviceFloppy size={20} /> 
-                        {isLoading ? "Guardando..." : "Crear Usuario"}
+                        {isCreating ? "Guardando..." : "Crear Usuario"}
                     </button>
                 </div>
             </form>

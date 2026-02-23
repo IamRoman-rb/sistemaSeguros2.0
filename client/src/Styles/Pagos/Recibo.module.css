@@ -1,0 +1,298 @@
+@import url('../Variables.css');
+
+.pageContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f4f6f8;
+    font-family: var(--font-primary);
+}
+
+.mensaje, .mensajeError {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--slate-grey);
+}
+
+.mensajeError {
+    color: var(--cherry-rose);
+}
+
+/* --- CONTROLES SUPERIORES --- */
+.controles {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.btnVolver, .btnPrint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.btnVolver {
+    background-color: white;
+    color: var(--deep-twilight);
+    border: 1px solid var(--pale-slate);
+}
+
+.btnVolver:hover {
+    background-color: var(--bright-snow);
+    border-color: var(--french-blue);
+    color: var(--french-blue);
+}
+
+.btnPrint {
+    background-color: var(--deep-twilight);
+    color: white;
+}
+
+.btnPrint:hover {
+    background-color: var(--french-blue);
+}
+
+/* --- TARJETA DEL RECIBO --- */
+.reciboCard {
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.reciboHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.empresaNombre {
+    margin: 0 0 0.5rem 0;
+    color: var(--french-blue);
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.empresaInfo p {
+    margin: 0.2rem 0;
+    color: var(--slate-grey);
+    font-size: 0.9rem;
+}
+
+.reciboMeta {
+    text-align: right;
+}
+
+.tituloRecibo {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: var(--deep-twilight);
+    letter-spacing: 1px;
+}
+
+.numeroRecibo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cherry-rose);
+    margin: 0 0 0.3rem 0;
+}
+
+.fechaRecibo {
+    margin: 0;
+    color: var(--slate-grey);
+    font-size: 0.95rem;
+}
+
+.selloAnulado {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 3px solid var(--cherry-rose);
+    color: var(--cherry-rose);
+    font-weight: 900;
+    font-size: 1.2rem;
+    transform: rotate(-10deg);
+    letter-spacing: 2px;
+}
+
+.divider {
+    height: 2px;
+    background-color: var(--bright-snow);
+    margin: 2rem 0;
+}
+
+/* --- SECCIÓN DECLARACIÓN --- */
+.declaracion {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.declaracion p {
+    font-size: 1.1rem;
+    color: var(--carbon-black);
+    margin-bottom: 1rem;
+}
+
+.montoDestacado {
+    display: inline-block;
+    background-color: #f0fdf4; /* Verde muy claro */
+    color: #166534; /* Verde oscuro oscuro */
+    border: 2px solid #bbf7d0;
+    padding: 1rem 3rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    border-radius: 8px;
+    letter-spacing: 1px;
+}
+
+/* --- DETALLES GRID --- */
+.detallesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.detalleColumna {
+    background-color: #fcfcfc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--alabaster-grey);
+}
+
+.columnaTitulo {
+    margin: 0 0 1rem 0;
+    color: var(--deep-twilight);
+    font-size: 1.1rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.listaDatos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listaDatos li {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--carbon-black);
+}
+
+.listaDatos li strong {
+    color: var(--slate-grey);
+    display: inline-block;
+    width: 130px;
+}
+
+/* --- FOOTER Y FIRMAS --- */
+.reciboFooter {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3rem;
+}
+
+.firmaBox {
+    text-align: center;
+    width: 250px;
+}
+
+.lineaFirma {
+    height: 1px;
+    background-color: var(--slate-grey);
+    margin-bottom: 0.5rem;
+    margin-top: 40px;
+}
+
+.firmaBox p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--slate-grey);
+    font-weight: 600;
+}
+
+.selloAprobado {
+    color: #10b981;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 0.5rem;
+    margin-top: 15px;
+    border: 2px solid #10b981;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.notaLegal {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 3rem;
+    font-style: italic;
+}
+
+/* =========================================
+   REGLAS PARA IMPRESIÓN 
+   ========================================= */
+@media print {
+    /* Ocultamos el contenedor general que da color de fondo */
+    body {
+        background-color: white !important;
+    }
+
+    /* Ocultamos la barra lateral y navbar global de la app (ajusta las clases según tu app principal) */
+    nav, aside, .sidebar, header:not(.reciboHeader) {
+        display: none !important;
+    }
+
+    /* Ocultamos los botones específicos del recibo */
+    .noPrint {
+        display: none !important;
+    }
+
+    /* Ajustamos la tarjeta para que ocupe todo el ancho del papel sin sombras ni bordes */
+    .pageContainer {
+        padding: 0 !important;
+        background-color: transparent !important;
+    }
+
+    .reciboCard {
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        border: none !important;
+    }
+
+    /* Forzar los colores exactos para la impresora */
+    .montoDestacado {
+        border: 2px solid black !important;
+        color: black !important;
+    }
+
+    .selloAprobado {
+        border: 2px solid black !important;
+        color: black !important;
+    }
+}

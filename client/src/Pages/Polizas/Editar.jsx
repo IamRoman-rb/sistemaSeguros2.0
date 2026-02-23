@@ -1,26 +1,19 @@
 import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import Style from "../../Styles/Polizas/Editar.module.css"; // Puedes reutilizar Nueva.module.css si quieres
+import Style from "../../Styles/Polizas/Editar.module.css";
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useGetPolizaByNumeroQuery } from '../../Redux/api/polizasApi';
-
-// Importamos los formularios reutilizables
 import FormularioAutomotor from "./FormularioAutomotor";
 import FormularioOtrosRiesgos from "./FormularioOtrosRiesgos";
 
 const Editar = () => {
     const { id: numeroPoliza } = useParams();
-    
-    // 1. Obtener la póliza actual
     const { data: poliza, isLoading, error } = useGetPolizaByNumeroQuery(numeroPoliza);
-
-    // 2. Mapear datos de la API al formato que espera el formulario
     const datosIniciales = useMemo(() => {
         if (!poliza) return null;
 
         const vehiculo = poliza.poliza_vehiculos?.[0]?.vehiculo;
-        // Obtenemos la compañía desde la primera cobertura (si existe)
-        const primeraCobertura = poliza.poliza_coberturas?.[0]; // { id_cobertura, id_empresa, cobertura: {...} }
+        const primeraCobertura = poliza.poliza_coberturas?.[0];
         const idEmpresa = primeraCobertura?.id_empresa?.toString();
         const idCobertura = primeraCobertura?.id_cobertura?.toString();
 
@@ -29,15 +22,11 @@ const Editar = () => {
             inicioVigencia: poliza.inicio ? poliza.inicio.split('T')[0] : "",
             periodo: poliza.periodo === 12 ? "anual" : poliza.periodo === 1 ? "mensual" : "semestral",
             cuotas: poliza.cuotas,
-            tipoUso: "particular", // Dato que quizás falta en tu JSON de respuesta, asumir o agregar al backend
-            combustible: "nafta", // Dato que falta en el vehiculo de respuesta del backend (según tu JSON anterior)
+            tipoUso: "particular",
+            combustible: "nafta",
             premioTotal: poliza.premio,
-            
-            // Datos Empresa/Cobertura
             compania: idEmpresa,
             cobertura: idCobertura,
-
-            // Datos Vehículo (si es automotor)
             marca: vehiculo?.id_marca,
             modelo: vehiculo?.modelo,
             patente: vehiculo?.patente,

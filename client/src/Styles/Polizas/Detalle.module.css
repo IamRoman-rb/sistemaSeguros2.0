@@ -41,6 +41,21 @@
     width: fit-content;
     margin-bottom: 0.5rem;
 }
+.btnEliminar {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: .3rem .5rem;
+    color: var(--cherry-rose);
+    background-color: var(--bright-snow);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    margin-bottom: 0.5rem;
+}
 
 .btnVolver:hover {
     color: var(--deep-twilight);

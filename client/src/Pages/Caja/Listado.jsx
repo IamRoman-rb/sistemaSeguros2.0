@@ -5,12 +5,10 @@ import Balance from './Balance';
 import TablaPagos from './TablaPagos';
 import TablaMovimientos from './TablaMovimientos';
 
-// Hooks de Redux
 import { useGetPagosQuery } from '../../Redux/api/pagosApi';
 import { useGetMovimientosQuery, useDeleteMovimientoMutation } from '../../Redux/api/movimientosApi';
 
 const Listado = () => {
-    // Fechas por defecto
     const getDateString = (daysOffset = 0) => {
         const date = new Date();
         date.setDate(date.getDate() + daysOffset);
@@ -18,7 +16,6 @@ const Listado = () => {
     };
     const hoy = getDateString(0);
 
-    // Filtros de búsqueda
     const [criterios, setCriterios] = useState({
         fechaInicio: hoy,
         fechaFin: hoy,
@@ -26,18 +23,15 @@ const Listado = () => {
         poliza: ''
     });
 
-    // Consultas a la API
     const { data: pagosDB = [], isLoading: loadingPagos } = useGetPagosQuery();
     const { data: movimientosDB = [], isLoading: loadingMovimientos } = useGetMovimientosQuery();
     const [deleteMovimiento] = useDeleteMovimientoMutation();
 
-    // Lógica para aplicar filtros
     const handleFiltrar = (nuevosFiltros) => setCriterios(nuevosFiltros);
 
     const handleDelete = async (id, tipo) => {
         if (!window.confirm(`¿Estás seguro de eliminar este ${tipo}?`)) return;
         try {
-            // El backend recibe el ID en el body según tu controlador deleteMovimiento
             await deleteMovimiento(id).unwrap();
         } catch (error) {
             console.error("Error al eliminar:", error);
@@ -45,7 +39,6 @@ const Listado = () => {
         }
     };
 
-    // Función auxiliar para comparar fechas (ignorando la hora del ISO string)
     const filterByDate = (fechaISO) => {
         if (!fechaISO) return false;
         const fechaCorta = fechaISO.split('T')[0];
@@ -53,11 +46,9 @@ const Listado = () => {
         if (criterios.fechaFin && fechaCorta > criterios.fechaFin) return false;
         return true;
     };
-
-    // --- PROCESAMIENTO DE PAGOS ---
     const pagosFiltrados = useMemo(() => {
         return pagosDB
-            .filter(pago => pago.valido !== false) // Ocultar eliminados si tu backend los trae
+            .filter(pago => pago.valido !== false)
             .filter(pago => {
                 if (!filterByDate(pago.fecha)) return false;
 
@@ -84,7 +75,7 @@ const Listado = () => {
 
     const ingresosFiltrados = useMemo(() => {
         return movimientosActivos
-            .filter(m => m.tipo === 'ingreso' || m.tipo === 'INGRESO')
+            .filter(m => m.es_ingreso === true)
             .map(m => ({
                 id: m.id,
                 fecha: m.fecha.split('T')[0],

@@ -1,34 +1,29 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { IconArrowLeft, IconPrinter } from '@tabler/icons-react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { IconArrowLeft, IconPrinter, IconTrash } from '@tabler/icons-react';
 import Style from '../../Styles/Pagos/Detalle.module.css';
 
-// Hooks de Redux
-import { useGetPagoByIdQuery } from '../../Redux/api/pagosApi';
+import { useGetPagoByIdQuery, useDeletePagoMutation } from '../../Redux/api/pagosApi';
 import { useGetPolizaByNumeroQuery } from '../../Redux/api/polizasApi';
 import { useGetMetodosQuery } from '../../Redux/api/metodosApi';
 import { useGetMarcasQuery } from '../../Redux/api/marcasApi';
-import { useGetCoberturasQuery } from '../../Redux/api/coberturasApi'; // Añadido para asegurar la cobertura/empresa
+import { useGetCoberturasQuery } from '../../Redux/api/coberturasApi'; 
 
 const Detalle = () => {
     const { id } = useParams();
-
-    // 1. Carga de datos principales
+    const navigate = useNavigate();
     const { data: pago, isLoading: loadingPago, error: errorPago } = useGetPagoByIdQuery(id);
+    const [deletePago, { isLoading: isDeleting }] = useDeletePagoMutation();
 
-    // 2. Carga en cascada de la póliza asociada al pago
     const { data: poliza, isLoading: loadingPoliza } = useGetPolizaByNumeroQuery(pago?.id_poliza, {
         skip: !pago?.id_poliza
     });
 
-    // 3. Carga de catálogos para resolver IDs a nombres
     const { data: metodos = [] } = useGetMetodosQuery();
     const { data: marcas = [] } = useGetMarcasQuery();
     const { data: coberturas = [] } = useGetCoberturasQuery();
 
     const user = { role: 'admin' };
-
-    // --- Utilidades ---
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(amount);
     };
@@ -39,40 +34,42 @@ const Detalle = () => {
             day: '2-digit', month: '2-digit', year: 'numeric'
         });
     };
-
-    // --- Manejo de Estados Visuales ---
+    const handleDelete = async () => {
+        const confirmar = window.confirm(`¿Estás seguro de que deseas anular/eliminar el pago #${pago.id}? Esta acción no se puede deshacer.`);
+        
+        if (confirmar) {
+            try {
+                await deletePago(pago.id).unwrap();
+                alert("El pago ha sido anulado/eliminado exitosamente.");
+                navigate(`/${user.role}/caja/listado`); 
+            } catch (err) {
+                console.error("Error al eliminar el pago:", err);
+                alert("Ocurrió un error al intentar eliminar el pago. " + (err.data?.error || ""));
+            }
+        }
+    };
     if (loadingPago || loadingPoliza) return <div className={Style.loading}>Cargando comprobante...</div>;
     if (errorPago || !pago) return <div className={Style.notFound}>Pago no encontrado</div>;
-
-    // --- Extracción Segura de Datos ---
     const cliente = poliza?.cliente;
     const isAutomotor = poliza?.tipo_poliza?.tipo === "Automotor";
 
-    // 1. Resolver Vehículo (Si aplica)
-    const vehiculoData = poliza?.poliza_vehiculos?.[0]?.vehiculo;
+    let vehiculoData = poliza?.poliza_vehiculos?.[0]?.vehiculo;
     let marcaNombre = "S/D";
     if (vehiculoData) {
-        // Buscamos la marca en el catálogo usando el id_marca del vehículo
         marcaNombre = marcas.find(m => m.id === vehiculoData.id_marca)?.marca || "S/D";
     }
 
-    // 2. Resolver Método de Pago
     const metodoNombre = metodos.find(m => m.id === pago.id_metodo)?.metodo || pago.metodo?.metodo || "Desconocido";
 
-    // 3. Resolver Cobertura y Aseguradora
     let nombreCobertura = "S/D";
     let nombreEmpresa = "S/D";
 
     if (poliza?.poliza_coberturas?.length > 0) {
         const idCoberturaPoliza = poliza.poliza_coberturas[0].id_cobertura;
-
-        // Buscamos la cobertura en el catálogo general
         const coberturaEncontrada = coberturas.find(c => c.id === idCoberturaPoliza);
 
         if (coberturaEncontrada) {
             nombreCobertura = `${coberturaEncontrada.cobertura} - ${coberturaEncontrada.descripcion || ''}`;
-
-            // Extraemos la empresa vinculada a esta cobertura
             if (coberturaEncontrada.cobertura_empresas?.length > 0) {
                 nombreEmpresa = coberturaEncontrada.cobertura_empresas[0].empresa?.empresa || "S/D";
             }
@@ -92,13 +89,29 @@ const Detalle = () => {
                     </div>
                 </div>
 
-                <button className={Style.btnPrint} onClick={() => window.print()}>
-                    <IconPrinter size={18} /> Imprimir Recibo
-                </button>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button 
+                        onClick={handleDelete} 
+                        disabled={isDeleting}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: '5px',
+                            padding: '0.5rem 1rem', borderRadius: '6px',
+                            background: 'transparent', border: '1px solid var(--cherry-rose)',
+                            color: 'var(--cherry-rose)', cursor: isDeleting ? 'not-allowed' : 'pointer',
+                            fontWeight: '600', opacity: isDeleting ? 0.6 : 1
+                        }}
+                        title="Anular este pago"
+                    >
+                        <IconTrash size={18} /> {isDeleting ? "Eliminando..." : "Eliminar Pago"}
+                    </button>
+
+                    <Link className={Style.btnPrint} to={`/admin/pagos/recibo/${pago.id}`} target="_blank">
+                        <IconPrinter size={18} /> Imprimir Recibo
+                    </Link>
+                </div>
             </header>
 
             <div className={Style.gridLayout}>
-                {/* --- INFORMACIÓN DEL PAGO --- */}
                 <article className={Style.card}>
                     <h3 className={Style.cardTitle}>Información del Pago</h3>
                     <div className={Style.dataGrid}>
@@ -134,8 +147,6 @@ const Detalle = () => {
                         )}
                     </div>
                 </article>
-
-                {/* --- DATOS DEL CLIENTE --- */}
                 <article className={Style.card}>
                     <h3 className={Style.cardTitle}>Datos del Cliente</h3>
                     <div className={Style.dataList}>
@@ -157,8 +168,6 @@ const Detalle = () => {
                         </div>
                     </div>
                 </article>
-
-                {/* --- DETALLE DE LA PÓLIZA --- */}
                 <article className={Style.card}>
                     <h3 className={Style.cardTitle}>Detalle de Póliza</h3>
                     <div className={Style.dataList}>
@@ -189,6 +198,7 @@ const Detalle = () => {
                             <span className={Style.label}>Cobertura:</span>
                             <span className={Style.value}>{nombreCobertura}</span>
                         </div>
+                        
                         {isAutomotor && vehiculoData && (
                             <>
                                 <hr style={{ border: 'none', borderTop: '1px solid var(--alabaster-grey)', margin: '10px 0' }} />

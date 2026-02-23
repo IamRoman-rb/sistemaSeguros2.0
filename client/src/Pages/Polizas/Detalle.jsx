@@ -1,16 +1,47 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom"; // <-- Añadido useNavigate
 import Style from "../../Styles/Polizas/Detalle.module.css";
-import { IconArrowLeft, IconFileCertificate, IconUser, IconCurrencyDollar, IconCar, IconEdit, IconCash } from '@tabler/icons-react';
-import { useGetPolizaByNumeroQuery } from '../../Redux/api/polizasApi'; 
+// Añadido IconTrash para el botón de eliminar
+import { IconArrowLeft, IconFileCertificate, IconUser, IconCurrencyDollar, IconCar, IconEdit, IconCash, IconTrash } from '@tabler/icons-react';
+
+import { 
+    useGetPolizaByNumeroQuery, 
+    useDeletePolizaMutation // <-- Importamos la mutación
+} from '../../Redux/api/polizasApi'; 
+
 import { useGetMetodosQuery } from '../../Redux/api/metodosApi';
-import { useGetMarcasQuery } from '../../Redux/api/marcasApi'
+import { useGetMarcasQuery } from '../../Redux/api/marcasApi';
 
 const Detalle = () => {
     const { id: numeroPoliza } = useParams(); 
+    const navigate = useNavigate(); // <-- Para redirigir tras eliminar
+
+    // --- Hooks de Redux ---
     const { data: poliza, isLoading, error } = useGetPolizaByNumeroQuery(numeroPoliza);
     const { data: metodos = [] } = useGetMetodosQuery();
     const { data: marcas = [] } = useGetMarcasQuery();
     
+    // Inicializamos la mutación de eliminación
+    const [deletePoliza, { isLoading: isDeleting }] = useDeletePolizaMutation();
+    
+    // --- Lógica de Eliminación ---
+    const handleDelete = async () => {
+        const confirmar = window.confirm(`¿Estás seguro de que deseas anular/eliminar la póliza N° ${numeroPoliza}? Esta acción no se puede deshacer.`);
+        
+        if (confirmar) {
+            try {
+                // Ejecutamos la mutación pasando el número de póliza
+                await deletePoliza(numeroPoliza).unwrap();
+                alert("La póliza ha sido anulada/eliminada exitosamente.");
+                // Redirigimos al listado para que no se quede en una vista vacía
+                navigate("/admin/polizas/listado"); 
+            } catch (err) {
+                console.error("Error al eliminar la póliza:", err);
+                alert("Ocurrió un error al intentar eliminar la póliza. " + (err.data?.error || ""));
+            }
+        }
+    };
+
+    // --- Estados de carga ---
     if (isLoading) return <div className={Style.loadingContainer}>Cargando detalle...</div>;
     
     if (error) return (
@@ -23,9 +54,9 @@ const Detalle = () => {
 
     if (!poliza) return <div className={Style.errorContainer}>Póliza no encontrada.</div>;
     
+    // --- Extracción de datos ---
     const cliente = poliza.cliente;
     const vehiculo = poliza.poliza_vehiculos?.[0]?.vehiculo;
-
     const pagos = poliza.pagos || [];
 
     const formatCurrency = (amount) => {
@@ -39,7 +70,6 @@ const Detalle = () => {
         });
     };
     
-
     return(
         <section className={Style.detalleContainer}>
             <header className={Style.headerDetalle}>
@@ -49,21 +79,47 @@ const Detalle = () => {
                     </Link>
 
                     <div style={{ display: 'flex', gap: '10px' }}>
-                        <Link 
-                            to={`/admin/pagos/pagar/${poliza.numero}`} 
-                            className={Style.btnVolver}
-                            style={{ color: '#10b981', borderColor: '#10b981' }} 
-                            title="Registrar un nuevo pago"
-                        >
-                            <IconCash size={20} /> Registrar Pago
-                        </Link>
-                        <Link 
-                            to={`/admin/polizas/editar/${poliza.numero}`} 
-                            className={Style.btnVolver}
-                            style={{ color: 'var(--french-blue)' }}
-                        >
-                            <IconEdit size={20} /> Editar Póliza
-                        </Link>
+                        {
+
+                            poliza.valido && (
+                            <Link 
+                                to={`/admin/pagos/pagar/${poliza.numero}`} 
+                                className={Style.btnVolver}
+                                style={{ color: '#10b981', borderColor: '#10b981' }} 
+                                title="Registrar un nuevo pago"
+                            >
+                                <IconCash size={20} /> Registrar Pago
+                            </Link>
+                            )
+                        }
+                        {
+                            pagos.length < 2 && (
+                                <Link 
+                                    to={`/admin/polizas/editar/${poliza.numero}`} 
+                                    className={Style.btnVolver}
+                                    style={{ color: 'var(--french-blue)' }}
+                                >
+                                    <IconEdit size={20} /> Editar Póliza
+                                </Link>
+                            )
+                        }
+
+                        {/* NUEVO: Botón Eliminar Póliza */}
+
+                        {
+
+                                poliza.valido && (  
+                                <button 
+                                    onClick={handleDelete}
+                                    disabled={isDeleting}
+                                    className={Style.btnEliminar}
+                                    title="Anular o eliminar esta póliza"
+                                >
+                                    <IconTrash size={20} /> 
+                                    {isDeleting ? "Eliminando..." : "Eliminar"}
+                                </button>
+                                )
+                        }
                     </div>
                 </div>
 
@@ -74,6 +130,7 @@ const Detalle = () => {
             </header>
 
             <div className={Style.infoGrid}>
+                {/* --- TARJETA DE LA PÓLIZA --- */}
                 <article className={Style.card}>
                     <header className={Style.cardHeader}>
                         <IconFileCertificate size={24} color="var(--deep-twilight)" />
@@ -110,6 +167,8 @@ const Detalle = () => {
                         </div>
                     </div>
                 </article>
+
+                {/* --- TARJETA DEL CLIENTE --- */}
                 <article className={Style.card}>
                     <header className={Style.cardHeader}>
                         <IconUser size={24} color="var(--deep-twilight)" />
@@ -138,6 +197,8 @@ const Detalle = () => {
                         )}
                     </div>
                 </article>
+
+                {/* --- TARJETA DEL VEHÍCULO --- */}
                 {vehiculo && (
                     <article className={Style.card}>
                         <header className={Style.cardHeader}>
@@ -153,7 +214,6 @@ const Detalle = () => {
                             </div>
                             <div className={Style.datoRow}>
                                 <span className={Style.label}>Marca:</span>
-                                
                                 <span className={Style.valor}>{marcas.find(m => m.id === vehiculo.id_marca)?.marca || vehiculo.marca}</span>
                             </div>
                             <div className={Style.datoRow}>
@@ -172,6 +232,8 @@ const Detalle = () => {
                     </article>
                 )}
             </div>
+
+            {/* --- SECCIÓN HISTORIAL DE PAGOS --- */}
             <section className={Style.seccionPagos}>
                 <div style={{padding: '1.5rem', borderBottom: '1px solid var(--alabaster-grey)', display:'flex', alignItems:'center', gap: '0.5rem'}}>
                     <IconCurrencyDollar size={24} color="var(--deep-twilight)"/>
